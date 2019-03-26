@@ -1,0 +1,60 @@
+{
+  "name": "giftlist",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Gift List - A React app with custom backend.",
+  "main": "./server.js",
+  "scripts": {
+    "start": "node server.js",
+    "api": "node ./setup/scripts/api.js",
+    "dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "axios": "^0.18.0",
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+<<<<<<< HEAD
+    "axios": "^0.18.0",
+    "lodash": "^4.17.5",
+    "strapi": "3.0.0-alpha.25.2",
+    "strapi-hook-mongoose": "^3.0.0-alpha.13",
+=======
+    "apiserver": "file:server",
+>>>>>>> 70e4b03... Removed strapi and added custom server.
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "react-redux": "^6.0.1",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1"
+  },
+  "author": {
+    "name": "alan",
+    "email": "alan.d.m.cole@gmail.com",
+    "url": ""
+  },
+  "maintainers": [
+    {
+      "name": "alan",
+      "email": "alan.d.m.cole@gmail.com",
+      "url": ""
+    }
+  ],
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 6.0.0"
+  },
+  "license": "MIT"
+}

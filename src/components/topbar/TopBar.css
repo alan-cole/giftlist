@@ -1,0 +1,44 @@
+.topbarheader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 100%;
+	height: 66px;
+
+	background-color: #1C74DC;
+}
+
+.topbarmain {
+	display: flex;
+	align-items: center;
+
+	position: relative;
+	text-align: center;
+	width: 375px;
+	margin: auto;
+}
+
+.backbutton {
+	position: absolute;
+	left: 0;
+	cursor: pointer;
+	border: none;
+	height: 32px;
+	background-color: transparent;
+}
+
+.topbartext {
+	margin: auto;
+
+	font-family: 'Karla', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 26px;
+	line-height: normal;
+	text-align: center;
+
+	color: #FFFFFF;
+}
+
+

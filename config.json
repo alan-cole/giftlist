@@ -1,0 +1,25 @@
+{
+  "database": {
+    "username": "writer",
+    "password": "password",
+    "host": "localhost:27017/glist"
+  },
+  "authentication": {
+    "secret": "3jmr9f43ou87ov5bh73ht73oy",
+    "rounds": 10
+  },
+  "models": [
+    {
+      "name": "friends"
+    },
+    {
+      "name": "gifts"
+    },
+    {
+      "name": "hiddengifts"
+    },
+    {
+      "name": "users"
+    }
+  ]
+}

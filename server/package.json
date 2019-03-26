@@ -1,0 +1,29 @@
+{
+  "name": "apiserver",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Server based on Express JS.",
+  "main": "index.js",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.16.4",
+    "js-beautify": "^1.6.9",
+    "jsonwebtoken": "^8.4.0",
+    "moment": "^2.23.0",
+    "moment-timezone": "^0.5.11",
+    "mongodb": "^2.2.10",
+    "node-zip": "^1.1.1",
+    "uuid": "^2.0.3",
+    "axios": "^0.18.0"
+  },
+  "author": {
+    "name": "alan",
+    "email": "alan.d.m.cole@gmail.com",
+    "url": ""
+  },
+  "license": "MIT"
+}
