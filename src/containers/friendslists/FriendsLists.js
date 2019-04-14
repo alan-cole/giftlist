@@ -1,10 +1,10 @@
 import React from 'react';
 import TopBar from '../../components/topbar/TopBar.js';
 
-const FriendsLists = ( { clickNavigationButton } ) => {
+const FriendsLists = () => {
 	return (
 		<div>
-			<TopBar clickNavigationButton={clickNavigationButton} screenTitle="Friend's Lists" previousPage="My List" />
+			<TopBar screenTitle="Friend's Lists" previousPage="/menu" />
 		</div>
 	);
 }

@@ -19,12 +19,15 @@
 	margin: auto;
 }
 
-.backbutton {
+.backlink {
 	position: absolute;
 	left: 0;
+	height: 32px;
+}
+
+.backbutton {
 	cursor: pointer;
 	border: none;
-	height: 32px;
 	background-color: transparent;
 }
 

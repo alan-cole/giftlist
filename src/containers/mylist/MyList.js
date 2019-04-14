@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import TopBar from '../../components/topbar/TopBar.js';
 
-const MyList = ( { clickNavigationButton } ) => {
+const MyList = () => {
 	return (
 		<div>
-			<TopBar clickNavigationButton={clickNavigationButton} screenTitle="My List" previousPage="Friend's Lists" />
+			<TopBar screenTitle="My List" previousPage="/menu" />
+			<Link to="/addgift"><button type="button">Add Gift</button></Link>
 		</div>
 	);
 }
