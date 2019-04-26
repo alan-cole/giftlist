@@ -17,27 +17,26 @@
     "jest": "^23.6.0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "lodash": "^4.17.5",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
-    "strapi": "3.0.0-alpha.25.2",
-    "strapi-hook-mongoose": "^3.0.0-alpha.25.2"
+    "apiserver": "file:server"
   },
   "author": {
     "name": "alan",
-    "email": "alan.d.m.cole@gmail.com",
-    "url": ""
+    "email": "alan.d.m.cole@gmail.com"
   },
   "maintainers": [
     {
       "name": "alan",
-      "email": "alan.d.m.cole@gmail.com",
-      "url": ""
+      "email": "alan.d.m.cole@gmail.com"
+    },
+    {
+      "name": "luke",
+      "email": "ljrichardson23@gmail.com"
     }
   ],
   "eslintConfig": {

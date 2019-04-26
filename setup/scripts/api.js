@@ -36,8 +36,8 @@ class API {
    */
   async login(user, password) {
     try {
-      const resp = await axios.post(`${this.url}/auth/local`, {
-        identifier: user,
+      const resp = await axios.post(`${this.url}/login`, {
+        username: user,
         password: password
       })
       this.user = resp.data.user
@@ -94,13 +94,13 @@ class API {
 }
 
 async function bootstrap() {
-  const api = new API('http://localhost:1337')
+  const api = new API('http://localhost:3000')
   // const resp = await api.register('test', 'test@mailinator.com', 'testtest')
   const resp = await api.login('Luke', 'testtest')
   // const resp = await api.logout()
   // const resp = await api.forgotPassword('alan.d.m.cole@gmail.com')
-  const getGiftResp = await api.getGifts()
-  console.log(getGiftResp)
+  // const getGiftResp = await api.getGifts()
+  console.log(resp)
 }
 
 bootstrap()

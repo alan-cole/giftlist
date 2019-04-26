@@ -5,8 +5,11 @@
     "host": "localhost:27017/glist"
   },
   "authentication": {
-    "secret": "3jmr9f43ou87ov5bh73ht73oy",
+    "secret": "demo",
     "rounds": 10
+  },
+  "server": {
+    "public": "build"
   },
   "models": [
     {

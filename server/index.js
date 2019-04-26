@@ -1,10 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const db_api = require('./lib/api/api')
-const db_auth = require('./lib/auth/auth')
-const db_setup = require('./lib/db/setup')
+
+const Database = require('./lib/database')
+const Authentication = require('./lib/auth')
+const RequestHandler = require('./lib/request')
 
 module.exports = {
+
+  auth: null,
+  requestHandler: null,
+
   listen (app) {
     app.listen(app.get('port'), () => {
       const port = app.get('port')
@@ -14,26 +19,26 @@ module.exports = {
 
   initRouting (app, config) {
     app.get('/', function(req, res) {
-      res.sendFile('index.html', {root: 'build'})
+      res.sendFile('index.html', { root: config.server.public })
     })
 
     app.get('/*', function(req, res) {
       var path = req.params[0];
-      res.sendFile(path, {root: 'build'})
-    })
-    
-    app.post('/api', function(req, res) {
-      api.handleRequest(req, res)
+      res.sendFile(path, { root: config.server.public })
     })
     
     app.post('/login', async (req, res) => {
-      const result = await auth.authenticateRequest(req)
+      const result = await this.auth.login(req)
       res.json(result)
     })
     
-    app.post('/setpassword', async (req, res) => {
-      const result = await auth.setPasswordRequest(req)
+    app.post('/changepassword', async (req, res) => {
+      const result = await this.auth.changePassword(req)
       res.json(result)
+    })
+
+    app.post('/api', function(req, res) {
+      this.requestHandler.queueRequest(req, res)
     })
   },
 
@@ -46,29 +51,14 @@ module.exports = {
 
     this.initRouting(app, config)
 
-    // Connect to DB.
-    const username = config.database.username
-    const password = config.database.password
-    const host     = config.database.host
-    const url      = `mongodb://${username}:${password}@${host}`
-    const MongoClient = require('mongodb').MongoClient
-    let db = null
+    const database = new Database(config)
 
-    try {
-      db = await MongoClient.connect(url)
-    } catch (err) {
-      console.log('! Failed to connect to DB')
+    if (await database.start()) {
+      this.auth = new Authentication(database, config)
+      this.requestHandler = new RequestHandler(database, config)
+      this.listen(app)
+    } else {
+      console.log('Could not start DB.')
     }
-
-    // Check for existing content.
-    const items = await db.listCollections().toArray()
-    if (items.length === 0) {
-      console.log('> Initialising db')
-      await db_setup.start(db, config)
-    }
-    console.log('> Connected to db')
-    db_auth.init(db, config)
-    db_api.init(db, config)
-    this.listen(app)
   }
 }
