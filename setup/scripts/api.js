@@ -36,12 +36,13 @@ class API {
    */
   async login(user, password) {
     try {
-      const resp = await axios.post(`${this.url}/login`, {
+      const resp = await axios.post(`${this.url}/api`, {
+        request: 'login',
         username: user,
         password: password
       })
-      this.user = resp.data.user
-      this.token = resp.data.jwt
+      this.token = resp.data.token
+      console.log(resp.data)
       console.log('Logged in.')
     } catch (e) {
       console.error(e.response.data.message)

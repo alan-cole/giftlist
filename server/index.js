@@ -2,62 +2,63 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const log = require('./lib/log')
-const Database = require('./lib/database')
-const Authentication = require('./lib/auth')
-const RequestHandler = require('./lib/request')
+const Database = require('./lib/Database')
+const RequestHandler = require('./lib/RequestHandler')
 
-module.exports = {
+module.exports = class Server {
 
-  auth: null,
-  requestHandler: null,
+  /**
+   * Create a server.
+   * @param {Database} database 
+   * @param {RequestHandler} requestHandler 
+   * @param {Object} config 
+   */
+  constructor (database, requestHandler, config) {
+    this.database = database
+    this.requestHandler = requestHandler
+    this.config = config
 
-  listen (app) {
-    app.listen(app.get('port'), () => {
-      const port = app.get('port')
+    this.app = express()
+    this.app.use(bodyParser.urlencoded({ extended: false }))
+    this.app.use(bodyParser.json({limit: '5mb'}))
+    this.app.set('port', (process.env.PORT || 3000))
+  }
+
+  /**
+   * Open up the port for incoming requests.
+   */
+  listen () {
+    this.app.listen(this.app.get('port'), () => {
+      const port = this.app.get('port')
       log(`> Listening at http://localhost:${port}`)
     })
-  },
+  }
 
-  initRouting (app, config) {
-    app.get('/', function(req, res) {
-      res.sendFile('index.html', { root: config.server.public })
+  /**
+   * Configure the routing for requests.
+   */
+  initRouting () {
+    this.app.get('/', (req, res) => {
+      res.sendFile('index.html', { root: this.config.server.public })
     })
 
-    app.get('/*', function(req, res) {
+    this.app.get('/*', (req, res) => {
       var path = req.params[0];
-      res.sendFile(path, { root: config.server.public })
-    })
-    
-    app.post('/login', async (req, res) => {
-      const result = await this.auth.login(req)
-      res.json(result)
-    })
-    
-    app.post('/changepassword', async (req, res) => {
-      const result = await this.auth.changePassword(req)
-      res.json(result)
+      res.sendFile(path, { root: this.config.server.public })
     })
 
-    app.post('/api', function(req, res) {
+    this.app.post('/api', (req, res) => {
       this.requestHandler.queueRequest(req, res)
     })
-  },
+  }
 
-  async start (config) {
-    const app = express()
-
-    app.use(bodyParser.urlencoded({ extended: false }))
-    app.use(bodyParser.json({limit: '5mb'}))
-    app.set('port', (process.env.PORT || 3000))
-
-    this.initRouting(app, config)
-
-    const database = new Database(config)
-
-    if (await database.start()) {
-      this.auth = new Authentication(database, config)
-      this.requestHandler = new RequestHandler(database, config)
-      this.listen(app)
+  /**
+   * Start the server.
+   */
+  async start () {
+    this.initRouting()
+    if (await this.database.start()) {
+      this.listen(this.app)
     } else {
       log('Could not start DB.')
     }
