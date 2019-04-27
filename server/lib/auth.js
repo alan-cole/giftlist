@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Message = require('./msg')
 const Database = require('./database')
+const log = require('./log')
 
 // ===========================================================
 // API
@@ -33,7 +34,7 @@ module.exports = class Authentication {
   }
 
   async changePassword (req) {
-    console.log("+ Set password request")
+    log("+ Set password request")
     const auth = await this.authenticate(req.body.username, req.body.password)
     if (auth !== null) {
       try {
@@ -49,7 +50,7 @@ module.exports = class Authentication {
   }
 
   async authenticate (username, password) {
-    console.log("Authenticating: " + username)
+    log("Authenticating: " + username)
     // Get user
     const users = await this.db.find('users', { email: username })
     if (users.result.length === 1) {
@@ -58,13 +59,13 @@ module.exports = class Authentication {
       const result = await bcrypt.compare(password, hash)
       if (result === true) {
         // Valid user. Pass.
-        console.log("Successful authentication")
+        log("Successful authentication")
         return users.result[0]
       } else {
-        console.log("!> Passwords did not validate.")
+        log("!> Passwords did not validate.")
       }
     } else {
-      console.log("!> No user or multiple users found: Users " + users.result.length)
+      log("!> No user or multiple users found: Users " + users.result.length)
     }
     return null
   }

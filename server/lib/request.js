@@ -1,6 +1,7 @@
 const moment = require('moment-timezone')
 const Database = require('./database')
 const Message = require('./msg')
+const log = require('./log')
 
 module.exports = class RequestHandler {
 
@@ -22,10 +23,10 @@ module.exports = class RequestHandler {
    * @param {Object} res 
    */
   queueRequest (req, res) {
-    console.log("✉ Adding request to queue")
+    log("✉ Adding request to queue")
     this.queue.push({req: req, res: res})
     if (!this.digesting) {
-      console.log("⚙ Trigger Digest")
+      log("⚙ Trigger Digest")
       this.digestRequestQueue()
     }
   }
@@ -45,7 +46,7 @@ module.exports = class RequestHandler {
   
       if (validToken) {
         results = await this.processDBRequest(req.body, token)
-        console.log("✓ Completed Request")
+        log("✓ Completed Request")
       } else {
         results = Message.error('Access denied', '⚠ Denied Request')
       }
@@ -75,7 +76,7 @@ module.exports = class RequestHandler {
       return Message.error("Your session ended")
     }
     else {
-      console.log(`User [${userId}] role: ${user.permissions.role}`)
+      log(`User [${userId}] role: ${user.permissions.role}`)
       const actionResult = await performDatabaseAction(requestBody, userId, user.permissions.role)
       return actionResult
     }

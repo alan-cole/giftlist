@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const log = require('./lib/log')
 const Database = require('./lib/database')
 const Authentication = require('./lib/auth')
 const RequestHandler = require('./lib/request')
@@ -13,7 +14,7 @@ module.exports = {
   listen (app) {
     app.listen(app.get('port'), () => {
       const port = app.get('port')
-      console.log('> Listening at http://localhost:%s', port)
+      log(`> Listening at http://localhost:${port}`)
     })
   },
 
@@ -58,7 +59,7 @@ module.exports = {
       this.requestHandler = new RequestHandler(database, config)
       this.listen(app)
     } else {
-      console.log('Could not start DB.')
+      log('Could not start DB.')
     }
   }
 }

@@ -1,3 +1,5 @@
+const log = require('./log')
+
 module.exports = {
   /**
    * Return an error.
@@ -5,7 +7,7 @@ module.exports = {
    * @param {String} privateMessage
    */
   error (message, privateMessage) {
-    console.log(`⚠ ${privateMessage || message}`)
+    log(`⚠ ${privateMessage || message}`)
     return {
       error: true,
       message: message
@@ -19,7 +21,7 @@ module.exports = {
    * @param {String} privateMessage
    */
   success (message, data, privateMessage) {
-    console.log(`✓ ${privateMessage || message}`)
+    log(`✓ ${privateMessage || message}`)
     let rtn = {
       error: false,
       message: message
@@ -38,7 +40,7 @@ module.exports = {
    * @param {String} privateMessage
    */
   conflict (message, item, collection, privateMessage) {
-    console.log(`⚠ ${privateMessage || message}`)
+    log(`⚠ ${privateMessage || message}`)
     return {
       error: true,
       message: message,
