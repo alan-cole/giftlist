@@ -33,4 +33,13 @@ module.exports = class Authentication {
   generateToken (payload) {
     return jwt.sign(payload, config.authentication.secret)
   }
+
+  /**
+   * Verify token.
+   * @param {String} token
+   */
+  async verifyToken (token) {
+    const result = await jwt.verify(token, config.authentication.secret)
+    return result
+  }
 }

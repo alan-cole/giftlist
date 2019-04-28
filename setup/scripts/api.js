@@ -10,84 +10,73 @@ class API {
 
   /**
    * Create Account: https://strapi.io/documentation/3.x.x/guides/authentication.html#registration
-   * @param {String} username
    * @param {String} email
    * @param {String} password
+   * @param {String} name
    */
-  async register(username, email, password) {
+  async register(email, password, name) {
     try {
-      const resp = await axios.post(`${this.url}/auth/local/register`, {
-        username: username,
+      const resp = await axios.post(`${this.url}/api`, {
+        request: 'register',
         email: email,
         password: password,
+        name: name
       })
-      this.user = resp.data.user
-      this.token = resp.data.jwt
-      console.log('Registered.')
+      console.log(resp.data.message)
+      return true
     } catch (e) {
       console.error(e.response.data.message)
+      return false
     }
   }
 
   /**
    * Authenticate: https://strapi.io/documentation/3.x.x/guides/authentication.html#registration
-   * @param {String} user 
+   * @param {String} email 
    * @param {String} password 
    */
-  async login(user, password) {
+  async login(email, password) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
         request: 'login',
-        username: user,
+        email: email,
         password: password
       })
-      this.token = resp.data.token
-      console.log(resp.data)
-      console.log('Logged in.')
+      this.token = resp.data.result.token
+      console.log(resp.data.message)
+      return true
     } catch (e) {
       console.error(e.response.data.message)
+      return false
     }
   }
 
-  async logout() {
+  logout() {
     console.log('Logged out.')
     this.token = ''
   }
 
-  async forgotPassword(email) {
+  async addGift(gift) {
     try {
-      const resp = await axios.post(`${this.url}/auth/forgot-password`, {
-        email: email,
-        url: `${this.url}/admin/plugins/users-permissions/auth/reset-password`
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'add_gift',
+        gift: gift
       })
-      console.log('Check your emails')
+      console.log(resp.data.message)
     } catch (e) {
       console.error(e.response.data.message)
     }
   }
 
-  async resetPassword(code, password, passwordConfirmation) {
-    try {
-      const resp = await axios.post(`${this.url}/auth/reset-password`, {
-        code: code,
-        password: password,
-        passwordConfirmation: passwordConfirmation
-      })
-      console.log('Reset password.')
-    } catch (e) {
-      console.error(e.response.data.message)
-    }
-  }
-
-  // Return a list of users.
   async getGifts() {
     try {
-      const resp = await axios.get(`${this.url}/gifts`, {
-        headers: {
-          Authorization: `Bearer ${this.token}`
-        }
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'get_gifts'
       })
-      console.log(resp.data)
+      console.log(resp.data.message)
+      return resp.data.result
     } catch (e) {
       console.error(e.response.data.message)
     }
@@ -96,12 +85,19 @@ class API {
 
 async function bootstrap() {
   const api = new API('http://localhost:3000')
-  // const resp = await api.register('test', 'test@mailinator.com', 'testtest')
-  const resp = await api.login('Luke', 'testtest')
-  // const resp = await api.logout()
-  // const resp = await api.forgotPassword('alan.d.m.cole@gmail.com')
-  // const getGiftResp = await api.getGifts()
+  const resp = await api.register('test@gmail.com', 'testtest', 'test')
   console.log(resp)
+  const loginResp = await api.login('test@gmail.com', 'testtest')
+  console.log(loginResp)
+  const addGiftResp = await api.addGift({
+    name: 'Box',
+    link: 'http://duckduckgo.com',
+    price: '49.95'
+  })
+  console.log(addGiftResp)
+  const getGiftResp = await api.getGifts()
+  console.log(getGiftResp)
+  api.logout()
 }
 
 bootstrap()
