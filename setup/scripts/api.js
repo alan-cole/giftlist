@@ -69,6 +69,19 @@ class API {
     }
   }
 
+  async deleteGift(giftId) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'delete_gift',
+        giftId: giftId
+      })
+      console.log(resp.data.message)
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
   async getGifts() {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -85,8 +98,8 @@ class API {
 
 async function bootstrap() {
   const api = new API('http://localhost:3000')
-  const resp = await api.register('test@gmail.com', 'testtest', 'test')
-  console.log(resp)
+  // const resp = await api.register('test@gmail.com', 'testtest', 'test')
+  // console.log(resp)
   const loginResp = await api.login('test@gmail.com', 'testtest')
   console.log(loginResp)
   const addGiftResp = await api.addGift({
@@ -97,6 +110,8 @@ async function bootstrap() {
   console.log(addGiftResp)
   const getGiftResp = await api.getGifts()
   console.log(getGiftResp)
+  const deleteGiftResp = await api.deleteGift(getGiftResp[0]._id)
+  console.log(deleteGiftResp)
   api.logout()
 }
 

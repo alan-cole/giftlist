@@ -39,6 +39,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'add_gift':
         result = await this.requestAddGift(requestBody, token)
         break
+      case 'delete_gift':
+        result = await this.requestDeleteGift(requestBody, token)
+        break
       case 'get_gifts':
         result = await this.requestGetGifts(requestBody, token)
         break
@@ -118,6 +121,11 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       price: requestBody.gift.price,
       user: token.id
     })
+    return resp
+  }
+
+  async requestDeleteGift (requestBody, token) {
+    const resp = await this.db.delete('gifts', requestBody.giftId)
     return resp
   }
 

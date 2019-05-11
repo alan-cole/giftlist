@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectID
 const Message = require('./msg')
 
 module.exports = class Database {
@@ -15,9 +16,11 @@ module.exports = class Database {
     if (this.db == null) {
       const { username, password, host } = this.config.database
       const url = `mongodb://${username}:${password}@${host}`
-    
+
       try {
-        this.db = await MongoClient.connect(url)
+        const client = new MongoClient(url)
+        await client.connect()
+        this.db = client.db('glist')
         // Check for existing content.
         const items = await this.db.listCollections().toArray()
         if (items.length === 0) {
@@ -81,7 +84,7 @@ module.exports = class Database {
    */
   async delete (collection, id) {
     try {
-      await this.db.collection(collection).remove({ _id: { $eq: id } })
+      await this.db.collection(collection).deleteOne({ _id: { $eq: ObjectId(id) } })
       return Message.success(`Deleted ${collection}`)
     } catch (err) {
       return Message.error(`Could not delete ${collection}`, err.message)
