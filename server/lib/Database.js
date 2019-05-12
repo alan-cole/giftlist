@@ -70,7 +70,7 @@ module.exports = class Database {
    */
   async add (collection, item) {
     try {
-      await this.db.collection(collection).save(item)
+      await this.db.collection(collection).insertOne(item)
       return Message.success(`Added ${collection}`)
     } catch (err) {
       return Message.error(`Could not add ${collection}`, err.message)
@@ -98,7 +98,7 @@ module.exports = class Database {
    */
   async get (collection, id) {
     try {
-      const results = await this.db.collection(collection).find({ _id: { $eq: id } }).toArray()
+      const results = await this.db.collection(collection).find({ _id: { $eq: ObjectId(id) } }).toArray()
       return Message.success(`Got ${collection}`, results)
     } catch (err) {
       return Message.error(`Could not get ${collection}`, err.message)

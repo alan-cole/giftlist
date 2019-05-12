@@ -9,7 +9,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   /**
    * Create a new request handler.
    * @param {Database} database
-   * @param {Object} config 
+   * @param {Object} config
    */
   constructor (database, config) {
     super()
@@ -44,6 +44,15 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         break
       case 'get_gifts':
         result = await this.requestGetGifts(requestBody, token)
+        break
+      case 'add_friend':
+        result = await this.requestAddFriend(requestBody, token)
+        break
+      case 'delete_friend':
+        result = await this.requestDeleteFriend(requestBody, token)
+        break
+      case 'get_friends':
+        result = await this.requestGetFriends(requestBody, token)
         break
       default:
         result = Message.error("Unrecognized request")
@@ -132,6 +141,41 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   async requestGetGifts (requestBody, token) {
     const resp = await this.db.find('gifts', { user: token.id })
     return resp
+  }
+
+  async requestAddFriend (requestBody, token) {
+    // Add friend from email address. Only accept if email is found in users.
+    const friend = await this.db.find('users', { email: requestBody.friend.email })
+    if (friend.result.length == 1) {
+      const resp = await this.db.add('friends', {
+        friend: friend.result[0]._id,
+        user: token.id
+      })
+      return resp
+    } else {
+      return Message.error('Friend email not found.')
+    }
+  }
+
+  async requestDeleteFriend (requestBody, token) {
+    // Delete Friend from ID where user is token.id
+    const resp = await this.db.delete('friends', requestBody.friendId)
+    return resp
+  }
+  async requestGetFriends (requestBody, token) {
+    // Get friends based on token.id
+    const friends = await this.db.find('friends', { user: token.id })
+    const friendIds = friends.result.map(item => { return item.friend })
+    const users = await this.db.find('users', { _id: { $in: friendIds } })
+    const friendMap = {}
+    users.result.forEach(item => { friendMap[item._id.toString()] = item.name })
+    const results = friends.result.map(item => {
+        return {
+        _id: item.friend,
+        name: friendMap[item.friend.toString()]
+      }
+    })
+    return Message.success(`Got friends`, results)
   }
 
 }

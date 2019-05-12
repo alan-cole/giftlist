@@ -94,25 +94,94 @@ class API {
       console.error(e.response.data.message)
     }
   }
+
+  async addFriend(email) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'add_friend',
+        friend: {
+          email: email
+        }
+      })
+      console.log(resp.data.message)
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
+  async deleteFriend(friendId) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'delete_friend',
+        friendId: friendId
+      })
+      console.log(resp.data.message)
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
+  async getFriends(email) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'get_friends'
+      })
+      console.log(resp.data.message)
+      return resp.data.result
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
 }
 
-async function bootstrap() {
-  const api = new API('http://localhost:3000')
-  // const resp = await api.register('test@gmail.com', 'testtest', 'test')
-  // console.log(resp)
-  const loginResp = await api.login('test@gmail.com', 'testtest')
-  console.log(loginResp)
-  const addGiftResp = await api.addGift({
-    name: 'Box',
-    link: 'http://duckduckgo.com',
-    price: '49.95'
-  })
-  console.log(addGiftResp)
-  const getGiftResp = await api.getGifts()
-  console.log(getGiftResp)
-  const deleteGiftResp = await api.deleteGift(getGiftResp[0]._id)
-  console.log(deleteGiftResp)
+async function logout() {
   api.logout()
 }
 
-bootstrap()
+async function addUsers() {
+  await api.register('steve@gmail.com', 'XXsteve', 'steve')
+  await api.register('mark@gmail.com', 'XXmark', 'mark')
+  await api.register('john@gmail.com', 'XXjohn', 'john')
+  await api.register('luke@gmail.com', 'XXluke', 'luke')
+  await api.register('james@gmail.com', 'XXjames', 'james')
+}
+
+const api = new API('http://localhost:3000')
+
+async function setup () {
+  await addUsers()
+
+  await api.login('steve@gmail.com', 'XXsteve')
+  await api.addGift({ name: 'Final fantasy', link: 'http://duckduckgo.com', price: '49.95' })
+  await api.addGift({ name: 'Resident evil', link: 'http://duckduckgo.com', price: '89.95' })
+  await api.addGift({ name: 'Game of Thrones', link: 'http://duckduckgo.com', price: '25' })
+  await api.addFriend('john@gmail.com')
+  await api.addFriend('luke@gmail.com')
+  await api.addFriend('james@gmail.com')
+  await logout()
+
+  await api.login('john@gmail.com', 'XXjohn')
+  await api.addGift({ name: 'Pokemon', link: 'http://duckduckgo.com', price: '49.95' })
+  await api.addGift({ name: 'The Matrix', link: 'http://duckduckgo.com', price: '25' })
+  await api.addGift({ name: 'The Simpsons', link: 'http://duckduckgo.com', price: '25' })
+  await api.addFriend('steve@gmail.com')
+  await api.addFriend('mark@gmail.com')
+  await logout()
+}
+
+async function getStuff () {
+  await api.login('steve@gmail.com', 'XXsteve')
+  console.log(await api.getGifts())
+  console.log(await api.getFriends())
+  await logout()
+}
+
+// Deleteing
+// console.log(await api.deleteGift(getGiftResp[0]._id))
+// console.log(await api.deleteFriend(getFriendResp[0]._id))
+
+// setup()
+getStuff()
