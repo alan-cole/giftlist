@@ -13,8 +13,8 @@ module.exports = class RequestHandler {
 
   /**
    * Add a new request to the queue and process.
-   * @param {Object} req 
-   * @param {Object} res 
+   * @param {Object} req Request
+   * @param {Object} res Resolve
    */
   queueRequest (req, res) {
     log("✉ Adding request to queue")
@@ -30,7 +30,7 @@ module.exports = class RequestHandler {
    */
   async digestRequestQueue() {
     this.digesting = (this.queue.length > 0)
-  
+
     if (this.digesting) {
       const { req, res } = this.queue.shift()
 

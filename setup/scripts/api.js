@@ -95,6 +95,32 @@ class API {
     }
   }
 
+  async addBuyer(giftId) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'add_buyer',
+        giftId: giftId
+      })
+      console.log(resp.data.message)
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
+  async deleteBuyer(giftId) {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'delete_buyer',
+        giftId: giftId
+      })
+      console.log(resp.data.message)
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
   async addFriend(email) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -128,6 +154,19 @@ class API {
       const resp = await axios.post(`${this.url}/api`, {
         token: this.token,
         request: 'get_friends'
+      })
+      console.log(resp.data.message)
+      return resp.data.result
+    } catch (e) {
+      console.error(e.response.data.message)
+    }
+  }
+
+  async getFriendsGiftList() {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'get_friends_gift_list'
       })
       console.log(resp.data.message)
       return resp.data.result
@@ -174,8 +213,9 @@ async function setup () {
 
 async function getStuff () {
   await api.login('steve@gmail.com', 'XXsteve')
-  console.log(await api.getGifts())
-  console.log(await api.getFriends())
+  // console.log(await api.getGifts())
+  // console.log(await api.getFriends())
+  console.log(JSON.stringify(await api.getFriendsGiftList(), null, 2))
   await logout()
 }
 

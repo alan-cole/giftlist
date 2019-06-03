@@ -9,7 +9,7 @@ module.exports = class Authentication {
 
   /**
    * Convert a password into a secured hash.
-   * @param {String} password 
+   * @param {String} password
    */
   async generateHash (password) {
     const hash = await bcrypt.hash(password, config.authentication.rounds)
@@ -18,8 +18,8 @@ module.exports = class Authentication {
 
   /**
    * Check a password against a secured hash.
-   * @param {String} password 
-   * @param {String} hash 
+   * @param {String} password
+   * @param {String} hash
    */
   async verifyPassword (password, hash) {
     const result = await bcrypt.compare(password, hash)
@@ -28,7 +28,7 @@ module.exports = class Authentication {
 
   /**
    * Create a token.
-   * @param {Object} payload 
+   * @param {Object} payload
    */
   generateToken (payload) {
     return jwt.sign(payload, config.authentication.secret)

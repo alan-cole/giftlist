@@ -41,7 +41,7 @@ module.exports = class Database {
   async create () {
     try {
       this.config.models.forEach(async (model) => {
-        await db.createCollection(model.name)
+        await this.db.createCollection(model.name)
       })
       return Message.success(`Database ready`, null, `Initialized ${this.config.models.length} collections`)
     } catch (err) {
@@ -55,7 +55,7 @@ module.exports = class Database {
   async destroy () {
     try {
       this.config.models.forEach(async (model) => {
-        await db.collection(model.name).remove()
+        await this.db.collection(model.name).remove()
       })
       return Message.success(`Database destroyed`, null, `Destroyed ${this.config.models.length} collections`)
     } catch (err) {
@@ -102,6 +102,20 @@ module.exports = class Database {
       return Message.success(`Got ${collection}`, results)
     } catch (err) {
       return Message.error(`Could not get ${collection}`, err.message)
+    }
+  }
+
+  /**
+   * Find all items from a query.
+   * @param {String} collection Name of collection
+   * @param {Array} ids Array of ids
+   */
+  async getAll (collection, ids) {
+    try {
+      const results = await this.db.collection(collection).find({ _id: { $in: ids.map(id => ObjectId(id)) }}).toArray()
+      return Message.success(`Found ${collection}`, results)
+    } catch (err) {
+      return Message.error(`Could not find ${collection}`, err.message)
     }
   }
 
