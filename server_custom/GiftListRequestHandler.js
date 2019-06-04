@@ -214,24 +214,54 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestGetFriendsGiftList (requestBody, token) {
-    // Get Friends
-    const friends = await this.getFriends(token.id)
+    // First we get all this user's friends.
+    const allUserFriends = await this.getFriends(token.id)
     const results = []
-    for (let i = 0; i < friends.result.length; i++) {
-      const friend = friends.result[i]
-      // Get Gifts of friends
+
+    // For each friend...
+    for (let i = 0; i < allUserFriends.result.length; i++) {
+      const friend = allUserFriends.result[i]
+
+      // get the friend's gift list
       const friendGifts = await this.db.find('gifts', { user: friend._id.toString() })
+      // get the gift's buyers
+      const buyers = await this.db.find('buyers', {gift: { $in: friendGifts.result.map(g => g._id.toString()) }})
+      // get the name of each buyer
+      const buyerUsers = await this.db.getAll('users', buyers.result.map(b => b.user))
+
+      // Map buyer ids to name
+      const buyerIdtoNameMap = {}
+      buyerUsers.result.forEach(b => {
+        if (buyerIdtoNameMap[b._id] === undefined) {
+          buyerIdtoNameMap[b._id] = {
+            name: b.name,
+            isMe: (b._id.toString() === token.id)
+          }
+        }
+      })
+
+      // Map gift id to buyers
+      const giftToBuyerMap = {}
+      buyers.result.forEach(b => {
+        if (giftToBuyerMap[b.gift] === undefined) {
+          giftToBuyerMap[b.gift] = []
+        }
+        giftToBuyerMap[b.gift].push(buyerIdtoNameMap[b.user])
+      })
+
+      // Get the friend's details plus each gift and the gift's buyers
       results.push({
         _id: friend._id,
         name: friend.name,
         gifts: friendGifts.result.map(gift => ({
           _id: gift._id,
           name: gift.name,
-          price: gift.price
+          price: gift.price,
+          buyers: giftToBuyerMap[gift._id]
         }))
       })
-      // TODO - Get buyers for gifts.
     }
+
     return Message.success(`Got friends gift list`, results)
   }
 

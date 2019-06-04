@@ -209,12 +209,18 @@ async function setup () {
   await api.addFriend('steve@gmail.com')
   await api.addFriend('mark@gmail.com')
   await logout()
+
+  await api.login('steve@gmail.com', 'XXsteve')
+  const friendsGifts = await api.getFriendsGiftList()
+  await api.addBuyer(friendsGifts[0].gifts[0]._id)
+  await api.addBuyer(friendsGifts[0].gifts[2]._id)
+  await logout()
 }
 
 async function getStuff () {
   await api.login('steve@gmail.com', 'XXsteve')
   // console.log(await api.getGifts())
-  // console.log(await api.getFriends())
+  console.log(await api.getFriends())
   console.log(JSON.stringify(await api.getFriendsGiftList(), null, 2))
   await logout()
 }
