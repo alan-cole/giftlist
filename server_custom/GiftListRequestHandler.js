@@ -41,6 +41,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'register':
         result = await this.requestRegister(requestBody)
         break
+      case 'unregister':
+        result = await this.requestUnregister(requestBody, token)
+        break
       case 'login':
         result = await this.requestLogin(requestBody)
         break
@@ -92,8 +95,13 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       })
       return resp
     } else {
-      return Message.error("Email alrady in use")
+      return Message.error("Email already in use")
     }
+  }
+
+  async requestUnregister (requestBody, token) {
+    const resp = await this.db.delete('users', token.id)
+    return resp
   }
 
   async requestLogin (requestBody) {
@@ -154,6 +162,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestDeleteGift (requestBody, token) {
+    // SECURITY: Make sure you can only delete your own gifts.
     const resp = await this.db.delete('gifts', requestBody.giftId)
     return resp
   }

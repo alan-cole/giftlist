@@ -4,12 +4,10 @@ class API {
 
   constructor(url) {
     this.url = url
-    this.user = null
     this.token = ''
   }
 
   /**
-   * Create Account: https://strapi.io/documentation/3.x.x/guides/authentication.html#registration
    * @param {String} email
    * @param {String} password
    * @param {String} name
@@ -22,8 +20,7 @@ class API {
         password: password,
         name: name
       })
-      console.log(resp.data.message)
-      return true
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
       return false
@@ -31,9 +28,26 @@ class API {
   }
 
   /**
-   * Authenticate: https://strapi.io/documentation/3.x.x/guides/authentication.html#registration
-   * @param {String} email 
-   * @param {String} password 
+   * @param {String} email
+   * @param {String} password
+   * @param {String} name
+   */
+  async unregister() {
+    try {
+      const resp = await axios.post(`${this.url}/api`, {
+        token: this.token,
+        request: 'unregister'
+      })
+      return resp.data
+    } catch (e) {
+      console.error(e.response.data.message)
+      return false
+    }
+  }
+
+  /**
+   * @param {String} email
+   * @param {String} password
    */
   async login(email, password) {
     try {
@@ -51,11 +65,17 @@ class API {
     }
   }
 
+  /**
+   *
+   */
   logout() {
     console.log('Logged out.')
     this.token = ''
   }
 
+  /**
+   * @param {Object} gift
+   */
   async addGift(gift) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -69,6 +89,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} giftId
+   */
   async deleteGift(giftId) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -82,6 +105,9 @@ class API {
     }
   }
 
+  /**
+   *
+   */
   async getGifts() {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -95,6 +121,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} giftId
+   */
   async addBuyer(giftId) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -108,6 +137,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} giftId
+   */
   async deleteBuyer(giftId) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -121,6 +153,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} email
+   */
   async addFriend(email) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -136,6 +171,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} friendId
+   */
   async deleteFriend(friendId) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -149,6 +187,9 @@ class API {
     }
   }
 
+  /**
+   * @param {String} email
+   */
   async getFriends(email) {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -162,6 +203,9 @@ class API {
     }
   }
 
+  /**
+   *
+   */
   async getFriendsGiftList() {
     try {
       const resp = await axios.post(`${this.url}/api`, {
@@ -176,58 +220,4 @@ class API {
   }
 }
 
-async function logout() {
-  api.logout()
-}
-
-async function addUsers() {
-  await api.register('steve@gmail.com', 'XXsteve', 'steve')
-  await api.register('mark@gmail.com', 'XXmark', 'mark')
-  await api.register('john@gmail.com', 'XXjohn', 'john')
-  await api.register('luke@gmail.com', 'XXluke', 'luke')
-  await api.register('james@gmail.com', 'XXjames', 'james')
-}
-
-const api = new API('http://localhost:3000')
-
-async function setup () {
-  await addUsers()
-
-  await api.login('steve@gmail.com', 'XXsteve')
-  await api.addGift({ name: 'Final fantasy', link: 'http://duckduckgo.com', price: '49.95' })
-  await api.addGift({ name: 'Resident evil', link: 'http://duckduckgo.com', price: '89.95' })
-  await api.addGift({ name: 'Game of Thrones', link: 'http://duckduckgo.com', price: '25' })
-  await api.addFriend('john@gmail.com')
-  await api.addFriend('luke@gmail.com')
-  await api.addFriend('james@gmail.com')
-  await logout()
-
-  await api.login('john@gmail.com', 'XXjohn')
-  await api.addGift({ name: 'Pokemon', link: 'http://duckduckgo.com', price: '49.95' })
-  await api.addGift({ name: 'The Matrix', link: 'http://duckduckgo.com', price: '25' })
-  await api.addGift({ name: 'The Simpsons', link: 'http://duckduckgo.com', price: '25' })
-  await api.addFriend('steve@gmail.com')
-  await api.addFriend('mark@gmail.com')
-  await logout()
-
-  await api.login('steve@gmail.com', 'XXsteve')
-  const friendsGifts = await api.getFriendsGiftList()
-  await api.addBuyer(friendsGifts[0].gifts[0]._id)
-  await api.addBuyer(friendsGifts[0].gifts[2]._id)
-  await logout()
-}
-
-async function getStuff () {
-  await api.login('steve@gmail.com', 'XXsteve')
-  // console.log(await api.getGifts())
-  console.log(await api.getFriends())
-  console.log(JSON.stringify(await api.getFriendsGiftList(), null, 2))
-  await logout()
-}
-
-// Deleteing
-// console.log(await api.deleteGift(getGiftResp[0]._id))
-// console.log(await api.deleteFriend(getFriendResp[0]._id))
-
-// setup()
-getStuff()
+module.exports = API
