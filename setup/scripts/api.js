@@ -8,6 +8,7 @@ class API {
   }
 
   /**
+   * Register an account.
    * @param {String} email
    * @param {String} password
    * @param {String} name
@@ -28,6 +29,7 @@ class API {
   }
 
   /**
+   * Unregister an account.
    * @param {String} email
    * @param {String} password
    * @param {String} name
@@ -46,6 +48,7 @@ class API {
   }
 
   /**
+   * Log into account. Will manage session.
    * @param {String} email
    * @param {String} password
    */
@@ -57,8 +60,7 @@ class API {
         password: password
       })
       this.token = resp.data.result.token
-      console.log(resp.data.message)
-      return true
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
       return false
@@ -66,7 +68,7 @@ class API {
   }
 
   /**
-   *
+   * Clear session.
    */
   logout() {
     console.log('Logged out.')
@@ -74,6 +76,7 @@ class API {
   }
 
   /**
+   * Add a gift to current user.
    * @param {Object} gift
    */
   async addGift(gift) {
@@ -83,7 +86,7 @@ class API {
         request: 'add_gift',
         gift: gift
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
@@ -99,14 +102,14 @@ class API {
         request: 'delete_gift',
         giftId: giftId
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
   }
 
   /**
-   *
+   * Get all gifts for current user.
    */
   async getGifts() {
     try {
@@ -114,8 +117,7 @@ class API {
         token: this.token,
         request: 'get_gifts'
       })
-      console.log(resp.data.message)
-      return resp.data.result
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
