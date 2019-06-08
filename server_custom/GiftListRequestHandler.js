@@ -244,7 +244,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         if (buyerIdtoNameMap[b._id] === undefined) {
           buyerIdtoNameMap[b._id] = {
             name: b.name,
-            isMe: (b._id.toString() === token.id)
+            self: (b._id.toString() === token.id)
           }
         }
       })
@@ -265,6 +265,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         gifts: friendGifts.result.map(gift => ({
           _id: gift._id,
           name: gift.name,
+          link: gift.link,
           price: gift.price,
           buyers: giftToBuyerMap[gift._id]
         }))
