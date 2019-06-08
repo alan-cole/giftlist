@@ -93,6 +93,7 @@ class API {
   }
 
   /**
+   * Delete a gift from current user.
    * @param {String} giftId
    */
   async deleteGift(giftId) {
@@ -124,6 +125,7 @@ class API {
   }
 
   /**
+   * Add current user to a list of buyers for a gift.
    * @param {String} giftId
    */
   async addBuyer(giftId) {
@@ -140,6 +142,7 @@ class API {
   }
 
   /**
+   * Delete current user from a list of buyers for a gift.
    * @param {String} giftId
    */
   async deleteBuyer(giftId) {
@@ -207,7 +210,7 @@ class API {
   }
 
   /**
-   *
+   * Return all current user's friends, with their gifts and buyers.
    */
   async getFriendsGiftList() {
     try {
