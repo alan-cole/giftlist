@@ -133,7 +133,7 @@ class API {
         request: 'add_buyer',
         giftId: giftId
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
@@ -149,13 +149,14 @@ class API {
         request: 'delete_buyer',
         giftId: giftId
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
   }
 
   /**
+   * Add a friend from email.
    * @param {String} email
    */
   async addFriend(email) {
@@ -167,13 +168,14 @@ class API {
           email: email
         }
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
   }
 
   /**
+   * Remove a friend.
    * @param {String} friendId
    */
   async deleteFriend(friendId) {
@@ -183,23 +185,22 @@ class API {
         request: 'delete_friend',
         friendId: friendId
       })
-      console.log(resp.data.message)
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
   }
 
   /**
-   * @param {String} email
+   * Get all friends.
    */
-  async getFriends(email) {
+  async getFriends() {
     try {
       const resp = await axios.post(`${this.url}/api`, {
         token: this.token,
         request: 'get_friends'
       })
-      console.log(resp.data.message)
-      return resp.data.result
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
@@ -214,8 +215,7 @@ class API {
         token: this.token,
         request: 'get_friends_gift_list'
       })
-      console.log(resp.data.message)
-      return resp.data.result
+      return resp.data
     } catch (e) {
       console.error(e.response.data.message)
     }
