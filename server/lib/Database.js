@@ -14,13 +14,13 @@ module.exports = class Database {
    */
   async start () {
     if (this.db == null) {
-      const { username, password, host } = this.config.database
-      const url = `mongodb://${username}:${password}@${host}`
+      const { username, password, host, database } = this.config.database
+      const url = `mongodb://${username}:${password}@${host}/${database}`
 
       try {
         const client = new MongoClient(url)
         await client.connect()
-        this.db = client.db('glist')
+        this.db = client.db(database)
         // Check for existing content.
         const items = await this.db.listCollections().toArray()
         if (items.length === 0) {

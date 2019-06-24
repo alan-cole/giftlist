@@ -2,7 +2,8 @@
   "database": {
     "username": "writer",
     "password": "password",
-    "host": "localhost:27017/glist"
+    "host": "localhost:27017",
+    "database": "glist"
   },
   "authentication": {
     "secret": "demo",
