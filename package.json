@@ -14,17 +14,16 @@
     "server-test": "jest ./tests/*.js --runInBand"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
-    "jest": "^23.6.0"
+    "axios": "^0.19.0"
   },
   "dependencies": {
+    "apiserver": "file:server",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "redux": "^4.0.1",
-    "apiserver": "file:server"
+    "react-scripts": "^3.0.1",
+    "redux": "^4.0.1"
   },
   "author": {
     "name": "alan",
@@ -53,8 +52,8 @@
     "verbose": true
   },
   "engines": {
-    "node": ">= 10.0.0",
-    "npm": ">= 6.0.0"
+    "node": "10.16.0",
+    "npm": "6.9.0"
   },
   "license": "MIT"
 }
