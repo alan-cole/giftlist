@@ -8,7 +8,7 @@ var data = fs.readFileSync('./config.json', 'utf-8')
 config = JSON.parse(data)
 
 // Use environment variables if available.
-if (process.env.GL_PROD === 1) {
+if (process.env.GL_PROD == 1) {
   console.log('Using environment variables')
   config.database.username = process.env.GL_USERNAME
   config.database.password = process.env.GL_PASSWORD
