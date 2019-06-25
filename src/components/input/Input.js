@@ -1,12 +1,12 @@
 import React from 'react';
 import './Input.css';
 
-const Input = ( {inputTitle} ) => {
+const Input = ( { label, value, type = 'text', onChange } ) => {
 	return (
-		<div>
-			<h2 className="inputTitle">{inputTitle}</h2>
-			<input className="input" type="text"></input>
-		</div>
+		<label className="label">
+			<span>{label}</span>
+			<input className="input" type={type} value={value} onChange={onChange} />
+		</label>
 	);
 }
 

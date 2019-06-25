@@ -1,4 +1,9 @@
-.heading {
+.page-login {
+	margin: auto;
+	width: 330px;
+}
+
+.page-login__heading {
 	font-family: 'Dancing Script', cursive;
 	font-style: normal;
 	font-weight: normal;
@@ -7,20 +12,5 @@
 	margin-top: 133px;
 	margin-bottom: 22px;
 	text-align: center;
-
 	color: #000000;
-}
-
-.centre {
-	margin: auto;
-	width: 330px;
-}
-
-.loginButtonSize {
-	height: 44px;
-	width: 330px;
-}
-
-.buttonMargin {
-	margin-bottom: 22px;
 }
