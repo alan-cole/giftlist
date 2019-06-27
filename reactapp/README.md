@@ -1,0 +1,1 @@
+The react app is no longer being maintained. It is left here for reference.

@@ -1,0 +1,27 @@
+.button {
+  background-color: $blue;
+  border-radius: 4px;
+  border: 0;
+  color: $white;
+  cursor: pointer;
+  display: block;
+  font-family: Karla;
+  font-size: 22px;
+  font-weight: 400;
+  height: 44px;
+  line-height: 44px;
+  margin-bottom: 22px;
+  margin-top: 22px;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  display: inline-block;
+  width: 144px;
+
+  &--wide {
+    display: block;
+    width: 100%;
+  }
+}

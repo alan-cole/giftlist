@@ -10,7 +10,7 @@
     "rounds": 10
   },
   "server": {
-    "public": "build"
+    "public": "dist"
   },
   "models": [
     {

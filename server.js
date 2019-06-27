@@ -4,7 +4,7 @@ const GiftListDatabase = require('./server_custom/GiftListDatabase')
 const GiftListRequestHandler = require('./server_custom/GiftListRequestHandler')
 
 // Load Local Settings.
-var data = fs.readFileSync('./config.json', 'utf-8')
+var data = fs.readFileSync('./server-config.json', 'utf-8')
 config = JSON.parse(data)
 
 // Use environment variables if available.
