@@ -9,9 +9,9 @@ module.exports = class Server {
 
   /**
    * Create a server.
-   * @param {Database} database 
-   * @param {RequestHandler} requestHandler 
-   * @param {Object} config 
+   * @param {Database} database
+   * @param {RequestHandler} requestHandler
+   * @param {Object} config
    */
   constructor (database, requestHandler, config) {
     this.database = database
@@ -22,6 +22,14 @@ module.exports = class Server {
     this.app.use(bodyParser.urlencoded({ extended: false }))
     this.app.use(bodyParser.json({limit: '5mb'}))
     this.app.set('port', (process.env.PORT || 3000))
+    if (config.environment === 'dev') {
+      log('CORS enabled')
+      this.app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*")
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+        next()
+      })
+    }
   }
 
   /**

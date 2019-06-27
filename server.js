@@ -15,6 +15,7 @@ if (process.env.GL_PROD == 1) {
   config.database.host = process.env.GL_HOST
   config.database.database = process.env.GL_DATABASE
   config.authentication.secret = process.env.GL_AUTH_SECRET
+  config.environment = 'prod'
 }
 
 // Initialize DB / Request Handler

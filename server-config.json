@@ -1,4 +1,5 @@
 {
+  "environment": "dev",
   "database": {
     "username": "writer",
     "password": "password",
