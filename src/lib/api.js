@@ -1,5 +1,5 @@
 import API from '../../setup/scripts/api'
 
-const host = (process.env.NODE_ENV === 'development') ? 'http://localhost:3000' : '/'
+const apiInstance = new API(process.env.GL_API)
 
-export default new API(host)
+export default apiInstance
