@@ -52,7 +52,11 @@ module.exports = class Server {
 
     this.app.get('/*', (req, res) => {
       var path = req.params[0];
-      res.sendFile(path, { root: this.config.server.public })
+      if (path.indexOf('.') >= 0) {
+        res.sendFile(path, { root: this.config.server.public })
+      } else {
+        res.sendFile('index.html', { root: this.config.server.public })
+      }
     })
 
     this.app.post('/api', (req, res) => {
