@@ -5,10 +5,12 @@
 </template>
 
 <script>
+import authenticatedPage from '../mixins/authentication'
 import TopMenu from '../components/Menu'
 
 export default {
   name: 'PageFriendsList',
+  mixins: [authenticatedPage],
   components: {
     TopMenu
   }

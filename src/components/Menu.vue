@@ -1,6 +1,8 @@
 <template>
   <div class="top-menu">
-    <router-link class="top-menu__back" :to="previousPage"><span class="visually-hidden">Back</span></router-link>
+    <router-link v-if="previousPage" class="top-menu__back" :to="previousPage">
+      <span class="visually-hidden">Back</span>
+    </router-link>
     <h1 class="top-menu__title">{{ title }}</h1>
   </div>
 </template>

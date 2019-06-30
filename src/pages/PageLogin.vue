@@ -31,14 +31,23 @@ export default {
     async requestLogin () {
       try {
         const result = await api.login(this.email, this.password)
-        if (result.error === false) {
+        if (result.error) {
+          alert(result.message)
+        } else {
           localStorage.setItem('token', result.result.token)
           // Redirect to menu
           this.$router.push('/menu')
         }
       } catch (err) {
-        alert('Unable to log in.')
+        alert('An error occured.')
       }
+    }
+  },
+  created () {
+    // Check if already logged in.
+    if (localStorage.getItem('token')) {
+      // Redirect to menu
+      this.$router.push('/menu')
     }
   }
 }
