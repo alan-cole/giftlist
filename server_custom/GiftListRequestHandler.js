@@ -152,6 +152,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestAddGift (requestBody, token) {
+    // TODO: Add option to update existing if an id exists.
     const resp = await this.db.add('gifts', {
       name: requestBody.gift.name,
       link: requestBody.gift.link,

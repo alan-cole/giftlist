@@ -52,7 +52,8 @@ export default new Router({
     {
       path: '/addgift',
       name: 'PageAddGift',
-      component: PageAddGift
+      component: PageAddGift,
+      props: true
     }
   ]
 })
