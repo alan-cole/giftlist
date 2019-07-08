@@ -24,4 +24,8 @@
     display: block;
     width: 100%;
   }
+
+  &--delete {
+    background-color: $red;
+  }
 }

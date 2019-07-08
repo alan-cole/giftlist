@@ -14,6 +14,7 @@
         <span>Price</span>
         <input v-model="editPrice" type="text" class="form-input__text" />
       </label>
+      <input v-if="gift" class="button button--delete" type="button" @click="deleteGift()" value="Delete" />
       <input class="button" type="submit" value="Save" />
     </form>
   </div>
@@ -41,12 +42,32 @@ export default {
     }
   },
   methods: {
+    async deleteGift () {
+      const userInput = confirm('Are you sure you want to delete?')
+      if (userInput) {
+        const result = await api.deleteGift(this.gift._id)
+        if (!result.error) {
+          this.$router.push('/mylist')
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+      }
+    },
     async submitForm () {
-      const result = await api.addGift({
-        name: this.editName,
-        link: this.editLink,
-        price: this.editPrice
-      })
+      let result = null
+      if (this.gift) {
+        result = await api.updateGift(this.gift._id, {
+          name: this.editName,
+          link: this.editLink,
+          price: this.editPrice
+        })
+      } else {
+        result = await api.addGift({
+          name: this.editName,
+          link: this.editLink,
+          price: this.editPrice
+        })
+      }
       if (!result.error) {
         this.$router.push('/mylist')
       } else {
