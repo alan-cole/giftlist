@@ -1,8 +1,8 @@
 /**
  * @jest-environment node
  */
-const API = require('../setup/scripts/api')
-const api = new API('http://localhost:3000')
+const Connector = require('../../lib/connector')
+const api = new Connector('http://localhost:3000')
 
 describe('Gifts', () => {
 
@@ -26,6 +26,19 @@ describe('Gifts', () => {
     expect(result.result[0]).toHaveProperty('name', 'Test gift 1')
     expect(result.result[0]).toHaveProperty('price', '29.95')
     expect(result.result[0]).toHaveProperty('user')
+  }, 10000)
+
+  test('update a gift', async () => {
+    const gifts = await api.getGifts()
+    const giftId = gifts.result[0]._id
+    const result = await api.updateGift(giftId, { name: 'Test gift 1 Update', link: 'http://duckduckgo.com/update', price: '50' })
+    expect(result).toEqual({ 'error': false, 'message': 'Updated gifts' })
+    const updatedGifts = await api.getGifts()
+    expect(updatedGifts.result[0]).toHaveProperty('_id', giftId)
+    expect(updatedGifts.result[0]).toHaveProperty('link', 'http://duckduckgo.com/update')
+    expect(updatedGifts.result[0]).toHaveProperty('name', 'Test gift 1 Update')
+    expect(updatedGifts.result[0]).toHaveProperty('price', '50')
+    expect(updatedGifts.result[0]).toHaveProperty('user')
   }, 10000)
 
   test('delete gift', async () => {

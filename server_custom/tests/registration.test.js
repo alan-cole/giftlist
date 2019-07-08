@@ -1,8 +1,8 @@
 /**
  * @jest-environment node
  */
-const API = require('../setup/scripts/api')
-const api = new API('http://localhost:3000')
+const Connector = require('../../lib/connector')
+const api = new Connector('http://localhost:3000')
 
 describe('Registration', () => {
   test('register an account', async () => {

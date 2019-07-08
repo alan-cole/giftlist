@@ -6,7 +6,7 @@
   "main": "./server.js",
   "scripts": {
     "start": "node server.js",
-    "server-test": "jest ./tests/*.js --runInBand",
+    "server-test": "jest ./server_custom/tests/*.js --runInBand",
     "api": "node ./setup/scripts/dev.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "vue-lint": "eslint --ext .js,.vue src",
@@ -40,6 +40,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "jest": "^24.8.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.12.0",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
@@ -87,7 +88,8 @@
     "not ie <= 8"
   ],
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "transform": {}
   },
   "engines": {
     "node": "10.16.0",
