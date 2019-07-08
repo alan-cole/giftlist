@@ -141,7 +141,7 @@ module.exports = class Database {
    */
   async update (collection, id, fields) {
     try {
-      await this.db.collection(collection).update({ _id: id }, { $set: fields })
+      await this.db.collection(collection).update({ _id: { $eq: ObjectId(id) } }, { $set: fields })
       return Message.success(`Updated ${collection}`)
     } catch (err) {
       return Message.error(`Could not update ${collection}`, err.message)

@@ -53,6 +53,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'add_gift':
         result = await this.requestAddGift(requestBody, token)
         break
+      case 'update_gift':
+        result = await this.requestUpdateGift(requestBody, token)
+        break
       case 'delete_gift':
         result = await this.requestDeleteGift(requestBody, token)
         break
@@ -152,12 +155,20 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestAddGift (requestBody, token) {
-    // TODO: Add option to update existing if an id exists.
     const resp = await this.db.add('gifts', {
       name: requestBody.gift.name,
       link: requestBody.gift.link,
       price: requestBody.gift.price,
       user: token.id
+    })
+    return resp
+  }
+
+  async requestUpdateGift (requestBody, token) {
+    const resp = await this.db.update('gifts', requestBody.giftId, {
+      name: requestBody.gift.name,
+      link: requestBody.gift.link,
+      price: requestBody.gift.price
     })
     return resp
   }
