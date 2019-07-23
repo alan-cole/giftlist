@@ -1,10 +1,10 @@
 {
   "environment": "dev",
   "database": {
-    "username": "writer",
+    "username": "glserver",
     "password": "password",
     "host": "localhost:27017",
-    "database": "glist"
+    "database": "giftlist"
   },
   "authentication": {
     "secret": "demo",

@@ -6,6 +6,23 @@ Description coming soon.
 
 * Install nodejs for [Ubuntu](https://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/).
 
+(Optional)
+
+* Install mongodb
+* Create a local db and user in `mongo`
+
+```js
+use giftlist
+db.createUser({
+  user: "glserver",
+  pwd: "password",
+  roles: [{
+    "role": "readWrite",
+    "db":"giftlist"
+  }]
+})
+```
+
 ## Installing
 
 * Run `npm i` to install.

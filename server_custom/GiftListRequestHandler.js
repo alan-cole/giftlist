@@ -1,4 +1,4 @@
-const Database = require('../server/lib/Database')
+const GiftListDatabase = require('./GiftListDatabase')
 const RequestHandler = require('../server/lib/RequestHandler')
 const Authentication = require('../server/lib/Authentication')
 const Message = require('../server/lib/msg')
@@ -8,7 +8,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   /**
    * Create a new request handler.
-   * @param {Database} database
+   * @param {GiftListDatabase} database
    * @param {Object} config
    */
   constructor (database, config) {
@@ -23,7 +23,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
    * @param {String} userId ID of current user
    */
   async getFriends (userId) {
-    const connectedFriends = await this.db.find('friends', { user: userId })
+    const connectedFriends = await this.db.findForUser('friends', userId)
     const friendIds = connectedFriends.result.map(friend => { return friend.friend })
     const friends = await this.db.getAll('users', friendIds)
     return friends
@@ -155,17 +155,16 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestAddGift (requestBody, token) {
-    const resp = await this.db.add('gifts', {
+    const resp = await this.db.addForUser('gifts', token.id, {
       name: requestBody.gift.name,
       link: requestBody.gift.link,
-      price: requestBody.gift.price,
-      user: token.id
+      price: requestBody.gift.price
     })
     return resp
   }
 
   async requestUpdateGift (requestBody, token) {
-    const resp = await this.db.update('gifts', requestBody.giftId, {
+    const resp = await this.db.updateForUser('gifts', requestBody.giftId, token.id, {
       name: requestBody.gift.name,
       link: requestBody.gift.link,
       price: requestBody.gift.price
@@ -174,26 +173,24 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestDeleteGift (requestBody, token) {
-    // SECURITY: Make sure you can only delete your own gifts.
-    const resp = await this.db.delete('gifts', requestBody.giftId)
+    const resp = await this.db.deleteForUser('gifts', requestBody.giftId, token.id)
     return resp
   }
 
   async requestGetGifts (requestBody, token) {
-    const resp = await this.db.find('gifts', { user: token.id })
+    const resp = await this.db.findForUser('gifts', token.id)
     return resp
   }
 
   async requestAddBuyer (requestBody, token) {
-    const resp = await this.db.add('buyers', {
-      gift: requestBody.giftId,
-      user: token.id
+    const resp = await this.db.addForUser('buyers', token.id, {
+      gift: requestBody.giftId
     })
     return resp
   }
 
   async requestDeleteBuyer (requestBody, token) {
-    const registers = await this.db.find('buyers', { user: token.id, gift: requestBody.giftId })
+    const registers = await this.db.findForUser('buyers', token.id, { gift: requestBody.giftId })
     if (registers.result.length > 0) {
       const resp = await this.db.delete('buyers', registers.result[0]._id)
       return resp
@@ -206,9 +203,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     // Add friend from email address. Only accept if email is found in users.
     const friend = await this.db.find('users', { email: requestBody.friend.email })
     if (friend.result.length == 1) {
-      const resp = await this.db.add('friends', {
-        friend: friend.result[0]._id.toString(),
-        user: token.id
+      const resp = await this.db.addForUser('friends', token.id, {
+        friend: friend.result[0]._id.toString()
       })
       return resp
     } else {
@@ -218,7 +214,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   async requestDeleteFriend (requestBody, token) {
     // Delete Friend from ID where user is token.id.
-    const friend = await this.db.find('friends', { user: token.id, friend: requestBody.friendId })
+    const friend = await this.db.findForUser('friends', token.id, { friend: requestBody.friendId })
     if (friend.result.length == 1) {
       const resp = await this.db.delete('friends', friend.result[0]._id)
       return resp
@@ -244,7 +240,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       const friend = allUserFriends.result[i]
 
       // get the friend's gift list
-      const friendGifts = await this.db.find('gifts', { user: friend._id.toString() })
+      const friendGifts = await this.db.findForUser('gifts', friend._id.toString())
       // get the gift's buyers
       const buyers = await this.db.find('buyers', {gift: { $in: friendGifts.result.map(g => g._id.toString()) }})
       // get the name of each buyer
@@ -286,5 +282,4 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
     return Message.success(`Got friends gift list`, results)
   }
-
 }
