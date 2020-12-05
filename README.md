@@ -31,6 +31,10 @@ db.createUser({
 
 * Run `npm i` to install.
 
+## Installing dummy DB content
+
+* Run `npm run dev:dbcreate` to add test data.
+
 ## Running api server
 
 * Run `npm run start` to run server at localhost:3000.

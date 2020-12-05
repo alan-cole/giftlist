@@ -1,6 +1,6 @@
 <template>
   <div>
-    <top-menu previousPage="/menu" title="New Friend" />
+    <top-menu previousPage="/friends" title="New Friend" />
   </div>
 </template>
 
