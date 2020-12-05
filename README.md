@@ -2,6 +2,10 @@
 
 Description coming soon.
 
+## Todo
+
+- Improve setup process [ Create test data from package.json / document setting up mongo db from command line ]
+
 ## Setting up you environment
 
 * Install nodejs for [Ubuntu](https://tecadmin.net/install-latest-nodejs-npm-on-ubuntu/).
