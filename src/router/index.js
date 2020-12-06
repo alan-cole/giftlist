@@ -47,7 +47,8 @@ export default new Router({
     {
       path: '/addfriend',
       name: 'PageAddFriend',
-      component: PageAddFriend
+      component: PageAddFriend,
+      props: true
     },
     {
       path: '/addgift',
