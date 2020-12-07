@@ -4,7 +4,7 @@
     <ul>
       <li v-for="(friend, index) in friends" :key="index">
         <span>{{ friend.name }}</span>
-        <router-link :to="{ name: 'PageAddFriend', params: { friend } }">Edit {{ friend.name }}</router-link>
+        <button @click="deleteFriend(friend)">Delete {{ friend.name }}</button>
       </li>
     </ul>
     <router-link class="button" to="/addfriend">Add Friend</router-link>
@@ -27,11 +27,27 @@ export default {
       friends: []
     }
   },
-  async created () {
-    const friends = await api.getFriends()
-    if (!friends.error) {
-      this.friends = friends.result
+  methods: {
+    async deleteFriend (friend) {
+      const userInput = confirm(`Are you sure you want to delete ${friend.name}?`)
+      if (userInput) {
+        const result = await api.deleteFriend(friend._id)
+        if (!result.error) {
+          this.loadFriends()
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+      }
+    },
+    async loadFriends () {
+      const friends = await api.getFriends()
+      if (!friends.error) {
+        this.friends = friends.result
+      }
     }
+  },
+  async created () {
+    this.loadFriends()
   }
 }
 </script>

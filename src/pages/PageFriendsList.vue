@@ -8,8 +8,14 @@
           <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
             <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
             <span>{{ gift.price }}</span>
-            <span>{{ gift.buyers }}</span>
-            <button>Buy</button>
+            <ul v-if="gift.buyers">
+              <li v-for="(buyer, buyerIndex) in gift.buyers" :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`">
+                <span>{{ buyer.name }}</span>
+                <span v-if="buyer.self">(me)</span>
+              </li>
+            </ul>
+            <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)">Buy</button>
+            <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)">Don't buy</button>
           </li>
         </ul>
       </li>
@@ -33,11 +39,39 @@ export default {
       friends: []
     }
   },
-  async created () {
-    const friends = await api.getFriendsGiftList()
-    if (!friends.error) {
-      this.friends = friends.result
+  methods: {
+    selfIsBuyer (buyers) {
+      let hasMe = false
+      if (buyers) {
+        buyers.forEach(buyer => {
+          if (buyer.self) {
+            hasMe = true
+          }
+        })
+      }
+      return hasMe
+    },
+    async buyGift (gift) {
+      const result = await api.addBuyer(gift._id)
+      if (!result.error) {
+        this.loadFriends()
+      }
+    },
+    async unbuyGift (gift) {
+      const result = await api.deleteBuyer(gift._id)
+      if (!result.error) {
+        this.loadFriends()
+      }
+    },
+    async loadFriends () {
+      const friends = await api.getFriendsGiftList()
+      if (!friends.error) {
+        this.friends = friends.result
+      }
     }
+  },
+  async created () {
+    this.loadFriends()
   }
 }
 </script>
