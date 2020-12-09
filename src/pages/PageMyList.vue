@@ -1,15 +1,21 @@
 <template>
   <div>
     <top-menu previousPage="/menu" title="My List" />
-    <ul>
-      <li v-for="(gift, index) in gifts" :key="index">
-        <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
-        <span v-else>{{ gift.name }}</span>
-        <span>Price: {{ gift.price }}</span>
-        <router-link :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
-      </li>
-    </ul>
-    <router-link class="button" to="/addgift">Add Gift</router-link>
+    <div v-if="loaded" class="container">
+      <ul class="list">
+        <li v-for="(gift, index) in gifts" :key="index" class="nav-item">
+          <div>
+            <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
+            <span v-else>{{ gift.name }}</span>
+            <div v-if="gift.price">
+              <span>Price: {{ gift.price }}</span>
+            </div>
+          </div>
+          <router-link class="nav-item__btn nav-item__btn--edit" :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
+        </li>
+      </ul>
+      <router-link class="button" to="/addgift">Add Gift</router-link>
+    </div>
   </div>
 </template>
 
@@ -26,14 +32,17 @@ export default {
   },
   data () {
     return {
-      gifts: []
+      gifts: [],
+      loaded: false
     }
   },
   async created () {
+    this.loaded = false
     const gifts = await api.getGifts()
     if (!gifts.error) {
       this.gifts = gifts.result
     }
+    this.loaded = true
   }
 }
 </script>

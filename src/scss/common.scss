@@ -2,9 +2,16 @@
 @import 'variables';
 @import 'form';
 @import 'button';
+@import 'list';
 
 body {
   margin: 0;
+}
+
+.container {
+  padding: 22px;
+  max-width: 768px;
+  margin: auto;
 }
 
 .visually-hidden {

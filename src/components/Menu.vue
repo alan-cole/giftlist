@@ -1,5 +1,5 @@
 <template>
-  <div class="top-menu">
+  <div class="top-menu" :class="{ 'top-menu--has-back': previousPage }">
     <router-link v-if="previousPage" class="top-menu__back" :to="previousPage">
       <span class="visually-hidden">Back</span>
     </router-link>
@@ -25,6 +25,10 @@ export default {
   display: flex;
   align-items: center;
   height: 66px;
+
+  &--has-back {
+    padding-right: 36px;
+  }
 
   &__back {
     background-image: url('../assets/icons/icon_back_white.svg');

@@ -1,13 +1,15 @@
 <template>
   <div>
     <top-menu previousPage="/menu" title="Friends" />
-    <ul>
-      <li v-for="(friend, index) in friends" :key="index">
-        <span>{{ friend.name }}</span>
-        <button @click="deleteFriend(friend)">Delete {{ friend.name }}</button>
-      </li>
-    </ul>
-    <router-link class="button" to="/addfriend">Add Friend</router-link>
+    <div v-if="loaded" class="container">
+      <ul class="list">
+        <li v-for="(friend, index) in friends" :key="index" class="nav-item">
+          <span>{{ friend.name }}</span>
+          <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)">Delete {{ friend.name }}</button>
+        </li>
+      </ul>
+      <router-link class="button" to="/addfriend">Add Friend</router-link>
+    </div>
   </div>
 </template>
 
@@ -24,7 +26,8 @@ export default {
   },
   data () {
     return {
-      friends: []
+      friends: [],
+      loaded: false
     }
   },
   methods: {
@@ -47,7 +50,9 @@ export default {
     }
   },
   async created () {
-    this.loadFriends()
+    this.loaded = false
+    await this.loadFriends()
+    this.loaded = true
   }
 }
 </script>

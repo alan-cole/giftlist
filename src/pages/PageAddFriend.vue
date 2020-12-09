@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-menu previousPage="/friends" title="New Friend" />
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" class="container">
       <label class="form-input__label">
         <span>Email (required)</span>
         <input v-model="editEmail" type="text" class="form-input__text" required />

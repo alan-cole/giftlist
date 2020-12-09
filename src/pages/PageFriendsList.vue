@@ -1,25 +1,27 @@
 <template>
   <div>
     <top-menu previousPage="/menu" title="Friend's List" />
-    <ul>
-      <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`">
-        <span>{{ friend.name }}</span>
-        <ul>
-          <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
-            <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
-            <span>{{ gift.price }}</span>
-            <ul v-if="gift.buyers">
-              <li v-for="(buyer, buyerIndex) in gift.buyers" :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`">
-                <span>{{ buyer.name }}</span>
-                <span v-if="buyer.self">(me)</span>
-              </li>
-            </ul>
-            <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)">Buy</button>
-            <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)">Don't buy</button>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div class="container">
+      <ul class="list">
+        <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`">
+          <span>{{ friend.name }}</span>
+          <ul>
+            <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
+              <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
+              <span>{{ gift.price }}</span>
+              <ul v-if="gift.buyers">
+                <li v-for="(buyer, buyerIndex) in gift.buyers" :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`">
+                  <span>{{ buyer.name }}</span>
+                  <span v-if="buyer.self">(me)</span>
+                </li>
+              </ul>
+              <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)">Buy</button>
+              <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)">Don't buy</button>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

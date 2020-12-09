@@ -1,7 +1,7 @@
 <template>
   <div>
     <top-menu previousPage="/mylist" title="New Gift" />
-    <form @submit.prevent="submitForm()">
+    <form @submit.prevent="submitForm()" class="container">
       <label class="form-input__label">
         <span>Gift Name (required)</span>
         <input v-model="editName" type="text" class="form-input__text" required />
