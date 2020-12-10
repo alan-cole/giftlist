@@ -15,6 +15,7 @@
   padding: 0;
   margin: 0;
   background-color: transparent;
+  color: black;
   width: 100%;
   border-bottom: 1px solid #ccc;
   display: flex;
@@ -29,9 +30,10 @@
 
   &--clickable {
     cursor: pointer;
+    text-decoration: underline;
 
     &:hover, &:focus {
-      text-decoration: underline;
+      color: $blue;
     }
   }
 
@@ -48,6 +50,7 @@
     margin: 0;
     width: 32px;
     height: 32px;
+    background-color: transparent;
     background-size: contain;
     margin-left: auto;
     font-size: 0;
@@ -58,8 +61,68 @@
     }
 
     &--delete {
-      background-image: url('assets/icons/icon_edit_blue.svg');
-      background-color: red;
+      background-image: url('assets/icons/icon_delete_blue.svg');
     }
+
+    &--unchecked,
+    &--checked {
+      border: 1px solid $blue;
+      border-radius: 4px;
+      width: 22px;
+      height: 22px;
+    }
+
+    &--checked {
+      background-image: url('assets/icons/icon_check_blue.svg');
+    }
+  }
+
+  &__title {
+    font-size: 26px;
+  }
+
+  &__group {
+    margin: 24px 0;
+  }
+
+  &__sub-item {
+    font-size: 18px;
+  }
+
+  a {
+    color: black;
+
+    &:hover, &:focus {
+      color: $blue;
+    }
+  }
+}
+
+.buyer-list {
+  padding: 0;
+  margin: 0;
+  margin-left: auto;
+  list-style: none;
+
+  &__item {
+    background-color: $blue;
+    color: white;
+    padding: 4px 8px;
+    margin: 4px 0;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-size: 16px;
+
+    &--self {
+      background-color: $green;
+      color: black;
+    }
+  }
+
+  &__wrapper {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 }

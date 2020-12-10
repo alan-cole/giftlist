@@ -7,8 +7,8 @@
           <div>
             <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
             <span v-else>{{ gift.name }}</span>
-            <div v-if="gift.price">
-              <span>Price: {{ gift.price }}</span>
+            <div v-if="gift.price" class="nav-item__sub-item">
+              <span>${{ gift.price }}</span>
             </div>
           </div>
           <router-link class="nav-item__btn nav-item__btn--edit" :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
