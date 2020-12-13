@@ -1,7 +1,8 @@
 {
   "environment": "dev",
   "database": {
-    "connection": "mongodb://glserver:password@localhost:27017/giftlist"
+    "connection": "mongodb://glserver:password@localhost:27017/giftlist",
+    "database": "giftlist"
   },
   "register": {
     "code": "demo"

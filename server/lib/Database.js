@@ -14,11 +14,10 @@ module.exports = class Database {
    */
   async start () {
     if (this.db == null) {
-      const { username, password, host, database } = this.config.database
-      const url = `mongodb://${username}:${password}@${host}/${database}`
-
+      const { connection, database } = this.config.database
+      const url = connection
       try {
-        const client = new MongoClient(url)
+        const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true })
         await client.connect()
         this.db = client.db(database)
         // Check for existing content.

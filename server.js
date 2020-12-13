@@ -11,6 +11,7 @@ config = JSON.parse(data)
 if (process.env.GL_PROD == 1) {
   console.log('Using environment variables')
   config.database.connection = process.env.GL_DB_CONNECTION
+  config.database.database = process.env.GL_DB_DATABASE
   config.authentication.secret = process.env.GL_AUTH_SECRET
   config.register.code = process.env.GL_REGISTER_CODE
   config.environment = 'prod'
