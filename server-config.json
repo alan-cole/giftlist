@@ -1,10 +1,7 @@
 {
   "environment": "dev",
   "database": {
-    "username": "glserver",
-    "password": "password",
-    "host": "localhost:27017",
-    "database": "giftlist"
+    "connection": "mongodb://glserver:password@localhost:27017/giftlist"
   },
   "register": {
     "code": "demo"
