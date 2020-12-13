@@ -6,6 +6,9 @@
     "host": "localhost:27017",
     "database": "giftlist"
   },
+  "register": {
+    "code": "demo"
+  },
   "authentication": {
     "secret": "demo",
     "rounds": 10

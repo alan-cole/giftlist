@@ -8,6 +8,7 @@ import PageFriends from '../pages/PageFriends'
 import PageSignup from '../pages/PageSignup'
 import PageAddFriend from '../pages/PageAddFriend'
 import PageAddGift from '../pages/PageAddGift'
+import PageMyAccount from '../pages/PageMyAccount'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/mylist',
       name: 'PageMyList',
       component: PageMyList
+    },
+    {
+      path: '/myaccount',
+      name: 'PageMyAccount',
+      component: PageMyAccount
     },
     {
       path: '/friendslists',

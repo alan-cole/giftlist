@@ -6,6 +6,7 @@
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/mylist">My List</router-link></li>
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/friendslists">Friend's List</router-link></li>
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/friends">Friends</router-link></li>
+        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/myaccount">My Account</router-link></li>
         <li><button class="nav-item nav-item--clickable nav-item--forward" @click="logOut">Log Out</button></li>
       </ul>
     </nav>

@@ -88,17 +88,21 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestRegister (requestBody) {
-    const users = await this.db.find('users', { email: requestBody.email })
-    if (users.result.length === 0) {
-      const hash = await this.auth.generateHash(requestBody.password)
-      const resp = await this.db.add('users', {
-        email: requestBody.email,
-        password: hash,
-        name: requestBody.name
-      })
-      return resp
+    if (requestBody.code === this.config.register.code) {
+      const users = await this.db.find('users', { email: requestBody.email })
+      if (users.result.length === 0) {
+        const hash = await this.auth.generateHash(requestBody.password)
+        const resp = await this.db.add('users', {
+          email: requestBody.email,
+          password: hash,
+          name: requestBody.name
+        })
+        return resp
+      } else {
+        return Message.error("Email already in use")
+      }
     } else {
-      return Message.error("Email already in use")
+      return Message.error("Incorrect code")
     }
   }
 

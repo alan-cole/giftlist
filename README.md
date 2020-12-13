@@ -5,6 +5,7 @@ Description coming soon.
 ## Todo
 
 - Improve setup process [ Create test data from package.json / document setting up mongo db from command line ]
+- Ability to update user name
 
 ## Setting up you environment
 
