@@ -2,7 +2,11 @@
   <div>
     <top-menu previousPage="/menu" title="My Account" />
     <div class="container">
-      Coming soon
+      <ul class="list">
+        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/changedetails">Change Details</router-link></li>
+        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/changepassword">Change Password</router-link></li>
+        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/deleteaccount">Delete Account</router-link></li>
+      </ul>
     </div>
   </div>
 </template>

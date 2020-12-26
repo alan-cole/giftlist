@@ -3,8 +3,8 @@
     <h1 class="page-login__heading">Gift List</h1>
     <form @submit.prevent="requestLogin">
       <label class="form-input__label">
-        <span>Email</span>
-        <input class="form-input__text" v-model="email" type="text" />
+        <span>Username</span>
+        <input class="form-input__text" v-model="username" type="text" />
       </label>
       <label class="form-input__label">
         <span>Password</span>
@@ -23,14 +23,14 @@ export default {
   name: 'PageLogin',
   data () {
     return {
-      email: '',
+      username: '',
       password: ''
     }
   },
   methods: {
     async requestLogin () {
       try {
-        const result = await api.login(this.email, this.password)
+        const result = await api.login(this.username, this.password)
         if (result.error) {
           alert(result.message)
         } else {

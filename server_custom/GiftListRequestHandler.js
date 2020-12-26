@@ -30,6 +30,14 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   /**
+   * Clean a username for registration / login
+   * @param {String} username
+   */
+  cleanUsername (username) {
+    return username.trim().toLowerCase()
+  }
+
+  /**
    * Process request.
    * @param {Object} requestBody
    */
@@ -46,6 +54,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         break
       case 'login':
         result = await this.requestLogin(requestBody)
+        break
+      case 'update_user':
+        result = await this.requestUpdateUser(requestBody, token)
         break
       case 'changepassword':
         result = await this.requestChangePassword(requestBody)
@@ -89,17 +100,27 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   async requestRegister (requestBody) {
     if (requestBody.code === this.config.register.code) {
-      const users = await this.db.find('users', { email: requestBody.email })
+      const cleanedUsername = this.cleanUsername(requestBody.username)
+      const users = await this.db.find('users', { username: cleanedUsername })
       if (users.result.length === 0) {
-        const hash = await this.auth.generateHash(requestBody.password)
-        const resp = await this.db.add('users', {
+        const userResp = await this.db.add('users', {
+          username: cleanedUsername,
           email: requestBody.email,
-          password: hash,
           name: requestBody.name
         })
-        return resp
+        const newUser = await this.db.find('users', { username: cleanedUsername })
+        if (newUser.result.length === 1) {
+          const hash = await this.auth.generateHash(requestBody.password)
+          const pwrdResp = await this.db.add('passwords', {
+            user: newUser.result[0]._id,
+            password: hash
+          })
+          return userResp
+        } else {
+          return Message.error('Something went wrong creating user')
+        }
       } else {
-        return Message.error("Email already in use")
+        return Message.error("Username already in use")
       }
     } else {
       return Message.error("Incorrect code")
@@ -107,12 +128,36 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestUnregister (requestBody, token) {
+    const user = await this.db.get('users', token.id)
     const resp = await this.db.delete('users', token.id)
+    const userPassword = await this.db.findForUser('passwords', user.result[0]._id)
+    // const userPassword = await this.db.find('passwords', { user: user.result[0]._id })
+    if (userPassword.result.length === 1) {
+      const passwordResp = await this.db.delete('passwords', userPassword.result[0]._id)
+    } else {
+      return Message.error('Password not found')
+    }
     return resp
   }
 
+  async requestUpdateUser (requestBody, token) {
+    const cleanedUsername = this.cleanUsername(requestBody.username)
+    // Check username is available (isn't in use, or is currently my username)
+    const users = await this.db.find('users', { username: cleanedUsername })
+    if (users.result.length === 0 || (users.result.length === 1 && users.result[0]._id.toString() === token.id)) {
+      const resp = await this.db.update('users', token.id, {
+        username: cleanedUsername,
+        email: requestBody.email,
+        name: requestBody.name
+      })
+      return resp
+    } else {
+      return Message.error("Username already in use")
+    }
+  }
+
   async requestLogin (requestBody) {
-    const authUser = await this.getAuthenticatedUser(requestBody.email, requestBody.password)
+    const authUser = await this.getAuthenticatedUser(requestBody.username, requestBody.password)
     if (authUser) {
       var token = this.auth.generateToken({
         id: authUser._id,
@@ -130,27 +175,38 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   async requestChangePassword (requestBody) {
     log("+ Set password request")
-    const authUser = await this.getAuthenticatedUser(requestBody.email, requestBody.password)
+    const authUser = await this.getAuthenticatedUser(requestBody.username, requestBody.password)
     if (authUser) {
-      try {
-        const hash = await this.auth.generateHash(requestBody.newpassword)
-        const result = await this.db.update('user', authUser.authUser.id, { password: hash })
-        return result
-      } catch (err) {
-        return Message.error('Could not set password', err.message)
+      const userPassword = await this.db.findForUser('passwords', authUser.authUser.id)
+      if (userPassword.result.length === 1) {
+        try {
+          const hash = await this.auth.generateHash(requestBody.newpassword)
+          const result = await this.db.update('passwords', userPassword.result[0]._id, { password: hash })
+          return result
+        } catch (err) {
+          return Message.error('Could not set password', err.message)
+        }
+      } else {
+        return Message.error('Could not find password')
       }
     } else {
       return Message.error('Access denied')
     }
   }
 
-  async getAuthenticatedUser (email, password) {
-    const users = await this.db.find('users', { email: email })
+  async getAuthenticatedUser (username, password) {
+    const cleanedUsername = this.cleanUsername(username)
+    const users = await this.db.find('users', { username: cleanedUsername })
     if (users.result.length === 1) {
-      if (await this.auth.verifyPassword(password, users.result[0].password)) {
-        return users.result[0]
+      const userPassword = await this.db.findForUser('passwords', users.result[0]._id)
+      if (userPassword.result.length === 1) {
+        if (await this.auth.verifyPassword(password, userPassword.result[0].password)) {
+          return users.result[0]
+        } else {
+          log(`!> Passwords did not validate.`)
+        }
       } else {
-        log(`!> Passwords did not validate.`)
+        log(`!> Password not found.`)
       }
     } else {
       log(`!> No user or multiple users found: Users ${users.result.length}`)
@@ -204,15 +260,16 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestAddFriend (requestBody, token) {
-    // Add friend from email address. Only accept if email is found in users.
-    const friend = await this.db.find('users', { email: requestBody.friend.email })
+    // Add friend from username. Only accept if username is found in users.
+    const cleanedFriendUsername = this.cleanUsername(requestBody.friend.username)
+    const friend = await this.db.find('users', { username: cleanedFriendUsername })
     if (friend.result.length == 1) {
       const resp = await this.db.addForUser('friends', token.id, {
         friend: friend.result[0]._id.toString()
       })
       return resp
     } else {
-      return Message.error('Friend email not found.')
+      return Message.error('Friend username not found.')
     }
   }
 
@@ -223,7 +280,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       const resp = await this.db.delete('friends', friend.result[0]._id)
       return resp
     } else {
-      return Message.error('Friend email not found.')
+      return Message.error('Friend username not found.')
     }
   }
 

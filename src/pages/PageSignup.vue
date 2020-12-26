@@ -3,16 +3,20 @@
     <top-menu previousPage="/" title="Sign Up" />
     <form @submit.prevent="submitForm()" class="container">
       <label class="form-input__label">
-        <span>Email (required)</span>
-        <input v-model="editEmail" type="text" class="form-input__text" required />
+        <span>Username (required)</span>
+        <input v-model="editUsername" type="text" class="form-input__text" required />
       </label>
       <label class="form-input__label">
         <span>Password (required)</span>
-        <input v-model="editPassword" type="text" class="form-input__text" required />
+        <input v-model="editPassword" type="password" class="form-input__text" required />
       </label>
       <label class="form-input__label">
         <span>Name (required)</span>
         <input v-model="editName" type="text" class="form-input__text" required />
+      </label>
+      <label class="form-input__label">
+        <span>Email</span>
+        <input v-model="editEmail" type="email" class="form-input__text" />
       </label>
       <label class="form-input__label">
         <span>Signup Code (required)</span>
@@ -34,7 +38,7 @@ export default {
   },
   data () {
     return {
-      editEmail: '',
+      editUsername: '',
       editPassword: '',
       editName: '',
       editCode: ''
@@ -43,7 +47,7 @@ export default {
   methods: {
     async submitForm () {
       let result = null
-      result = await api.register(this.editEmail, this.editPassword, this.editName, this.editCode)
+      result = await api.register(this.editUsername, this.editPassword, this.editName, this.editEmail, this.editCode)
       if (!result.error) {
         this.$router.push('/')
       } else {

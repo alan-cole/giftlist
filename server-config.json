@@ -28,6 +28,9 @@
       "name": "users"
     },
     {
+      "name": "passwords"
+    },
+    {
       "name": "buyers"
     }
   ]
