@@ -1,6 +1,6 @@
 <template>
   <div>
-    <top-menu previousPage="/myaccount" title="My Details" />
+    <top-menu previousPage="/myaccount" title="My Password" />
     <div class="container">
       <form @submit.prevent="submitForm()" class="container">
         <label class="form-input__label">
