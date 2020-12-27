@@ -10,6 +10,7 @@ import PageAddFriend from '../pages/PageAddFriend'
 import PageAddGift from '../pages/PageAddGift'
 import PageMyAccount from '../pages/PageMyAccount'
 import PageMyDetails from '../pages/PageMyDetails'
+import PageMyPassword from '../pages/PageMyPassword'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/changedetails',
       name: 'PageMyDetails',
       component: PageMyDetails
+    },
+    {
+      path: '/changepassword',
+      name: 'PageMyPassword',
+      component: PageMyPassword
     },
     {
       path: '/friendslists',

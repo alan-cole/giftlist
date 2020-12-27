@@ -61,8 +61,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'update_user':
         result = await this.requestUpdateUser(requestBody, token)
         break
-      case 'changepassword':
-        result = await this.requestChangePassword(requestBody)
+      case 'update_password':
+        result = await this.requestUpdatePassword(requestBody, token)
         break
       case 'add_gift':
         result = await this.requestAddGift(requestBody, token)
@@ -181,12 +181,12 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     }
   }
 
-  async requestChangePassword (requestBody) {
+  async requestUpdatePassword (requestBody, token) {
     log("+ Set password request")
-    const authUser = await this.getAuthenticatedUser(requestBody.username, requestBody.password)
-    if (authUser) {
-      const userPassword = await this.db.findForUser('passwords', authUser.authUser.id)
-      if (userPassword.result.length === 1) {
+    const users = await this.db.get('users', token.id)
+    if (users.result.length === 1) {
+      const userPassword = await this.db.findForUser('passwords', users.result[0]._id)
+      if (await this.auth.verifyPassword(requestBody.password, userPassword.result[0].password)) {
         try {
           const hash = await this.auth.generateHash(requestBody.newpassword)
           const result = await this.db.update('passwords', userPassword.result[0]._id, { password: hash })
@@ -195,10 +195,10 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
           return Message.error('Could not set password', err.message)
         }
       } else {
-        return Message.error('Could not find password')
+        return Message.error('Access denied')
       }
     } else {
-      return Message.error('Access denied')
+      return Message.error('Could not find user.')
     }
   }
 

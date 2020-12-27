@@ -1,0 +1,57 @@
+<template>
+  <div>
+    <top-menu previousPage="/myaccount" title="My Details" />
+    <div class="container">
+      <form @submit.prevent="submitForm()" class="container">
+        <label class="form-input__label">
+          <span>Password (required)</span>
+          <input v-model="editPassword" type="password" class="form-input__text" required />
+        </label>
+        <label class="form-input__label">
+          <span>New Password (required)</span>
+          <input v-model="editNewPassword" type="password" class="form-input__text" required />
+        </label>
+        <label class="form-input__label">
+          <span>Repeat New Password (required)</span>
+          <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
+        </label>
+        <input class="button" type="submit" value="Save" />
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import api from '../lib/api'
+import authenticatedPage from '../mixins/authentication'
+import TopMenu from '../components/Menu'
+
+export default {
+  name: 'PageMyPassword',
+  mixins: [authenticatedPage],
+  components: {
+    TopMenu
+  },
+  data () {
+    return {
+      editPassword: '',
+      editNewPassword: '',
+      editNewPasswordRepeat: ''
+    }
+  },
+  methods: {
+    async submitForm () {
+      if (this.editNewPassword === this.editNewPasswordRepeat) {
+        const result = await api.updatePassword(this.editPassword, this.editNewPassword)
+        if (!result.error) {
+          this.$router.push('/myaccount')
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+      } else {
+        alert(`New password fields don't match.`)
+      }
+    }
+  }
+}
+</script>
