@@ -55,6 +55,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'login':
         result = await this.requestLogin(requestBody)
         break
+      case 'get_user':
+        result = await this.requestGetUser(requestBody, token)
+        break
       case 'update_user':
         result = await this.requestUpdateUser(requestBody, token)
         break
@@ -138,6 +141,11 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       return Message.error('Password not found')
     }
     return resp
+  }
+
+  async requestGetUser (requestBody, token) {
+    const user = await this.db.get('users', token.id)
+    return user
   }
 
   async requestUpdateUser (requestBody, token) {

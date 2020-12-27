@@ -39,12 +39,16 @@ export default {
       editEmail: ''
     }
   },
-  created () {
-    // TODO - load user details.
+  async created () {
+    const result = await api.getUser()
+    const user = result.result[0]
+    this.editUsername = user.username
+    this.editName = user.name
+    this.editEmail = user.email
   },
   methods: {
     async submitForm () {
-      let result = await api.updateUser(this.editUsername, this.editName, this.editEmail)
+      const result = await api.updateUser(this.editUsername, this.editName, this.editEmail)
       if (!result.error) {
         this.$router.push('/myaccount')
       } else {
