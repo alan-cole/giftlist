@@ -29,6 +29,12 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     return friends
   }
 
+  async getUserByUsername (username, isClean = false) {
+    const cleaned = !isClean ? this.cleanUsername(username) : username
+    const foundUser = await this.db.find('users', { username: cleaned })
+    return (foundUser.result.length === 1) ? foundUser.result[0] : null
+  }
+
   /**
    * Clean a username for registration / login
    * @param {String} username
@@ -104,18 +110,18 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   async requestRegister (requestBody) {
     if (requestBody.code === this.config.register.code) {
       const cleanedUsername = this.cleanUsername(requestBody.username)
-      const users = await this.db.find('users', { username: cleanedUsername })
-      if (users.result.length === 0) {
+      const user = await this.getUserByUsername(cleanedUsername, true)
+      if (!user) {
         const userResp = await this.db.add('users', {
           username: cleanedUsername,
           email: requestBody.email,
           name: requestBody.name
         })
-        const newUser = await this.db.find('users', { username: cleanedUsername })
-        if (newUser.result.length === 1) {
+        const newUser = await this.getUserByUsername(cleanedUsername, true)
+        if (newUser) {
+          const userId = newUser._id.toString()
           const hash = await this.auth.generateHash(requestBody.password)
-          const pwrdResp = await this.db.add('passwords', {
-            user: newUser.result[0]._id,
+          const pwrdResp = await this.db.addForUser('passwords', userId, {
             password: hash
           })
           return userResp
@@ -131,15 +137,11 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestUnregister (requestBody, token) {
-    // TODO - This should also remove all user buyers / friends / gifts.
-    const user = await this.db.get('users', token.id)
+    await this.db.deleteAllForUser('buyers', token.id)
+    await this.db.deleteAllForUser('friends', token.id)
+    await this.db.deleteAllForUser('gifts', token.id)
+    await this.db.deleteAllForUser('passwords', token.id)
     const resp = await this.db.delete('users', token.id)
-    const userPassword = await this.db.findForUser('passwords', user.result[0]._id)
-    if (userPassword.result.length === 1) {
-      const passwordResp = await this.db.delete('passwords', userPassword.result[0]._id)
-    } else {
-      return Message.error('Password not found')
-    }
     return resp
   }
 
@@ -150,9 +152,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   async requestUpdateUser (requestBody, token) {
     const cleanedUsername = this.cleanUsername(requestBody.username)
-    // Check username is available (isn't in use, or is currently my username)
-    const users = await this.db.find('users', { username: cleanedUsername })
-    if (users.result.length === 0 || (users.result.length === 1 && users.result[0]._id.toString() === token.id)) {
+    const user = await this.getUserByUsername(cleanedUsername, true)
+    if (!user || (user._id.toString() === token.id)) {
       const resp = await this.db.update('users', token.id, {
         username: cleanedUsername,
         email: requestBody.email,
@@ -203,13 +204,12 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async getAuthenticatedUser (username, password) {
-    const cleanedUsername = this.cleanUsername(username)
-    const users = await this.db.find('users', { username: cleanedUsername })
-    if (users.result.length === 1) {
-      const userPassword = await this.db.findForUser('passwords', users.result[0]._id)
+    const user = await this.getUserByUsername(username)
+    if (user) {
+      const userPassword = await this.db.findForUser('passwords', user._id.toString())
       if (userPassword.result.length === 1) {
         if (await this.auth.verifyPassword(password, userPassword.result[0].password)) {
-          return users.result[0]
+          return user
         } else {
           log(`!> Passwords did not validate.`)
         }
@@ -217,7 +217,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         log(`!> Password not found.`)
       }
     } else {
-      log(`!> No user or multiple users found: Users ${users.result.length}`)
+      log(`!> No user or multiple users found`)
     }
     return false
   }
@@ -268,16 +268,14 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestAddFriend (requestBody, token) {
-    // Add friend from username. Only accept if username is found in users.
-    const cleanedFriendUsername = this.cleanUsername(requestBody.friend.username)
-    const friend = await this.db.find('users', { username: cleanedFriendUsername })
-    if (friend.result.length == 1) {
+    const friend = await this.getUserByUsername(requestBody.friend.username)
+    if (friend) {
       const resp = await this.db.addForUser('friends', token.id, {
-        friend: friend.result[0]._id.toString()
+        friend: friend._id.toString()
       })
       return resp
     } else {
-      return Message.error('Friend username not found.')
+      return Message.error('Friend not found.')
     }
   }
 

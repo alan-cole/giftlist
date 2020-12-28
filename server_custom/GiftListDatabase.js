@@ -41,6 +41,21 @@ module.exports = class GiftListDatabase extends Database {
   }
 
   /**
+   * Delete all items from a collection for a specific user.
+   * Collection must have user field.
+   * @param {String} collection Name of collection
+   * @param {String} userId ID of user
+   */
+  async deleteAllForUser (collection, userId) {
+    try {
+      await this.db.collection(collection).deleteMany({ user: userId })
+      return Message.success(`Deleted ${collection}`)
+    } catch (err) {
+      return Message.error(`Could not delete ${collection}`, err.message)
+    }
+  }
+
+  /**
    * Update an existing item for a specific user.
    * Collection must have user field.
    * @param {String} collection Name of collection
@@ -50,7 +65,7 @@ module.exports = class GiftListDatabase extends Database {
    */
   async updateForUser (collection, id, userId, fields) {
     try {
-      await this.db.collection(collection).update({ _id: { $eq: ObjectId(id) }, user: userId }, { $set: fields })
+      await this.db.collection(collection).updateOne({ _id: { $eq: ObjectId(id) }, user: userId }, { $set: fields })
       return Message.success(`Updated ${collection}`)
     } catch (err) {
       return Message.error(`Could not update ${collection}`, err.message)
