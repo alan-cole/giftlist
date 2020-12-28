@@ -11,6 +11,7 @@ import PageAddGift from '../pages/PageAddGift'
 import PageMyAccount from '../pages/PageMyAccount'
 import PageMyDetails from '../pages/PageMyDetails'
 import PageMyPassword from '../pages/PageMyPassword'
+import PageUnregister from '../pages/PageUnregister'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/changepassword',
       name: 'PageMyPassword',
       component: PageMyPassword
+    },
+    {
+      path: '/deleteaccount',
+      name: 'PageUnregister',
+      component: PageUnregister
     },
     {
       path: '/friendslists',

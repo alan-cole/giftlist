@@ -4,7 +4,7 @@
     <form @submit.prevent="submitForm()" class="container">
       <label class="form-input__label">
         <span>Username (required)</span>
-        <input v-model="editUsername" type="text" class="form-input__text" required />
+        <input v-model="editUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
       <label class="form-input__label">
         <span>Password (required)</span>
@@ -20,7 +20,7 @@
       </label>
       <label class="form-input__label">
         <span>Signup Code (required)</span>
-        <input v-model="editCode" type="text" class="form-input__text" required />
+        <input v-model="editCode" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
       <input class="button" type="submit" value="Register" />
     </form>
@@ -41,6 +41,7 @@ export default {
       editUsername: '',
       editPassword: '',
       editName: '',
+      editEmail: '',
       editCode: ''
     }
   },

@@ -131,10 +131,10 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestUnregister (requestBody, token) {
+    // TODO - This should also remove all user buyers / friends / gifts.
     const user = await this.db.get('users', token.id)
     const resp = await this.db.delete('users', token.id)
     const userPassword = await this.db.findForUser('passwords', user.result[0]._id)
-    // const userPassword = await this.db.find('passwords', { user: user.result[0]._id })
     if (userPassword.result.length === 1) {
       const passwordResp = await this.db.delete('passwords', userPassword.result[0]._id)
     } else {

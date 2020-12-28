@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <top-menu previousPage="/myaccount" title="Delete Account" />
+    <div class="container">
+      <p>Deleting your account will remove you from Giftlister.</p>
+      <p>If you want to use Giftlister again, you will need to create a new account.</p>
+      <input class="button button--delete" type="button" @click="deleteAccount()" value="Delete" />
+    </div>
+  </div>
+</template>
+
+<script>
+import api from '../lib/api'
+import authenticatedPage from '../mixins/authentication'
+import TopMenu from '../components/Menu'
+
+export default {
+  name: 'PageUnregister',
+  mixins: [authenticatedPage],
+  components: {
+    TopMenu
+  },
+  methods: {
+    async deleteAccount () {
+      if (confirm('Are you sure you want to delete your account?')) {
+        const result = await api.unregister()
+        if (!result.error) {
+          api.logout()
+          localStorage.removeItem('token')
+          this.$router.push('/')
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+      }
+    }
+  }
+}
+</script>

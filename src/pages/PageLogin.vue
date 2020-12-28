@@ -4,7 +4,7 @@
     <form @submit.prevent="requestLogin">
       <label class="form-input__label">
         <span>Username</span>
-        <input class="form-input__text" v-model="username" type="text" />
+        <input class="form-input__text" v-model="username" type="text" autocorrect="off" autocapitalize="none" />
       </label>
       <label class="form-input__label">
         <span>Password</span>
