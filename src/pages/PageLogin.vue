@@ -12,7 +12,7 @@
       </label>
       <input class="button button--wide" type="submit" value="Log in" />
     </form>
-    <router-link class="button button--wide" to="/signup">Sign Up</router-link>
+    <div class="page-login__signup-message">Don't have an account? <router-link class="link" to="/signup">Sign Up</router-link></div>
   </div>
 </template>
 
@@ -68,6 +68,10 @@ export default {
     margin-bottom: 22px;
     text-align: center;
     color: #000000;
+  }
+
+  &__signup-message {
+    text-align: center;
   }
 }
 </style>

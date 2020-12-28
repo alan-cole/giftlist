@@ -2,12 +2,13 @@
   <div>
     <top-menu previousPage="/menu" title="Friends" />
     <div v-if="loaded" class="container">
-      <ul class="list">
+      <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, index) in friends" :key="index" class="nav-item">
           <span>{{ friend.name }}</span>
           <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)">Delete {{ friend.name }}</button>
         </li>
       </ul>
+      <div v-else>You haven't added any friends.</div>
       <router-link class="button" to="/addfriend">Add Friend</router-link>
     </div>
   </div>

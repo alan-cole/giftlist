@@ -2,7 +2,7 @@
   <div>
     <top-menu previousPage="/menu" title="My List" />
     <div v-if="loaded" class="container">
-      <ul class="list">
+      <ul v-if="gifts.length > 0" class="list">
         <li v-for="(gift, index) in gifts" :key="index" class="nav-item">
           <div>
             <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
@@ -14,6 +14,7 @@
           <router-link class="nav-item__btn nav-item__btn--edit" :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
         </li>
       </ul>
+      <div v-else>You haven't added any gifts.</div>
       <router-link class="button" to="/addgift">Add Gift</router-link>
     </div>
   </div>

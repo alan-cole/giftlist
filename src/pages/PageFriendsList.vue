@@ -1,11 +1,11 @@
 <template>
   <div>
     <top-menu previousPage="/menu" title="Friend's List" />
-    <div class="container">
-      <ul class="list">
+    <div v-if="loaded" class="container">
+      <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`" class="nav-item__group">
           <span class="nav-item__title">{{ friend.name }}</span>
-          <ul class="list">
+          <ul v-if="friend.gifts.length > 0" class="list">
             <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
               <div>
                 <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
@@ -21,13 +21,15 @@
                     <span v-if="buyer.self">(me)</span>
                   </li>
                 </ul>
-                <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)" class="nav-item__btn nav-item__btn--unchecked">Buy</button>
-                <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)" class="nav-item__btn nav-item__btn--checked">Don't buy</button>
+                <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)" class="nav-item__btn nav-item__btn--unchecked" :disabled="isSaving">Buy</button>
+                <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)" class="nav-item__btn nav-item__btn--checked" :disabled="isSaving">Don't buy</button>
               </div>
             </li>
           </ul>
+          <div v-else>No gifts on their list.</div>
         </li>
       </ul>
+      <div v-else>You haven't added any friends.</div>
     </div>
   </div>
 </template>
@@ -45,6 +47,8 @@ export default {
   },
   data () {
     return {
+      loaded: false,
+      isSaving: false,
       friends: []
     }
   },
@@ -61,21 +65,26 @@ export default {
       return hasMe
     },
     async buyGift (gift) {
+      this.isSaving = true
       const result = await api.addBuyer(gift._id)
       if (!result.error) {
-        this.loadFriends()
+        await this.loadFriends()
+        this.isSaving = false
       }
     },
     async unbuyGift (gift) {
+      this.isSaving = true
       const result = await api.deleteBuyer(gift._id)
       if (!result.error) {
-        this.loadFriends()
+        await this.loadFriends()
+        this.isSaving = false
       }
     },
     async loadFriends () {
       const friends = await api.getFriendsGiftList()
       if (!friends.error) {
         this.friends = friends.result
+        this.loaded = true
       }
     }
   },

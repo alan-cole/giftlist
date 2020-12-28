@@ -3,8 +3,8 @@
     <top-menu previousPage="/friends" title="New Friend" />
     <form @submit.prevent="submitForm()" class="container">
       <label class="form-input__label">
-        <span>Email (required)</span>
-        <input v-model="editEmail" type="text" class="form-input__text" required />
+        <span>Friend's Username (required)</span>
+        <input v-model="editFriendUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
       <input class="button" type="submit" value="Save" />
     </form>
@@ -24,13 +24,13 @@ export default {
   },
   data () {
     return {
-      editEmail: ''
+      editFriendUsername: ''
     }
   },
   methods: {
     async submitForm () {
       let result = null
-      result = await api.addFriend(this.editEmail)
+      result = await api.addFriend(this.editFriendUsername)
       if (!result.error) {
         this.$router.push('/friends')
       } else {
