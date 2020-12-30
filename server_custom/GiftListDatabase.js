@@ -49,9 +49,24 @@ module.exports = class GiftListDatabase extends Database {
   async deleteAllForUser (collection, userId) {
     try {
       await this.db.collection(collection).deleteMany({ user: userId })
-      return Message.success(`Deleted ${collection}`)
+      return Message.success(`Deleted many on ${collection} for user`)
     } catch (err) {
-      return Message.error(`Could not delete ${collection}`, err.message)
+      return Message.error(`Could not delete many on ${collection}`, err.message)
+    }
+  }
+
+  /**
+   * Delete all items from a collection based on a query.
+   * Collection must have user field.
+   * @param {String} collection Name of collection
+   * @param {String} query Rules to delete on
+   */
+  async deleteAllByQuery (collection, query) {
+    try {
+      await this.db.collection(collection).deleteMany(query)
+      return Message.success(`Deleted many on ${collection}`)
+    } catch (err) {
+      return Message.error(`Could not delete many on ${collection}`, err.message)
     }
   }
 

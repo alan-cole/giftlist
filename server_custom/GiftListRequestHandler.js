@@ -241,8 +241,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestDeleteGift (requestBody, token) {
-    const resp = await this.db.deleteForUser('gifts', requestBody.giftId, token.id)
-    return resp
+    const giftResp = await this.db.deleteForUser('gifts', requestBody.giftId, token.id)
+    const buyerResp = await this.db.deleteAllByQuery('buyers', { gift: requestBody.giftId })
+    return giftResp
   }
 
   async requestGetGifts (requestBody, token) {
