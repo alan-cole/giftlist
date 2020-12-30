@@ -59,15 +59,11 @@ export default {
   max-width: 330px;
 
   &__heading {
-    font-family: 'Dancing Script', cursive;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 64px;
-    line-height: normal;
-    margin-top: 133px;
-    margin-bottom: 22px;
-    text-align: center;
-    color: #000000;
+    font-size: 0%;
+    width: 198px;
+    height: 65px;
+    background-image: url('../assets/images/logo.svg');
+    margin: 133px auto 22px;
   }
 
   &__signup-message {

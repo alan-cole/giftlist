@@ -40,7 +40,7 @@ export default {
 
   &__title {
     margin: auto;
-    font-family: 'Karla', sans-serif;
+    font-family: $default-font;
     font-style: normal;
     font-weight: normal;
     font-size: 26px;

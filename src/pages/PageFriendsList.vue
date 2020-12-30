@@ -1,6 +1,6 @@
 <template>
   <div>
-    <top-menu previousPage="/menu" title="Friend's List" />
+    <top-menu previousPage="/menu" title="Friend's Gift List" />
     <div v-if="loaded" class="container">
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`" class="nav-item__group">

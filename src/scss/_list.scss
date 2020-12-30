@@ -5,7 +5,7 @@
 }
 
 .nav-item {
-  font-family: Karla;
+  font-family: $default-font;
   font-size: 22px;
   text-decoration: none;
   color: black;
@@ -78,6 +78,7 @@
   }
 
   &__title {
+    font-family: $default-font;
     font-size: 26px;
   }
 
