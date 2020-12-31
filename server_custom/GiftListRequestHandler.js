@@ -97,6 +97,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'get_friends':
         result = await this.requestGetFriends(requestBody, token)
         break
+      case 'get_friended_users':
+        result = await this.requestGetFriendedUsers(requestBody, token)
+        break
       case 'get_friends_gift_list':
         result = await this.requestGetFriendsGiftList(requestBody, token)
         break
@@ -271,10 +274,17 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   async requestAddFriend (requestBody, token) {
     const friend = await this.getUserByUsername(requestBody.friend.username)
     if (friend) {
-      const resp = await this.db.addForUser('friends', token.id, {
-        friend: friend._id.toString()
-      })
-      return resp
+      // Are we already friends?
+      const friendId = friend._id.toString()
+      const foundFriend = await this.db.findForUser('friends', token.id, { friend: friendId })
+      if (foundFriend.result.length === 0) {
+        const resp = await this.db.addForUser('friends', token.id, {
+          friend: friendId
+        })
+        return resp
+      } else {
+        return Message.error(`Already friends with ${friend.name}.`)
+      }
     } else {
       return Message.error('Friend not found.')
     }
@@ -283,7 +293,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   async requestDeleteFriend (requestBody, token) {
     // Delete Friend from ID where user is token.id.
     const friend = await this.db.findForUser('friends', token.id, { friend: requestBody.friendId })
-    if (friend.result.length == 1) {
+    if (friend.result.length === 1) {
       const resp = await this.db.delete('friends', friend.result[0]._id)
       return resp
     } else {
@@ -296,6 +306,15 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     const friends = await this.getFriends(token.id)
     const results = friends.result.map(user => ({ _id: user._id, name: user.name }))
     return Message.success(`Got friends`, results)
+  }
+
+  async requestGetFriendedUsers (requestBody, token) {
+    // Get users where I am their friend.
+    const friendedUsers = await this.db.find('friends', { friend: token.id })
+    const friendedIds = friendedUsers.result.map(friend => { return friend.user })
+    const users = await this.db.getAll('users', friendedIds)
+    const returnUsers = users.result.map(user => ({ _id: user._id, name: user.name, username: user.username }))
+    return Message.success(`Got friended users`, returnUsers)
   }
 
   async requestGetFriendsGiftList (requestBody, token) {

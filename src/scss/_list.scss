@@ -61,7 +61,11 @@
     }
 
     &--delete {
-      background-image: url('assets/icons/icon_delete_blue.svg');
+      background-image: url('assets/icons/icon_delete_red.svg');
+    }
+
+    &--add {
+      background-image: url('assets/icons/icon_add_blue.svg');
     }
 
     &--unchecked,
