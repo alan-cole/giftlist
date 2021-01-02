@@ -15,7 +15,7 @@
           <span>Repeat New Password (required)</span>
           <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
         </label>
-        <input class="button" type="submit" value="Save" />
+        <input class="button" type="submit" value="Save" :disabled="isSaving" />
       </form>
     </div>
   </div>
@@ -36,20 +36,25 @@ export default {
     return {
       editPassword: '',
       editNewPassword: '',
-      editNewPasswordRepeat: ''
+      editNewPasswordRepeat: '',
+      isSaving: false
     }
   },
   methods: {
     async submitForm () {
-      if (this.editNewPassword === this.editNewPasswordRepeat) {
-        const result = await api.updatePassword(this.editPassword, this.editNewPassword)
-        if (!result.error) {
-          this.$router.push('/myaccount')
+      if (this.isSaving === false) {
+        this.isSaving = true
+        if (this.editNewPassword === this.editNewPasswordRepeat) {
+          const result = await api.updatePassword(this.editPassword, this.editNewPassword)
+          if (!result.error) {
+            this.$router.push('/myaccount')
+          } else {
+            alert(`An error occured: ${result.message}`)
+          }
         } else {
-          alert(`An error occured: ${result.message}`)
+          alert(`New password fields don't match.`)
         }
-      } else {
-        alert(`New password fields don't match.`)
+        this.isSaving = false
       }
     }
   }

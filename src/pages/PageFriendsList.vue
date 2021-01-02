@@ -69,16 +69,16 @@ export default {
       const result = await api.addBuyer(gift._id)
       if (!result.error) {
         await this.loadFriends()
-        this.isSaving = false
       }
+      this.isSaving = false
     },
     async unbuyGift (gift) {
       this.isSaving = true
       const result = await api.deleteBuyer(gift._id)
       if (!result.error) {
         await this.loadFriends()
-        this.isSaving = false
       }
+      this.isSaving = false
     },
     async loadFriends () {
       const friends = await api.getFriendsGiftList()

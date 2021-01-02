@@ -4,7 +4,7 @@
     <div class="container">
       <p>Deleting your account will remove all your data from Gift List.</p>
       <p>If you want to use Gift List again, you will need to create a new account.</p>
-      <input class="button button--delete" type="button" @click="deleteAccount()" value="Delete" />
+      <input class="button button--delete" type="button" @click="deleteAccount()" value="Delete" :disabled="isSaving" />
     </div>
   </div>
 </template>
@@ -20,17 +20,26 @@ export default {
   components: {
     TopMenu
   },
+  data () {
+    return {
+      isSaving: false
+    }
+  },
   methods: {
     async deleteAccount () {
-      if (confirm('Are you sure you want to delete your account?')) {
-        const result = await api.unregister()
-        if (!result.error) {
-          api.logout()
-          localStorage.removeItem('token')
-          this.$router.push('/')
-        } else {
-          alert(`An error occured: ${result.message}`)
+      if (this.isSaving === false) {
+        this.isSaving = true
+        if (confirm('Are you sure you want to delete your account?')) {
+          const result = await api.unregister()
+          if (!result.error) {
+            api.logout()
+            localStorage.removeItem('token')
+            this.$router.push('/')
+          } else {
+            alert(`An error occured: ${result.message}`)
+          }
         }
+        this.isSaving = false
       }
     }
   }

@@ -15,7 +15,7 @@
           <span>Email</span>
           <input v-model="editEmail" type="email" class="form-input__text" />
         </label>
-        <input class="button" type="submit" value="Save" />
+        <input class="button" type="submit" value="Save" :disabled="isSaving" />
       </form>
     </div>
   </div>
@@ -36,7 +36,8 @@ export default {
     return {
       editUsername: '',
       editName: '',
-      editEmail: ''
+      editEmail: '',
+      isSaving: false
     }
   },
   async created () {
@@ -48,11 +49,15 @@ export default {
   },
   methods: {
     async submitForm () {
-      const result = await api.updateUser(this.editUsername, this.editName, this.editEmail)
-      if (!result.error) {
-        this.$router.push('/myaccount')
-      } else {
-        alert(`An error occured: ${result.message}`)
+      if (this.isSaving === false) {
+        this.isSaving = true
+        const result = await api.updateUser(this.editUsername, this.editName, this.editEmail)
+        if (!result.error) {
+          this.$router.push('/myaccount')
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+        this.isSaving = false
       }
     }
   }

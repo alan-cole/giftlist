@@ -10,7 +10,7 @@
         <span>Password</span>
         <input class="form-input__text" v-model="password" type="password" />
       </label>
-      <input class="button button--wide" type="submit" value="Log in" />
+      <input class="button button--wide" type="submit" value="Log in" :disabled="isSaving" />
     </form>
     <div class="page-login__signup-message">Don't have an account? <router-link class="link" to="/signup">Sign Up</router-link></div>
   </div>
@@ -24,22 +24,27 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      isSaving: false
     }
   },
   methods: {
     async requestLogin () {
-      try {
-        const result = await api.login(this.username, this.password)
-        if (result.error) {
-          alert(result.message)
-        } else {
-          localStorage.setItem('token', result.result.token)
-          // Redirect to menu
-          this.$router.push('/menu')
+      if (this.isSaving === false) {
+        this.isSaving = true
+        try {
+          const result = await api.login(this.username, this.password)
+          if (result.error) {
+            alert(result.message)
+          } else {
+            localStorage.setItem('token', result.result.token)
+            // Redirect to menu
+            this.$router.push('/menu')
+          }
+        } catch (err) {
+          alert('An error occured.')
         }
-      } catch (err) {
-        alert('An error occured.')
+        this.isSaving = false
       }
     }
   },

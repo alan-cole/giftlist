@@ -22,7 +22,7 @@
         <span>Signup Code (required)</span>
         <input v-model="editCode" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
-      <input class="button" type="submit" value="Register" />
+      <input class="button" type="submit" value="Register" :disabled="isSaving" />
     </form>
   </div>
 </template>
@@ -42,17 +42,21 @@ export default {
       editPassword: '',
       editName: '',
       editEmail: '',
-      editCode: ''
+      editCode: '',
+      isSaving: false
     }
   },
   methods: {
     async submitForm () {
-      let result = null
-      result = await api.register(this.editUsername, this.editPassword, this.editName, this.editEmail, this.editCode)
-      if (!result.error) {
-        this.$router.push('/')
-      } else {
-        alert(`An error occured: ${result.message}`)
+      if (this.isSaving === false) {
+        this.isSaving = true
+        let result = await api.register(this.editUsername, this.editPassword, this.editName, this.editEmail, this.editCode)
+        if (!result.error) {
+          this.$router.push('/')
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+        this.isSaving = false
       }
     }
   }

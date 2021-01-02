@@ -6,7 +6,7 @@
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, index) in friends" :key="index" class="nav-item">
           <span>{{ friend.name }}</span>
-          <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)">Delete {{ friend.name }}</button>
+          <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)" :disabled="isSaving">Delete {{ friend.name }}</button>
         </li>
       </ul>
       <div v-else>You haven't added any friends.</div>
@@ -15,7 +15,7 @@
       <ul v-if="friendedBy.length > 0" class="list">
         <li v-for="(user, index) in friendedBy" :key="index" class="nav-item">
           <span>{{ user.name }}</span>
-          <button v-if="!user.isFriend" class="nav-item__btn nav-item__btn--add" @click="addFriend(user)">Add {{ user.name }}</button>
+          <button v-if="!user.isFriend" class="nav-item__btn nav-item__btn--add" @click="addFriend(user)" :disabled="isSaving">Add {{ user.name }}</button>
         </li>
       </ul>
       <div v-else>You are not friended by anyone.</div>
@@ -38,19 +38,24 @@ export default {
     return {
       friends: [],
       friendedBy: [],
-      loaded: false
+      loaded: false,
+      isSaving: false
     }
   },
   methods: {
     async deleteFriend (friend) {
-      const userInput = confirm(`Are you sure you want to delete ${friend.name}?`)
-      if (userInput) {
-        const result = await api.deleteFriend(friend._id)
-        if (!result.error) {
-          this.loadFriends()
-        } else {
-          alert(`An error occured: ${result.message}`)
+      if (this.isSaving === false) {
+        this.isSaving = true
+        const userInput = confirm(`Are you sure you want to delete ${friend.name}?`)
+        if (userInput) {
+          const result = await api.deleteFriend(friend._id)
+          if (!result.error) {
+            this.loadFriends()
+          } else {
+            alert(`An error occured: ${result.message}`)
+          }
         }
+        this.isSaving = false
       }
     },
     async loadFriends () {
@@ -81,11 +86,15 @@ export default {
       }
     },
     async addFriend (user) {
-      const result = await api.addFriend(user.username)
-      if (!result.error) {
-        this.loadFriends()
-      } else {
-        alert(`An error occured: ${result.message}`)
+      if (this.isSaving === false) {
+        this.isSaving = true
+        const result = await api.addFriend(user.username)
+        if (!result.error) {
+          this.loadFriends()
+        } else {
+          alert(`An error occured: ${result.message}`)
+        }
+        this.isSaving = false
       }
     }
   },
