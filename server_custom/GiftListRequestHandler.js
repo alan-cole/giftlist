@@ -189,11 +189,13 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     log("+ Set password request")
     const users = await this.db.get('users', token.id)
     if (users.result.length === 1) {
-      const userPassword = await this.db.findForUser('passwords', users.result[0]._id)
+      const userId = users.result[0]._id.toString()
+      const userPassword = await this.db.findForUser('passwords', userId)
       if (await this.auth.verifyPassword(requestBody.password, userPassword.result[0].password)) {
         try {
+          const userPasswordId = userPassword.result[0]._id.toString()
           const hash = await this.auth.generateHash(requestBody.newpassword)
-          const result = await this.db.update('passwords', userPassword.result[0]._id, { password: hash })
+          const result = await this.db.update('passwords', userPasswordId, { password: hash })
           return result
         } catch (err) {
           return Message.error('Could not set password', err.message)
@@ -274,16 +276,20 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   async requestAddFriend (requestBody, token) {
     const friend = await this.getUserByUsername(requestBody.friend.username)
     if (friend) {
-      // Are we already friends?
       const friendId = friend._id.toString()
-      const foundFriend = await this.db.findForUser('friends', token.id, { friend: friendId })
-      if (foundFriend.result.length === 0) {
-        const resp = await this.db.addForUser('friends', token.id, {
-          friend: friendId
-        })
-        return resp
+      if (friendId !== token.id) {
+        // Are we already friends?
+        const foundFriend = await this.db.findForUser('friends', token.id, { friend: friendId })
+        if (foundFriend.result.length === 0) {
+          const resp = await this.db.addForUser('friends', token.id, {
+            friend: friendId
+          })
+          return resp
+        } else {
+          return Message.error(`Already friends with ${friend.name}.`)
+        }
       } else {
-        return Message.error(`Already friends with ${friend.name}.`)
+        return Message.error('Unable to add yourself as a friend.')
       }
     } else {
       return Message.error('Friend not found.')

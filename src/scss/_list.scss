@@ -56,6 +56,10 @@
     font-size: 0;
     cursor: pointer;
 
+    &:disabled {
+      opacity: 0.5;
+    }
+
     &--edit {
       background-image: url('assets/icons/icon_edit_blue.svg');
     }

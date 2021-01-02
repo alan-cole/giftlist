@@ -59,6 +59,7 @@ export default {
       }
     },
     async loadFriends () {
+      this.loaded = false
       // Load my friends
       const friends = await api.getFriends()
       if (!friends.error) {
@@ -84,6 +85,7 @@ export default {
           }
         })
       }
+      this.loaded = true
     },
     async addFriend (user) {
       if (this.isSaving === false) {
@@ -99,9 +101,7 @@ export default {
     }
   },
   async created () {
-    this.loaded = false
     await this.loadFriends()
-    this.loaded = true
   }
 }
 </script>
