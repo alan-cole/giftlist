@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/menu" title="Friends" />
     <div v-if="loaded" class="container">
       <h2>My friends</h2>
