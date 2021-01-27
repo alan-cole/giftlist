@@ -15,7 +15,9 @@
         </li>
       </ul>
       <div v-else>You haven't added any gifts.</div>
-      <router-link class="button" to="/addgift">Add Gift</router-link>
+      <div class="form-input__actions">
+        <router-link class="button" to="/addgift">Add Gift</router-link>
+      </div>
     </div>
   </div>
 </template>

@@ -1,23 +1,23 @@
 <template>
   <div>
     <top-menu previousPage="/myaccount" title="My Details" />
-    <div class="container">
-      <form @submit.prevent="submitForm()" class="container">
-        <label class="form-input__label">
-          <span>Username (required)</span>
-          <input v-model="editUsername" type="text" class="form-input__text" required />
-        </label>
-        <label class="form-input__label">
-          <span>Name (required)</span>
-          <input v-model="editName" type="text" class="form-input__text" required />
-        </label>
-        <label class="form-input__label">
-          <span>Email</span>
-          <input v-model="editEmail" type="email" class="form-input__text" />
-        </label>
+    <form @submit.prevent="submitForm()" class="container">
+      <label class="form-input__label">
+        <span>Username (required)</span>
+        <input v-model="editUsername" type="text" class="form-input__text" required />
+      </label>
+      <label class="form-input__label">
+        <span>Name (required)</span>
+        <input v-model="editName" type="text" class="form-input__text" required />
+      </label>
+      <label class="form-input__label">
+        <span>Email</span>
+        <input v-model="editEmail" type="email" class="form-input__text" />
+      </label>
+      <div class="form-input__actions">
         <input class="button" type="submit" value="Save" :disabled="isSaving" />
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </template>
 

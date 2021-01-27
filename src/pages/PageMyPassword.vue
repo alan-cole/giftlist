@@ -1,23 +1,23 @@
 <template>
   <div>
     <top-menu previousPage="/myaccount" title="My Password" />
-    <div class="container">
-      <form @submit.prevent="submitForm()" class="container">
-        <label class="form-input__label">
-          <span>Password (required)</span>
-          <input v-model="editPassword" type="password" class="form-input__text" required />
-        </label>
-        <label class="form-input__label">
-          <span>New Password (required)</span>
-          <input v-model="editNewPassword" type="password" class="form-input__text" required />
-        </label>
-        <label class="form-input__label">
-          <span>Repeat New Password (required)</span>
-          <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
-        </label>
+    <form @submit.prevent="submitForm()" class="container">
+      <label class="form-input__label">
+        <span>Password (required)</span>
+        <input v-model="editPassword" type="password" class="form-input__text" required />
+      </label>
+      <label class="form-input__label">
+        <span>New Password (required)</span>
+        <input v-model="editNewPassword" type="password" class="form-input__text" required />
+      </label>
+      <label class="form-input__label">
+        <span>Repeat New Password (required)</span>
+        <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
+      </label>
+      <div class="form-input__actions">
         <input class="button" type="submit" value="Save" :disabled="isSaving" />
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </template>
 

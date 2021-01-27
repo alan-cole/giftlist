@@ -4,7 +4,9 @@
     <div class="container">
       <p>Deleting your account will remove all your data from Gift List.</p>
       <p>If you want to use Gift List again, you will need to create a new account.</p>
-      <input class="button button--delete" type="button" @click="deleteAccount()" value="Delete" :disabled="isSaving" />
+      <div class="form-input__actions">
+        <input class="button button--delete" type="button" @click="deleteAccount()" value="Delete" :disabled="isSaving" />
+      </div>
     </div>
   </div>
 </template>

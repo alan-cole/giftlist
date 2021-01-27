@@ -2,10 +2,10 @@
 
 Description coming soon.
 
-## Todo
+## Future Improvements
 
+- Filter friend's gift list by category (e.g. price)
 - Improve setup process [ Create test data from package.json / document setting up mongo db from command line ]
-- Ability to update user name
 
 ## Setting up you environment
 

@@ -2,7 +2,7 @@
   <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/menu" title="Friends" />
     <div v-if="loaded" class="container">
-      <h2>My friends</h2>
+      <h2 class="nav-item__title">My friends</h2>
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, index) in friends" :key="index" class="nav-item">
           <span>{{ friend.name }}</span>
@@ -10,8 +10,10 @@
         </li>
       </ul>
       <div v-else>You haven't added any friends.</div>
-      <router-link class="button" to="/addfriend">Add Friend</router-link>
-      <h2>Friended by</h2>
+      <div class="form-input__actions">
+        <router-link class="button" to="/addfriend">Add Friend</router-link>
+      </div>
+      <h2 class="nav-item__title">Friended by</h2>
       <ul v-if="friendedBy.length > 0" class="list">
         <li v-for="(user, index) in friendedBy" :key="index" class="nav-item">
           <span>{{ user.name }}</span>

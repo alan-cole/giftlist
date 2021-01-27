@@ -24,4 +24,19 @@
       font-family: $default-font;
     }
   }
+
+  &__actions {
+    width: 100%;
+    display: flex;
+
+    .button {
+      margin-right: 0;
+      margin-left: auto;
+    }
+
+    .button--delete {
+      margin-left: 0;
+      margin-right: auto;
+    }
+  }
 }

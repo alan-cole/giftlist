@@ -4,7 +4,7 @@
     <div v-if="loaded" class="container">
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`" class="nav-item__group">
-          <span class="nav-item__title">{{ friend.name }}</span>
+          <h2 class="nav-item__title">{{ friend.name }}</h2>
           <ul v-if="friend.gifts.length > 0" class="list">
             <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
               <div>
