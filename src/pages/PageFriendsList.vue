@@ -7,7 +7,7 @@
           <h2 class="nav-item__title">{{ friend.name }}</h2>
           <ul v-if="friend.gifts.length > 0" class="list">
             <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
-              <div>
+              <div class="nav-item__details">
                 <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
                 <span v-else>{{ gift.name }}</span>
                 <div class="nav-item__sub-item" v-if="gift.price">
@@ -26,7 +26,7 @@
               </div>
             </li>
           </ul>
-          <div v-else>No gifts on their list.</div>
+          <div v-else class="nav-item__no-gifts">No gifts on their list.</div>
         </li>
       </ul>
       <div v-else>You haven't added any friends.</div>

@@ -2,30 +2,47 @@
   padding: 0;
   margin: 0;
   list-style: none;
+
+  .list {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.10);
+    padding: 0;
+    overflow: hidden;
+
+    .nav-item {
+      padding: 12px 8px;
+      box-sizing: border-box;
+      border: 0;
+
+      &:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+    }
+  }
 }
 
 .nav-item {
   font-family: $default-font;
-  font-size: 22px;
+  font-size: 18px;
   text-decoration: none;
   color: black;
   display: block;
-  min-height: 66px;
   border: 0;
-  padding: 0;
+  padding: 8px 0;
   margin: 0;
   background-color: transparent;
   color: black;
   width: 100%;
-  border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #ccc;
 
   &::after {
     width: 32px;
     height: 32px;
     flex-shrink: 0;
-    background-size: contain;
+    background-size: 26px;
     background-repeat: no-repeat;
     background-position: center;
     margin-left: auto;
@@ -53,8 +70,8 @@
     margin: 0;
     width: 32px;
     height: 32px;
-    background-color: transparent;
-    background-size: contain;
+    background-color: white;
+    background-size: 26px;
     background-repeat: no-repeat;
     background-position: center;
     margin-left: auto;
@@ -80,7 +97,7 @@
 
     &--unchecked,
     &--checked {
-      border: 1px solid $blue;
+      border: 2px solid $blue;
       border-radius: 4px;
       width: 22px;
       height: 22px;
@@ -94,16 +111,26 @@
   &__title {
     font-family: $default-font;
     font-weight: normal;
-    font-size: 26px;
+    font-size: 22px;
     margin: 0;
+    margin-bottom: 8px;
+  }
+
+  &__details {
+    margin-right: 12px;
   }
 
   &__group {
-    margin: 24px 0;
+    margin: 0 0 24px 0;
+  }
+
+  &__no-gifts {
+    padding: 12px 0;
+    padding-left: 8px;
   }
 
   &__sub-item {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   a {
@@ -128,7 +155,7 @@
     margin: 4px 0;
     border-radius: 4px;
     margin-right: 8px;
-    font-size: 16px;
+    font-size: 12px;
 
     &--self {
       background-color: $green;

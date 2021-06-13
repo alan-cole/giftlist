@@ -12,7 +12,7 @@ module.exports = class Authentication {
    * @param {String} password
    */
   async generateHash (password) {
-    const hash = await bcrypt.hash(password, config.authentication.rounds)
+    const hash = await bcrypt.hash(password, this.config.authentication.rounds)
     return hash
   }
 
@@ -31,7 +31,7 @@ module.exports = class Authentication {
    * @param {Object} payload
    */
   generateToken (payload) {
-    return jwt.sign(payload, config.authentication.secret)
+    return jwt.sign(payload, this.config.authentication.secret)
   }
 
   /**
@@ -39,7 +39,7 @@ module.exports = class Authentication {
    * @param {String} token
    */
   async verifyToken (token) {
-    const result = await jwt.verify(token, config.authentication.secret)
+    const result = await jwt.verify(token, this.config.authentication.secret)
     return result
   }
 }

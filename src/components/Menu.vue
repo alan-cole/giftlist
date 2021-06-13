@@ -43,7 +43,7 @@ export default {
     font-family: $default-font;
     font-style: normal;
     font-weight: normal;
-    font-size: 26px;
+    font-size: 22px;
     line-height: normal;
     text-align: center;
     color: $white;
