@@ -324,21 +324,25 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
   }
 
   async requestGetFriendsGiftList (requestBody, token) {
+    const results = []
     // First we get all this user's friends.
     const allUserFriends = await this.getFriends(token.id)
-    const results = []
 
-    // For each friend...
-    for (let i = 0; i < allUserFriends.result.length; i++) {
-      const friend = allUserFriends.result[i]
+    const friendRequests = allUserFriends.result.map(friend => {
+      return new Promise(async (resolve, reject) => {
+        // get the friend's gift list
+        const friendGifts = await this.db.findForUser('gifts', friend._id.toString())
+        // get the gift's buyers
+        const buyers = await this.db.find('buyers', {gift: { $in: friendGifts.result.map(g => g._id.toString()) }})
+        // get the name of each buyer
+        const buyerUsers = await this.db.getAll('users', buyers.result.map(b => b.user))
+        resolve({ friend, friendGifts, buyers, buyerUsers })
+      })
+    })
 
-      // get the friend's gift list
-      const friendGifts = await this.db.findForUser('gifts', friend._id.toString())
-      // get the gift's buyers
-      const buyers = await this.db.find('buyers', {gift: { $in: friendGifts.result.map(g => g._id.toString()) }})
-      // get the name of each buyer
-      const buyerUsers = await this.db.getAll('users', buyers.result.map(b => b.user))
+    const resultArray = await Promise.all(friendRequests)
 
+    resultArray.forEach(({ friend, friendGifts, buyers, buyerUsers }) => {
       // Map buyer ids to name
       const buyerIdtoNameMap = {}
       buyerUsers.result.forEach(b => {
@@ -371,7 +375,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
           buyers: giftToBuyerMap[gift._id]
         }))
       })
-    }
+    })
 
     return Message.success(`Got friends gift list`, results)
   }
