@@ -11,7 +11,7 @@
               @click="friend.isExpanded = !friend.isExpanded"
             >
               <span>{{ friend.name }}</span>
-              <span>({{ friend.gifts.length }})</span>
+              <span>({{ friend.boughtGifts }} / {{ friend.unboughtGifts }})</span>
             </button>
             <div class="accordion__container" :class="{ 'accordion__container--expanded': friend.isExpanded }">
               <ul v-if="friend.gifts.length > 0" class="list">
@@ -97,6 +97,23 @@ export default {
         // Sort A-Z
         friends.result.sort((a, b) => {
           return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0
+        })
+        friends.result.forEach(friend => {
+          let unbought = 0
+          let bought = 0
+          friend.gifts.forEach(gift => {
+            if (gift.buyers && gift.buyers.length > 0) {
+              gift.buyers.forEach(buyer => {
+                if (buyer.self) {
+                  bought++
+                }
+              })
+            } else {
+              unbought++
+            }
+          })
+          friend.boughtGifts = bought
+          friend.unboughtGifts = unbought
         })
         if (this.friends.length > 0) {
           // Reloading? Remember expanded accordions
