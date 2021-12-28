@@ -1,7 +1,9 @@
+const crypto = require('crypto')
 const GiftListDatabase = require('./GiftListDatabase')
 const RequestHandler = require('../server/lib/RequestHandler')
 const Authentication = require('../server/lib/Authentication')
 const Message = require('../server/lib/msg')
+const Mail = require('../server/lib/Mail')
 const log = require('../server/lib/log')
 
 module.exports = class GiftListRequestHandler extends RequestHandler {
@@ -16,6 +18,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     this.db = database
     this.config = config
     this.auth = new Authentication(config)
+    this.mail = new Mail(config)
+    this.resetPasswordRegistry = {}
   }
 
   /**
@@ -60,6 +64,12 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         break
       case 'login':
         result = await this.requestLogin(requestBody)
+        break
+      case 'forgot_password':
+        result = await this.requestForgotPassword(requestBody)
+        break
+      case 'reset_password':
+        result = await this.requestResetPassword(requestBody)
         break
       case 'get_user':
         result = await this.requestGetUser(requestBody, token)
@@ -225,6 +235,65 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       log(`!> No user or multiple users found`)
     }
     return false
+  }
+
+  async requestForgotPassword (requestBody) {
+    // Clean out expired entries in the resetPasswordRegistry.
+    const now = new Date().getTime()
+    for (const key in this.resetPasswordRegistry) {
+      const secondsLapsed = (now - this.resetPasswordRegistry[key].created) / 1000
+      // If under 2 mins since request was made.
+      if (secondsLapsed > 120) {
+        delete this.resetPasswordRegistry[key]
+      }
+    }
+    // Validate the user is in the DB.
+    const user = await this.getUserByUsername(requestBody.username)
+    if (user) {
+      if (user.email) {
+        // Generate + store code.
+        const passwordResetCode = crypto.randomUUID()
+        if (this.resetPasswordRegistry[passwordResetCode] === undefined) {
+          this.resetPasswordRegistry[passwordResetCode] = {
+            created: new Date().getTime(),
+            username: user.username
+          }
+        } else {
+          return Message.error('Reset email could not be done.')
+        }
+        if (this.config.environment === 'dev') {
+          return Message.success(passwordResetCode)
+        } else {
+          const message = `A password reset was requested for ${user.username}.\n\nGo to ${this.config.origin}resetpassword?code=${passwordResetCode} to reset your password.`
+          await this.mail.send(user.email, `${this.config.sitename} - Password Reset`, message)
+        }
+      }
+    }
+    return Message.success('Reset email sent')
+  }
+
+  async requestResetPassword (requestBody) {
+    const { code, password } = requestBody
+    if (code) {
+      const resetRequest = this.resetPasswordRegistry[code]
+      delete this.resetPasswordRegistry[code]
+      if (resetRequest) {
+        const now = new Date().getTime()
+        const secondsLapsed = (now - resetRequest.created) / 1000
+        // If under 2 mins since request was made.
+        if (secondsLapsed < 120) {
+          const user = await this.getUserByUsername(resetRequest.username)
+          if (user) {
+            const userPassword = await this.db.findForUser('passwords', user._id.toString())
+            const userPasswordId = userPassword.result[0]._id.toString()
+            const hash = await this.auth.generateHash(password)
+            const result = await this.db.update('passwords', userPasswordId, { password: hash })
+            return result
+          }
+        }
+      }
+    }
+    return Message.error('Reset email failed')
   }
 
   async requestAddGift (requestBody, token) {

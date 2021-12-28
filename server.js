@@ -14,6 +14,12 @@ if (process.env.GL_PROD == 1) {
   config.database.database = process.env.GL_DB_DATABASE
   config.authentication.secret = process.env.GL_AUTH_SECRET
   config.register.code = process.env.GL_REGISTER_CODE
+  config.mail.host = process.env.GL_MAIL_HOST
+  config.mail.port = process.env.GL_MAIL_PORT
+  config.mail.secure = (process.env.GL_MAIL_SECURE === '1')
+  config.mail.auth.user = process.env.GL_MAIL_AUTH_USER
+  config.mail.auth.pass = process.env.GL_MAIL_AUTH_PASS
+  config.mail.from = process.env.GL_MAIL_FROM
   config.environment = 'prod'
 }
 

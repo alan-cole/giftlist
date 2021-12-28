@@ -1,5 +1,7 @@
 {
   "environment": "dev",
+  "sitename": "Gift List",
+  "origin": "https://giftlist-example-site.com",
   "database": {
     "connection": "mongodb://glserver:password@localhost:27017/giftlist",
     "database": "giftlist"
@@ -13,6 +15,16 @@
   },
   "server": {
     "public": "dist"
+  },
+  "mail": {
+    "host": "smtp.example.com",
+    "port": "465",
+    "secure": true,
+    "auth": {
+      "user": "example@example.com",
+      "pass": "abcdef"
+    },
+    "from": "giftlist@example.com"
   },
   "models": [
     {
