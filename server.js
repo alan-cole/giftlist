@@ -10,6 +10,8 @@ config = JSON.parse(data)
 // Use environment variables if available.
 if (process.env.GL_PROD == 1) {
   console.log('Using environment variables')
+  config.sitename = process.env.GL_SITENAME
+  config.origin = process.env.GL_ORIGIN
   config.database.connection = process.env.GL_DB_CONNECTION
   config.database.database = process.env.GL_DB_DATABASE
   config.authentication.secret = process.env.GL_AUTH_SECRET
