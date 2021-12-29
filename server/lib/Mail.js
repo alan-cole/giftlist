@@ -5,7 +5,6 @@ module.exports = class Mail {
 
   constructor (config) {
     this.config = config
-    console.log(this.config)
     this.transporter = nodemailer.createTransport(this.config.mail)
   }
 

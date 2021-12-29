@@ -261,7 +261,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         } else {
           return Message.error('Reset email could not be done.')
         }
-        if (this.config.environment === 'dev') {
+        if (this.config.environment === 'test') {
           return Message.success(passwordResetCode)
         } else {
           const message = `A password reset was requested for ${user.username}.\n\nGo to ${this.config.origin}resetpassword?code=${passwordResetCode} to reset your password.`

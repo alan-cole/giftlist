@@ -12,7 +12,10 @@
       </label>
       <input class="button button--wide" type="submit" value="Log in" :disabled="isSaving" />
     </form>
-    <div class="page-login__signup-message">Don't have an account? <router-link class="link" to="/signup">Sign Up</router-link></div>
+    <div class="page-login__signup-message">
+      <p>Don't have an account? <router-link class="link" to="/signup">Sign Up</router-link></p>
+      <p><router-link class="link" to="/forgotpassword">Forgot password?</router-link></p>
+    </div>
   </div>
 </template>
 

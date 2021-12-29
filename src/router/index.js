@@ -6,6 +6,8 @@ import PageMyList from '../pages/PageMyList'
 import PageFriendsList from '../pages/PageFriendsList'
 import PageFriends from '../pages/PageFriends'
 import PageSignup from '../pages/PageSignup'
+import PageForgotPassword from '../pages/PageForgotPassword'
+import PageResetPassword from '../pages/PageResetPassword'
 import PageAddFriend from '../pages/PageAddFriend'
 import PageAddGift from '../pages/PageAddGift'
 import PageMyAccount from '../pages/PageMyAccount'
@@ -22,6 +24,21 @@ export default new Router({
       path: '/',
       name: 'PageLogin',
       component: PageLogin
+    },
+    {
+      path: '/signup',
+      name: 'PageSignup',
+      component: PageSignup
+    },
+    {
+      path: '/forgotpassword',
+      name: 'PageForgotPassword',
+      component: PageForgotPassword
+    },
+    {
+      path: '/resetpassword',
+      name: 'PageResetPassword',
+      component: PageResetPassword
     },
     {
       path: '/menu',
@@ -62,11 +79,6 @@ export default new Router({
       path: '/friends',
       name: 'PageFriends',
       component: PageFriends
-    },
-    {
-      path: '/signup',
-      name: 'PageSignup',
-      component: PageSignup
     },
     {
       path: '/addfriend',
