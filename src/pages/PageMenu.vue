@@ -7,6 +7,7 @@
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/friendslists">Friend's Gift List</router-link></li>
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/friends">Friends</router-link></li>
         <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/myaccount">My Account</router-link></li>
+        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/sessions">Sessions</router-link></li>
         <li><button class="nav-item nav-item--clickable nav-item--forward" @click="logOut">Log Out</button></li>
       </ul>
     </nav>
@@ -14,8 +15,9 @@
 </template>
 
 <script>
-import authenticatedPage from '../mixins/authentication'
 import api from '../lib/api'
+import sessions from '../lib/sessions'
+import authenticatedPage from '../mixins/authentication'
 import TopMenu from '../components/Menu'
 
 export default {
@@ -27,7 +29,7 @@ export default {
   methods: {
     logOut () {
       api.logout()
-      localStorage.removeItem('token')
+      sessions.deleteAll()
       this.$router.push('/')
     }
   }

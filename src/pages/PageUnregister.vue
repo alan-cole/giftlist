@@ -13,6 +13,7 @@
 
 <script>
 import api from '../lib/api'
+import sessions from '../lib/sessions'
 import authenticatedPage from '../mixins/authentication'
 import TopMenu from '../components/Menu'
 
@@ -35,7 +36,7 @@ export default {
           const result = await api.unregister()
           if (!result.error) {
             api.logout()
-            localStorage.removeItem('token')
+            sessions.deleteAll()
             this.$router.push('/')
           } else {
             alert(`An error occured: ${result.message}`)

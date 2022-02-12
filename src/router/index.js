@@ -13,6 +13,8 @@ import PageAddGift from '../pages/PageAddGift'
 import PageMyAccount from '../pages/PageMyAccount'
 import PageMyDetails from '../pages/PageMyDetails'
 import PageMyPassword from '../pages/PageMyPassword'
+import PageSessions from '../pages/PageSessions'
+import PageAddSession from '../pages/PageAddSession'
 import PageUnregister from '../pages/PageUnregister'
 
 Vue.use(Router)
@@ -90,6 +92,17 @@ export default new Router({
       path: '/addgift',
       name: 'PageAddGift',
       component: PageAddGift,
+      props: true
+    },
+    {
+      path: '/sessions',
+      name: 'PageSessions',
+      component: PageSessions
+    },
+    {
+      path: '/addsession',
+      name: 'PageAddSession',
+      component: PageAddSession,
       props: true
     }
   ]

@@ -77,6 +77,11 @@
       opacity: 0.5;
     }
 
+    &--left {
+      margin-left: 0;
+      margin-right: 8px;
+    }
+
     &--edit {
       background-image: url('assets/icons/icon_edit_blue.svg');
     }

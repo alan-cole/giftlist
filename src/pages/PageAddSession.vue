@@ -1,7 +1,7 @@
 <template>
-  <div class="page-login">
-    <h1 class="page-login__heading">Gift List</h1>
-    <form @submit.prevent="requestLogin">
+  <div>
+    <top-menu previousPage="/sessions" title="New Session" />
+    <form @submit.prevent="requestLogin()" class="container">
       <label class="form-input__label">
         <span>Username</span>
         <input class="form-input__text" v-model="username" type="text" autocorrect="off" autocapitalize="none" />
@@ -12,19 +12,21 @@
       </label>
       <input class="button button--wide" type="submit" value="Log in" :disabled="isSaving" />
     </form>
-    <div class="page-login__signup-message">
-      <p>Don't have an account? <router-link class="link" to="/signup">Sign Up</router-link></p>
-      <p><router-link class="link" to="/forgotpassword">Forgot password?</router-link></p>
-    </div>
   </div>
 </template>
 
 <script>
 import api from '../lib/api'
 import sessions from '../lib/sessions'
+import authenticatedPage from '../mixins/authentication'
+import TopMenu from '../components/Menu'
 
 export default {
-  name: 'PageLogin',
+  name: 'PageAddSession',
+  mixins: [authenticatedPage],
+  components: {
+    TopMenu
+  },
   data () {
     return {
       username: '',
@@ -41,10 +43,9 @@ export default {
           if (result.error) {
             alert(result.message)
           } else {
-            sessions.setToken(result.result.token)
             sessions.addSession(result.result.name, result.result.token)
-            // Redirect to menu
-            this.$router.push('/menu')
+            // Redirect to sessions
+            this.$router.push('/sessions')
           }
         } catch (err) {
           alert('An error occured.')
@@ -52,32 +53,6 @@ export default {
         this.isSaving = false
       }
     }
-  },
-  created () {
-    // Check if already logged in.
-    if (localStorage.getItem('token')) {
-      // Redirect to menu
-      this.$router.push('/menu')
-    }
   }
 }
 </script>
-
-<style lang="scss">
-.page-login {
-  margin: auto;
-  max-width: 330px;
-
-  &__heading {
-    font-size: 0%;
-    width: 198px;
-    height: 65px;
-    background-image: url('../assets/images/logo.svg');
-    margin: 133px auto 22px;
-  }
-
-  &__signup-message {
-    text-align: center;
-  }
-}
-</style>
