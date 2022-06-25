@@ -1,6 +1,9 @@
 <template>
   <div class="page-login">
-    <h1 class="page-login__heading">Gift List</h1>
+    <h1 class="page-login__heading">
+      <span>Gift List</span>
+      <giftlist-logo />
+    </h1>
     <form @submit.prevent="requestLogin">
       <label class="form-input__label">
         <span>Username</span>
@@ -22,9 +25,13 @@
 <script>
 import api from '../lib/api'
 import sessions from '../lib/sessions'
+import GiftlistLogo from '../components/GiftlistLogo'
 
 export default {
   name: 'PageLogin',
+  components: {
+    GiftlistLogo
+  },
   data () {
     return {
       username: '',
@@ -64,6 +71,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../scss/variables';
+
 .page-login {
   margin: auto;
   max-width: 330px;
@@ -72,8 +81,11 @@ export default {
     font-size: 0%;
     width: 198px;
     height: 65px;
-    background-image: url('../assets/images/logo.svg');
     margin: 133px auto 22px;
+
+    svg {
+      fill: $foreground;
+    }
   }
 
   &__signup-message {

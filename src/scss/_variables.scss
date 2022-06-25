@@ -1,10 +1,13 @@
-$blue: #1C74DC;
-$red: #DC1C1C;
-$white: white;
-$black: black;
-$green: #82BC38;
-$striping: #f5f5f5;
-$nav-border: #ccc;
+$blue: var(--blue);
+$red: var(--red);
+$white: var(--white);
+$black: var(--black);
+$green: var(--green);
+$background-alt: var(--background-alt);
+$nav-border: var(--nav-border);
+$background: var(--background);
+$foreground: var(--foreground);
+$highlight: var(--highlight);
 
 $button-font: Noto Sans;
 $default-font: Serif;

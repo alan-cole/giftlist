@@ -1,0 +1,21 @@
+:root {
+  --blue: #1C74DC;
+  --red: #DC1C1C;
+  --white: white;
+  --black: black;
+  --green: #82BC38;
+
+  --nav-border: #ccc;
+  --background: white;
+  --background-alt: #f5f5f5;
+  --foreground: black;
+  --highlight: #1C74DC;
+
+  @media (prefers-color-scheme: dark) {
+    --nav-border: #ccc;
+    --background: #222;
+    --background-alt: #333;
+    --foreground: #fff;
+    --highlight: #1C74DC;
+  }
+}

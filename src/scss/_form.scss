@@ -1,6 +1,7 @@
 .form-input {
   &__text {
-    background: $white;
+    background: $background-alt;
+    color: $foreground;
     border: 2px solid $blue;
     box-sizing: border-box;
     border-radius: 4px;
@@ -16,6 +17,7 @@
     font-weight: normal;
     font-size: 18px;
     line-height: normal;
+    color: $foreground;
 
     span {
       display: block;
