@@ -117,7 +117,9 @@
   }
 
   &__details {
+    font-size: 16px;
     margin-right: 12px;
+    flex-grow: 1;
   }
 
   &__group {
@@ -131,7 +133,8 @@
   }
 
   &__sub-item {
-    font-size: 16px;
+    margin-top: 4px;
+    font-size: 14px;
   }
 
   a {
@@ -150,17 +153,30 @@
   list-style: none;
 
   &__item {
-    background-color: $blue;
-    color: white;
+    background-color: $background;
+    color: $foreground;
+    border: 2px solid $blue;
     padding: 4px 8px;
     margin: 4px 0;
     border-radius: 4px;
     margin-right: 8px;
     font-size: 12px;
+    display: inline-block;
+
+    &--solid {
+      background-color: $blue;
+      color: $white;
+    }
 
     &--self {
-      background-color: $green;
-      color: black;
+      border-width: 2px;
+      border-color: $green;
+
+      &.buyer-list__item--solid {
+        background-color: $green;
+        color: $black;
+        border-color: transparent;
+      }
     }
   }
 

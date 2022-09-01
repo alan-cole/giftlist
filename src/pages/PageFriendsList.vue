@@ -22,16 +22,33 @@
                     <div class="nav-item__sub-item" v-if="gift.price">
                       <span>${{ gift.price }}</span>
                     </div>
+                    <div>
+                      <ul v-if="gift.buyers" class="buyer-list">
+                        <li
+                          v-for="(buyer, buyerIndex) in gift.buyers"
+                          :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`"
+                          class="buyer-list__item"
+                          :class="{
+                            'buyer-list__item--self': buyer.self,
+                            'buyer-list__item--solid': getBuyStateLabel(buyer.state) === 'bought'
+                          }"
+                        >
+                          <span>{{ buyer.name }}</span>
+                          <span>- {{ getBuyStateLabel(buyer.state) }}</span>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                  <div class="buyer-list__wrapper">
-                    <ul v-if="gift.buyers" class="buyer-list">
-                      <li v-for="(buyer, buyerIndex) in gift.buyers" :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`" class="buyer-list__item" :class="{ 'buyer-list__item--self': buyer.self }">
-                        <span>{{ buyer.name }}</span>
-                        <span v-if="buyer.self">(me)</span>
-                      </li>
-                    </ul>
-                    <button v-if="!selfIsBuyer(gift.buyers)" @click="buyGift(gift)" class="nav-item__btn nav-item__btn--unchecked" :disabled="isSaving">Buy</button>
-                    <button v-if="selfIsBuyer(gift.buyers)" @click="unbuyGift(gift)" class="nav-item__btn nav-item__btn--checked" :disabled="isSaving">Don't buy</button>
+                  <div>
+                    <button
+                      class="small-button"
+                      :class="{
+                        'small-button--solid': buyState(gift.buyers) === 'bought',
+                        'small-button--warn': buyState(gift.buyers) === 'unbuy'
+                      }"
+                      @click="toggleBuyState(gift)"
+                      :disabled="isSaving"
+                    >➜ {{ buyState(gift.buyers) }}</button>
                   </div>
                 </li>
               </ul>
@@ -64,28 +81,44 @@ export default {
     }
   },
   methods: {
-    selfIsBuyer (buyers) {
-      let hasMe = false
-      if (buyers) {
-        buyers.forEach(buyer => {
-          if (buyer.self) {
-            hasMe = true
-          }
-        })
-      }
-      return hasMe
+    getSelfBuyer (buyers) {
+      return buyers ? buyers.filter(buyer => buyer.self).at(0) : null
     },
-    async buyGift (gift) {
-      this.isSaving = true
-      const result = await api.addBuyer(gift._id)
-      if (!result.error) {
-        await this.loadFriends()
+    getBuyStateLabel (state) {
+      let rtn = ''
+      switch (state) {
+        case undefined:
+        case 0:
+        case 1:
+          rtn = 'planning'
+          break
+        case 2:
+          rtn = 'bought'
+          break
+        case 3:
+          rtn = 'unbuy'
+          break
+        default:
+          break
       }
-      this.isSaving = false
+      return rtn
     },
-    async unbuyGift (gift) {
+    buyState (buyers) {
+      const buyer = this.getSelfBuyer(buyers)
+      return this.getBuyStateLabel(buyer ? buyer.state + 1 : 0)
+    },
+    async toggleBuyState (gift) {
       this.isSaving = true
-      const result = await api.deleteBuyer(gift._id)
+      const buyer = this.getSelfBuyer(gift.buyers)
+      const state = buyer ? (buyer.state || 0) : 0
+      let result = null
+      if (state === 2) {
+        result = await api.deleteBuyer(gift._id)
+      } else if (state === 1) {
+        result = await api.updateBuyer(buyer._id, state + 1)
+      } else {
+        result = await api.addBuyer(gift._id, state + 1)
+      }
       if (!result.error) {
         await this.loadFriends()
       }

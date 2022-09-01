@@ -101,6 +101,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
       case 'add_buyer':
         result = await this.requestAddBuyer(requestBody, token)
         break
+      case 'update_buyer':
+        result = await this.requestUpdateBuyer(requestBody, token)
+        break
       case 'delete_buyer':
         result = await this.requestDeleteBuyer(requestBody, token)
         break
@@ -327,7 +330,15 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
 
   async requestAddBuyer (requestBody, token) {
     const resp = await this.db.addForUser('buyers', token.id, {
-      gift: requestBody.giftId
+      gift: requestBody.giftId,
+      state: requestBody.giftState
+    })
+    return resp
+  }
+
+  async requestUpdateBuyer (requestBody, token) {
+    const resp = await this.db.updateForUser('buyers', requestBody.buyerId, token.id, {
+      state: requestBody.giftState
     })
     return resp
   }
@@ -429,7 +440,12 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         if (giftToBuyerMap[b.gift] === undefined) {
           giftToBuyerMap[b.gift] = []
         }
-        giftToBuyerMap[b.gift].push(buyerIdtoNameMap[b.user])
+        const buyer = buyerIdtoNameMap[b.user];
+        const returnBuyerObj = {...buyer, state: b.state }
+        if (buyer.self) {
+          returnBuyerObj['_id'] = b._id
+        }
+        giftToBuyerMap[b.gift].push(returnBuyerObj)
       })
 
       // Get the friend's details plus each gift and the gift's buyers

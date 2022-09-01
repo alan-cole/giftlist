@@ -35,3 +35,25 @@
     background-color: $red;
   }
 }
+
+.small-button {
+  cursor: pointer;
+  background-color: $background;
+  color: $foreground;
+  border: 2px solid $green;
+  width: 95px;
+  padding: 4px;
+  border-radius: 4px;
+
+  &--solid {
+    background-color: $green;
+    color: $black;
+    border-color: transparent;
+  }
+
+  &--warn {
+    background-color: $red;
+    color: $white;
+    border-color: transparent;
+  }
+}
