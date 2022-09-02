@@ -10,7 +10,7 @@
             'nav-item__btn--checked': session.checked,
             'nav-item__btn--unchecked': !session.checked
           }">Toggle Session</button>
-          <span>{{ session.name }}</span>
+          <span class="nav-item__label">{{ session.name }}</span>
           <button class="nav-item__btn nav-item__btn--delete" @click="deleteSession(index)">Delete</button>
         </li>
       </ul>

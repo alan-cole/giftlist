@@ -39,25 +39,45 @@
 .small-button {
   cursor: pointer;
   background-color: $background;
+  background-image: $foreground-arrow-next;
+  background-size: 20%;
+  background-repeat: no-repeat;
+  background-position: 2px center;
   color: $foreground;
   border: 2px solid $green;
   width: 95px;
-  padding: 4px;
+  padding: 4px 4px 4px 16px;
   border-radius: 4px;
 
   &:disabled {
     opacity: 0.5;
   }
 
+  &::before {
+    content: '';
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
   &--solid {
     background-color: $green;
     color: $black;
+    background-image: $black-arrow-next;
     border-color: transparent;
   }
 
   &--warn {
     background-color: $red;
     color: $white;
+    background-image: $white-arrow-next;
     border-color: transparent;
   }
 }
@@ -65,32 +85,46 @@
 .arrow-button {
   cursor: pointer;
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: $blue;
   border: 0;
   border-radius: 4px;
   padding: 0;
   margin-right: 8px;
+  flex-shrink: 0;
+
+  &::before {
+    content: '';
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
   &:disabled {
     opacity: 0.5;
   }
 
-  span {
-    user-select: none;
-    position: absolute;
-    top: 11px;
-    left: 12px;
-    color: $white;
+  &--up {
+    &::before {
+      background-image: url('./assets/icons/icon_up_white.svg');
+    }
   }
-}
 
-.up-arrow {
-  transform: rotate(-90deg);
-}
+  &--down {
+    &::before {
+      background-image: url('./assets/icons/icon_down_white.svg');
+    }
+  }
 
-.down-arrow {
-  transform: rotate(90deg);
-  margin-left: 2px;
+  span {
+    display: none;
+  }
 }

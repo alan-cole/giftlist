@@ -4,15 +4,13 @@
     <div v-if="loaded" class="container">
       <ul v-if="gifts.length > 0" class="list">
         <li v-for="(gift, index) in gifts" :key="gift.order" class="nav-item">
-          <button @click="up(index)" class="arrow-button" :disabled="isSaving">
-            <span class="up-arrow">➜</span>
+          <button @click="up(index)" class="arrow-button arrow-button--up" :disabled="isSaving || index === 0">
+            <span>Up</span>
           </button>
-          <button @click="down(index)" class="arrow-button" :disabled="isSaving">
-            <span class="down-arrow">➜</span>
+          <button @click="down(index)" class="arrow-button arrow-button--down" :disabled="isSaving || index === gifts.length - 1">
+            <span>Down</span>
           </button>
-          <div>
-            <span>{{ gift.name }}</span>
-          </div>
+          <div class="nav-item__label">{{ gift.name }}</div>
         </li>
       </ul>
       <p v-else>You have no gifts to order.</p>

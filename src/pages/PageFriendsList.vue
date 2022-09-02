@@ -17,8 +17,8 @@
               <ul v-if="friend.gifts.length > 0" class="list">
                 <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
                   <div class="nav-item__details">
-                    <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
-                    <span v-else>{{ gift.name }}</span>
+                    <a v-if="gift.link" :href="gift.link" class="nav-item__label" target="_blank">{{ gift.name }}</a>
+                    <span v-else class="nav-item__label">{{ gift.name }}</span>
                     <div class="nav-item__sub-item" v-if="gift.price">
                       <span>${{ gift.price }}</span>
                     </div>
@@ -48,7 +48,7 @@
                       }"
                       @click="toggleBuyState(gift)"
                       :disabled="isSaving"
-                    >➜ {{ buyState(gift.buyers) }}</button>
+                    >{{ buyState(gift.buyers) }}</button>
                   </div>
                 </li>
               </ul>

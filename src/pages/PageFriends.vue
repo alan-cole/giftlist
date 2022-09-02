@@ -5,7 +5,7 @@
       <h2 class="nav-item__title">My friends</h2>
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, index) in friends" :key="index" class="nav-item">
-          <span>{{ friend.name }}</span>
+          <span class="nav-item__label">{{ friend.name }}</span>
           <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)" :disabled="isSaving">Delete {{ friend.name }}</button>
         </li>
       </ul>
@@ -16,7 +16,7 @@
       <h2 class="nav-item__title">Friended by</h2>
       <ul v-if="friendedBy.length > 0" class="list">
         <li v-for="(user, index) in friendedBy" :key="index" class="nav-item">
-          <span>{{ user.name }}</span>
+          <span class="nav-item__label">{{ user.name }}</span>
           <button v-if="!user.isFriend" class="nav-item__btn nav-item__btn--add" @click="addFriend(user)" :disabled="isSaving">Add {{ user.name }}</button>
         </li>
       </ul>

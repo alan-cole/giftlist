@@ -5,8 +5,8 @@
       <ul v-if="gifts.length > 0" class="list">
         <li v-for="(gift, index) in gifts" :key="index" class="nav-item">
           <div>
-            <a v-if="gift.link" :href="gift.link" target="_blank">{{ gift.name }}</a>
-            <span v-else>{{ gift.name }}</span>
+            <a v-if="gift.link" :href="gift.link" target="_blank" class="nav-item__label">{{ gift.name }}</a>
+            <span v-else class="nav-item__label">{{ gift.name }}</span>
             <div v-if="gift.price" class="nav-item__sub-item">
               <span>${{ gift.price }}</span>
             </div>

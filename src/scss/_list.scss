@@ -28,7 +28,7 @@
   background-color: transparent;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   border-bottom: 1px solid $nav-border;
 
   &::after {
@@ -55,6 +55,12 @@
       content: '';
       background-image: url('assets/icons/icon_next_blue.svg');
     }
+  }
+
+  &__label {
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 
   &__btn {
@@ -98,6 +104,7 @@
       background-color: $background-alt;
       border: 2px solid $blue;
       border-radius: 4px;
+      margin-top: 6px;
       width: 22px;
       height: 22px;
     }

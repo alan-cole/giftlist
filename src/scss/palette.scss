@@ -11,11 +11,15 @@
   --foreground: black;
   --highlight: #1C74DC;
 
+  --foreground-arrow-next: url('assets/icons/icon_next_black.svg');
+
   @media (prefers-color-scheme: dark) {
     --nav-border: #ccc;
     --background: #222;
     --background-alt: #333;
     --foreground: #fff;
     --highlight: #1C74DC;
+
+    --foreground-arrow-next: url('assets/icons/icon_next_white.svg');
   }
 }
