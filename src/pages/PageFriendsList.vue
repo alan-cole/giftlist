@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     getSelfBuyer (buyers) {
-      return buyers ? buyers.filter(buyer => buyer.self).at(0) : null
+      return buyers ? buyers.filter(buyer => buyer.self)[0] : null
     },
     getBuyStateLabel (state) {
       let rtn = ''
@@ -129,7 +129,9 @@ export default {
       if (!friends.error) {
         // Sort A-Z
         friends.result.sort((a, b) => {
-          return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : 0
+          const nA = a.name.toUpperCase()
+          const nB = b.name.toUpperCase()
+          return nA > nB ? 1 : (nA < nB ? -1 : 0)
         })
         friends.result.forEach(friend => {
           let unbought = 0
