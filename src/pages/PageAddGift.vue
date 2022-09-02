@@ -68,13 +68,15 @@ export default {
           result = await api.updateGift(this.gift._id, {
             name: this.editName,
             link: this.editLink,
-            price: this.editPrice
+            price: this.editPrice,
+            order: this.gift.order
           })
         } else {
           result = await api.addGift({
             name: this.editName,
             link: this.editLink,
-            price: this.editPrice
+            price: this.editPrice,
+            order: -1
           })
         }
         if (!result.error) {

@@ -44,7 +44,12 @@ export default {
     this.loaded = false
     const gifts = await api.getGifts()
     if (!gifts.error) {
-      this.gifts = gifts.result.sort((a, b) => a.order - b.order)
+      this.gifts = gifts.result.map(item => {
+        if (item.order === null || item.order === undefined) {
+          item.order = -1
+        }
+        return item
+      }).sort((a, b) => a.order - b.order)
     }
     this.loaded = true
   }
