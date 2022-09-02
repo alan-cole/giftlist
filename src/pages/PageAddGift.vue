@@ -15,7 +15,7 @@
         <input v-model="editPrice" type="text" class="form-input__text" />
       </label>
       <div class="form-input__actions">
-        <input v-if="gift" class="button button--delete" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
+        <input v-if="gift" class="button button--delete button--left" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
         <input class="button" type="submit" value="Save" :disabled="isSaving" />
       </div>
     </form>

@@ -303,7 +303,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     const resp = await this.db.addForUser('gifts', token.id, {
       name: requestBody.gift.name,
       link: requestBody.gift.link,
-      price: requestBody.gift.price
+      price: requestBody.gift.price,
+      order: requestBody.gift.order
     })
     return resp
   }
@@ -312,7 +313,8 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     const resp = await this.db.updateForUser('gifts', requestBody.giftId, token.id, {
       name: requestBody.gift.name,
       link: requestBody.gift.link,
-      price: requestBody.gift.price
+      price: requestBody.gift.price,
+      order: requestBody.gift.order
     })
     return resp
   }
@@ -457,8 +459,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
           name: gift.name,
           link: gift.link,
           price: gift.price,
+          order: gift.order,
           buyers: giftToBuyerMap[gift._id]
-        }))
+        })).sort((a, b) => a.order - b.order)
       })
     })
 

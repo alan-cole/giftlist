@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import PageLogin from '../pages/PageLogin'
 import PageMenu from '../pages/PageMenu'
 import PageMyList from '../pages/PageMyList'
+import PageMyListOrder from '../pages/PageMyListOrder'
 import PageFriendsList from '../pages/PageFriendsList'
 import PageFriends from '../pages/PageFriends'
 import PageSignup from '../pages/PageSignup'
@@ -51,6 +52,11 @@ export default new Router({
       path: '/mylist',
       name: 'PageMyList',
       component: PageMyList
+    },
+    {
+      path: '/mylistorder',
+      name: 'PageMyListOrder',
+      component: PageMyListOrder
     },
     {
       path: '/myaccount',

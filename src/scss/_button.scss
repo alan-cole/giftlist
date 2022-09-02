@@ -45,6 +45,10 @@
   padding: 4px;
   border-radius: 4px;
 
+  &:disabled {
+    opacity: 0.5;
+  }
+
   &--solid {
     background-color: $green;
     color: $black;
@@ -56,4 +60,37 @@
     color: $white;
     border-color: transparent;
   }
+}
+
+.arrow-button {
+  cursor: pointer;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: $blue;
+  border: 0;
+  border-radius: 4px;
+  padding: 0;
+  margin-right: 8px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  span {
+    user-select: none;
+    position: absolute;
+    top: 11px;
+    left: 12px;
+    color: $white;
+  }
+}
+
+.up-arrow {
+  transform: rotate(-90deg);
+}
+
+.down-arrow {
+  transform: rotate(90deg);
+  margin-left: 2px;
 }

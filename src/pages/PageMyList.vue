@@ -14,8 +14,9 @@
           <router-link class="nav-item__btn nav-item__btn--edit" :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
         </li>
       </ul>
-      <div v-else>You haven't added any gifts.</div>
+      <p v-else>You haven't added any gifts.</p>
       <div class="form-input__actions">
+        <router-link v-if="gifts.length > 0" class="button button--left" to="/mylistorder">Order</router-link>
         <router-link class="button" to="/addgift">Add Gift</router-link>
       </div>
     </div>
@@ -43,7 +44,7 @@ export default {
     this.loaded = false
     const gifts = await api.getGifts()
     if (!gifts.error) {
-      this.gifts = gifts.result
+      this.gifts = gifts.result.sort((a, b) => a.order - b.order)
     }
     this.loaded = true
   }
