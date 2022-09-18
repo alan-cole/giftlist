@@ -4,57 +4,47 @@
     <div v-if="loaded" class="container">
       <ul v-if="friends.length > 0" class="list">
         <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`" class="nav-item__group">
-          <div class="accordion">
-            <button
-              class="accordion__toggle"
-              :class="{ 'accordion__toggle--expanded': friend.isExpanded }"
-              @click="friend.isExpanded = !friend.isExpanded"
-            >
-              <span>{{ friend.name }}</span>
-              <span>({{ friend.boughtGifts }} / {{ friend.unboughtGifts }})</span>
-            </button>
-            <div class="accordion__container" :class="{ 'accordion__container--expanded': friend.isExpanded }">
-              <ul v-if="friend.gifts.length > 0" class="list">
-                <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
-                  <div class="nav-item__details">
-                    <a v-if="gift.link" :href="gift.link" class="nav-item__label" target="_blank">{{ gift.name }}</a>
-                    <span v-else class="nav-item__label">{{ gift.name }}</span>
-                    <div class="nav-item__sub-item" v-if="gift.price">
-                      <span>${{ gift.price }}</span>
-                    </div>
-                    <div>
-                      <ul v-if="gift.buyers" class="buyer-list">
-                        <li
-                          v-for="(buyer, buyerIndex) in gift.buyers"
-                          :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`"
-                          class="buyer-list__item"
-                          :class="{
-                            'buyer-list__item--self': buyer.self,
-                            'buyer-list__item--solid': getBuyStateLabel(buyer.state) === 'bought'
-                          }"
-                        >
-                          <span>{{ buyer.name }}</span>
-                          <span>- {{ getBuyStateLabel(buyer.state) }}</span>
-                        </li>
-                      </ul>
-                    </div>
+          <Accordion :label="`${friend.name} (${friend.boughtGifts} / ${friend.unboughtGifts})`">
+            <ul v-if="friend.gifts.length > 0" class="list">
+              <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
+                <div class="nav-item__details">
+                  <a v-if="gift.link" :href="gift.link" class="nav-item__label" target="_blank">{{ gift.name }}</a>
+                  <span v-else class="nav-item__label">{{ gift.name }}</span>
+                  <div class="nav-item__sub-item" v-if="gift.price">
+                    <span>${{ gift.price }}</span>
                   </div>
                   <div>
-                    <button
-                      class="small-button"
-                      :class="{
-                        'small-button--solid': buyState(gift.buyers) === 'bought',
-                        'small-button--warn': buyState(gift.buyers) === 'unbuy'
-                      }"
-                      @click="toggleBuyState(gift)"
-                      :disabled="isSaving"
-                    >{{ buyState(gift.buyers) }}</button>
+                    <ul v-if="gift.buyers" class="buyer-list">
+                      <li
+                        v-for="(buyer, buyerIndex) in gift.buyers"
+                        :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`"
+                        class="buyer-list__item"
+                        :class="{
+                          'buyer-list__item--self': buyer.self,
+                          'buyer-list__item--solid': getBuyStateLabel(buyer.state) === 'bought'
+                        }"
+                      >
+                        <span>{{ buyer.name }}</span>
+                        <span>- {{ getBuyStateLabel(buyer.state) }}</span>
+                      </li>
+                    </ul>
                   </div>
-                </li>
-              </ul>
-              <div v-else class="nav-item__no-gifts">No gifts on their list.</div>
-            </div>
-          </div>
+                </div>
+                <div>
+                  <button
+                    class="small-button"
+                    :class="{
+                      'small-button--solid': buyState(gift.buyers) === 'bought',
+                      'small-button--warn': buyState(gift.buyers) === 'unbuy'
+                    }"
+                    @click="toggleBuyState(gift)"
+                    :disabled="isSaving"
+                  >{{ buyState(gift.buyers) }}</button>
+                </div>
+              </li>
+            </ul>
+            <div v-else class="nav-item__no-gifts">No gifts on their list.</div>
+          </Accordion>
         </li>
       </ul>
       <div v-else>You haven't added any friends.</div>
@@ -66,12 +56,14 @@
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
 import TopMenu from '../components/Menu'
+import Accordion from '../components/Accordion'
 
 export default {
   name: 'PageFriendsList',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    Accordion
   },
   data () {
     return {

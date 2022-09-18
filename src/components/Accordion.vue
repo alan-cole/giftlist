@@ -1,3 +1,35 @@
+<template>
+  <div class="accordion">
+    <button
+      class="accordion__toggle"
+      :class="{ 'accordion__toggle--expanded': expanded }"
+      @click="expanded = !expanded"
+    >
+      <span>{{ label }}</span>
+    </button>
+    <div class="accordion__container" :class="{ 'accordion__container--expanded': expanded }">
+      <slot></slot>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Accordion',
+  props: {
+    label: String
+  },
+  data: () => {
+    return {
+      expanded: false
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+@import '../scss/variables';
+
 .accordion {
   border: 1px solid $blue;
   border-radius: 4px;
@@ -25,7 +57,7 @@
       width: 32px;
       height: 32px;
       display: inline-block;
-      background-image: url('./assets/icons/icon_down_white.svg');
+      background-image: url('../assets/icons/icon_down_white.svg');
       position: absolute;
       right: 4px;
       top: 0;
@@ -35,7 +67,7 @@
 
     &--expanded {
       &::after {
-        background-image: url('./assets/icons/icon_up_white.svg');
+        background-image: url('../assets/icons/icon_up_white.svg');
       }
     }
   }
@@ -48,3 +80,4 @@
     }
   }
 }
+</style>
