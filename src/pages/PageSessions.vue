@@ -2,19 +2,27 @@
   <div>
     <top-menu previousPage="/menu" title="Sessions" />
     <div class="container">
-      <ul v-if="list.length > 0" class="list">
-        <li v-for="(session, index) in list" :key="index" class="nav-item">
-          <button @click="setSession(index)" :class="{
-            'nav-item__btn': true,
-            'nav-item__btn--left': true,
-            'nav-item__btn--checked': session.checked,
-            'nav-item__btn--unchecked': !session.checked
-          }">Toggle Session</button>
-          <span class="nav-item__label">{{ session.name }}</span>
-          <button class="nav-item__btn nav-item__btn--delete" @click="deleteSession(index)">Delete</button>
-        </li>
-      </ul>
-      <div v-else>You haven't any sessions.</div>
+      <NavList no-items="You haven't any sessions." :items="list">
+        <template slot="item" slot-scope="props">
+          <NavItem :label="props.item.name">
+            <template v-slot:before>
+              <CheckButton
+                :checked="props.item.checked"
+                @click="setSession(props.index)"
+                label="Toggle Session"
+              />
+            </template>
+            <template v-slot:after>
+              <NavButton
+                type="button"
+                variation="delete"
+                label="Delete"
+                @click="deleteSession(props.index)"
+              />
+            </template>
+          </NavItem>
+        </template>
+      </NavList>
       <div class="form-input__actions">
         <router-link class="button" to="/addsession">Add Session</router-link>
       </div>
@@ -25,13 +33,21 @@
 <script>
 import sessions from '../lib/sessions'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
+import NavList from '../components/NavList'
+import NavItem from '../components/NavItem'
+import NavButton from '../components/NavButton'
+import CheckButton from '../components/CheckButton'
 
 export default {
   name: 'PageSessions',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    NavList,
+    NavItem,
+    NavButton,
+    CheckButton
   },
   data () {
     return {

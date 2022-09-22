@@ -19,7 +19,7 @@
 import api from '../lib/api'
 import sessions from '../lib/sessions'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
 
 export default {
   name: 'PageAddSession',

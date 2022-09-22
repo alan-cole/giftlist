@@ -2,18 +2,28 @@
   <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/mylist" title="Order My Gifts" />
     <div v-if="loaded" class="container">
-      <ul v-if="gifts.length > 0" class="list">
-        <li v-for="(gift, index) in gifts" :key="gift.order" class="nav-item">
-          <button @click="up(index)" class="arrow-button arrow-button--up" :disabled="isSaving || index === 0">
-            <span>Up</span>
-          </button>
-          <button @click="down(index)" class="arrow-button arrow-button--down" :disabled="isSaving || index === gifts.length - 1">
-            <span>Down</span>
-          </button>
-          <div class="nav-item__label">{{ gift.name }}</div>
-        </li>
-      </ul>
-      <p v-else>You have no gifts to order.</p>
+      <NavList no-items="You have no gifts to order." :items="gifts">
+        <template slot="item" slot-scope="props">
+          <NavItem :label="props.item.name">
+            <template v-slot:before>
+              <button
+                @click="up(props.index)"
+                class="arrow-button arrow-button--up"
+                :disabled="isSaving || props.index === 0"
+              >
+              <span>Up</span>
+            </button>
+            <button
+              @click="down(props.index)"
+              class="arrow-button arrow-button--down"
+              :disabled="isSaving || props.index === gifts.length - 1"
+            >
+              <span>Down</span>
+            </button>
+            </template>
+          </NavItem>
+        </template>
+      </NavList>
       <div class="form-input__actions">
         <button v-if="gifts.length > 0" class="button" :disabled="isSaving" @click="saveOrder()">Save</button>
       </div>
@@ -24,13 +34,17 @@
 <script>
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
+import NavList from '../components/NavList'
+import NavItem from '../components/NavItem'
 
 export default {
   name: 'PageMyListOrder',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    NavList,
+    NavItem
   },
   data () {
     return {

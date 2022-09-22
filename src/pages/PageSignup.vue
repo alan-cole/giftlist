@@ -29,7 +29,7 @@
 
 <script>
 import api from '../lib/api'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
 
 export default {
   name: 'PageSignup',

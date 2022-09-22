@@ -14,7 +14,7 @@
 <script>
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
 
 export default {
   name: 'PageAddFriend',

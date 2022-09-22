@@ -2,19 +2,25 @@
   <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/menu" title="My Gift List" />
     <div v-if="loaded" class="container">
-      <ul v-if="gifts.length > 0" class="list">
-        <li v-for="(gift, index) in gifts" :key="index" class="nav-item">
-          <div>
-            <a v-if="gift.link" :href="gift.link" target="_blank" class="nav-item__label">{{ gift.name }}</a>
-            <span v-else class="nav-item__label">{{ gift.name }}</span>
-            <div v-if="gift.price" class="nav-item__sub-item">
-              <span>${{ gift.price }}</span>
-            </div>
-          </div>
-          <router-link class="nav-item__btn nav-item__btn--edit" :to="{ name: 'PageAddGift', params: { gift } }">Edit {{ gift.name }}</router-link>
-        </li>
-      </ul>
-      <p v-else>You haven't added any gifts.</p>
+      <NavList :items="gifts" no-items="You haven't added any gifts.">
+        <template slot="item" slot-scope="props">
+          <NavItem
+            :to="props.item.link"
+            :new-window="true"
+            :label="props.item.name"
+            :sub-item="props.item.price"
+          >
+            <template slot="after">
+              <NavButton
+                type="link"
+                variation="edit"
+                :label="`Edit ${props.item.name}`"
+                :to="{ name: 'PageAddGift', params: { gift: props.item } }"
+              />
+            </template>
+          </NavItem>
+        </template>
+      </NavList>
       <div class="form-input__actions">
         <router-link v-if="gifts.length > 0" class="button button--left" to="/mylistorder">Order</router-link>
         <router-link class="button" to="/addgift">Add Gift</router-link>
@@ -26,13 +32,19 @@
 <script>
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
+import NavList from '../components/NavList'
+import NavItem from '../components/NavItem'
+import NavButton from '../components/NavButton'
 
 export default {
   name: 'PageMyList',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    NavList,
+    NavItem,
+    NavButton
   },
   data () {
     return {

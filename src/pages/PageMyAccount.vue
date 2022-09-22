@@ -2,17 +2,11 @@
   <div>
     <top-menu previousPage="/menu" title="My Account" />
     <div class="container">
-      <ul class="list">
-        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/changedetails">
-          <span class="nav-item__label">Change Details</span>
-        </router-link></li>
-        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/changepassword">
-          <span class="nav-item__label">Change Password</span>
-        </router-link></li>
-        <li><router-link class="nav-item nav-item--clickable nav-item--forward" to="/deleteaccount">
-          <span class="nav-item__label">Delete Account</span>
-        </router-link></li>
-      </ul>
+      <NavList :items="menu">
+        <template slot="item" slot-scope="props">
+          <NavItem v-bind="props.item" decal="arrow" />
+        </template>
+      </NavList>
     </div>
   </div>
 </template>
@@ -20,13 +14,26 @@
 <script>
 // import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
+import NavList from '../components/NavList'
+import NavItem from '../components/NavItem'
 
 export default {
   name: 'PageMyAccount',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    NavList,
+    NavItem
+  },
+  data () {
+    return {
+      menu: [
+        { type: 'link', label: 'Change Details', to: '/changedetails' },
+        { type: 'link', label: 'Change Password', to: '/changepassword' },
+        { type: 'link', label: 'Delete Account', to: '/deleteaccount' }
+      ]
+    }
   }
 }
 </script>

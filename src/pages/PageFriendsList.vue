@@ -2,48 +2,15 @@
   <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/menu" title="Friend's Gift List" />
     <div v-if="loaded" class="container">
-      <ul v-if="friends.length > 0" class="list">
-        <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`" class="nav-item__group">
+      <ul v-if="friends.length > 0" class="friend-list">
+        <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`">
           <Accordion :label="`${friend.name} (${friend.boughtGifts} / ${friend.unboughtGifts})`">
-            <ul v-if="friend.gifts.length > 0" class="list">
-              <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`" class="nav-item">
-                <div class="nav-item__details">
-                  <a v-if="gift.link" :href="gift.link" class="nav-item__label" target="_blank">{{ gift.name }}</a>
-                  <span v-else class="nav-item__label">{{ gift.name }}</span>
-                  <div class="nav-item__sub-item" v-if="gift.price">
-                    <span>${{ gift.price }}</span>
-                  </div>
-                  <div>
-                    <ul v-if="gift.buyers" class="buyer-list">
-                      <li
-                        v-for="(buyer, buyerIndex) in gift.buyers"
-                        :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`"
-                        class="buyer-list__item"
-                        :class="{
-                          'buyer-list__item--self': buyer.self,
-                          'buyer-list__item--solid': getBuyStateLabel(buyer.state) === 'bought'
-                        }"
-                      >
-                        <span>{{ buyer.name }}</span>
-                        <span>- {{ getBuyStateLabel(buyer.state) }}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div>
-                  <button
-                    class="small-button"
-                    :class="{
-                      'small-button--solid': buyState(gift.buyers) === 'bought',
-                      'small-button--warn': buyState(gift.buyers) === 'unbuy'
-                    }"
-                    @click="toggleBuyState(gift)"
-                    :disabled="isSaving"
-                  >{{ buyState(gift.buyers) }}</button>
-                </div>
+            <ul v-if="friend.gifts.length > 0" class="friend-list__accordion-list">
+              <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
+                <GiftList :gift="gift" :disabled="isSaving" @buy="toggleBuyState" />
               </li>
             </ul>
-            <div v-else class="nav-item__no-gifts">No gifts on their list.</div>
+            <div v-else class="friend-list__no-items">No gifts on their list.</div>
           </Accordion>
         </li>
       </ul>
@@ -55,15 +22,17 @@
 <script>
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
 import Accordion from '../components/Accordion'
+import GiftList from '../components/GiftList'
 
 export default {
   name: 'PageFriendsList',
   mixins: [authenticatedPage],
   components: {
     TopMenu,
-    Accordion
+    Accordion,
+    GiftList
   },
   data () {
     return {
@@ -73,36 +42,8 @@ export default {
     }
   },
   methods: {
-    getSelfBuyer (buyers) {
-      return buyers ? buyers.filter(buyer => buyer.self)[0] : null
-    },
-    getBuyStateLabel (state) {
-      let rtn = ''
-      switch (state) {
-        case undefined:
-        case 0:
-        case 1:
-          rtn = 'planning'
-          break
-        case 2:
-          rtn = 'bought'
-          break
-        case 3:
-          rtn = 'unbuy'
-          break
-        default:
-          break
-      }
-      return rtn
-    },
-    buyState (buyers) {
-      const buyer = this.getSelfBuyer(buyers)
-      return this.getBuyStateLabel(buyer ? buyer.state + 1 : 0)
-    },
-    async toggleBuyState (gift) {
+    async toggleBuyState (gift, buyer, state) {
       this.isSaving = true
-      const buyer = this.getSelfBuyer(gift.buyers)
-      const state = buyer ? (buyer.state || 0) : 0
       let result = null
       if (state === 2) {
         result = await api.deleteBuyer(gift._id)
@@ -159,3 +100,36 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import '../scss/_variables.scss';
+
+.friend-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  & > li {
+    margin-bottom: 16px;
+  }
+
+  &__accordion-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    & > li {
+      &:nth-child(even) {
+        background-color: $background-alt;
+      }
+    }
+  }
+
+  &__no-items {
+    color: $foreground;
+    padding: 12px 0;
+    padding-left: 8px;
+  }
+}
+
+</style>

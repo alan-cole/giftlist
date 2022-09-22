@@ -2,25 +2,40 @@
   <div :class="{ 'loading': !loaded }">
     <top-menu previousPage="/menu" title="Friends" />
     <div v-if="loaded" class="container">
-      <h2 class="nav-item__title">My friends</h2>
-      <ul v-if="friends.length > 0" class="list">
-        <li v-for="(friend, index) in friends" :key="index" class="nav-item">
-          <span class="nav-item__label">{{ friend.name }}</span>
-          <button class="nav-item__btn nav-item__btn--delete" @click="deleteFriend(friend)" :disabled="isSaving">Delete {{ friend.name }}</button>
-        </li>
-      </ul>
-      <div v-else>You haven't added any friends.</div>
+      <NavList title="My friends" no-items="You haven't added any friends." :items="friends">
+        <template slot="item" slot-scope="props">
+          <NavItem :label="props.item.name">
+            <template v-slot:after>
+              <NavButton
+                type="button"
+                variation="delete"
+                :label="`Delete ${props.item.name}`"
+                :disabled="isSaving"
+                @click="deleteFriend(props.item)"
+              />
+            </template>
+          </NavItem>
+        </template>
+      </NavList>
       <div class="form-input__actions">
         <router-link class="button" to="/addfriend">Add Friend</router-link>
       </div>
-      <h2 class="nav-item__title">Friended by</h2>
-      <ul v-if="friendedBy.length > 0" class="list">
-        <li v-for="(user, index) in friendedBy" :key="index" class="nav-item">
-          <span class="nav-item__label">{{ user.name }}</span>
-          <button v-if="!user.isFriend" class="nav-item__btn nav-item__btn--add" @click="addFriend(user)" :disabled="isSaving">Add {{ user.name }}</button>
-        </li>
-      </ul>
-      <div v-else>You are not friended by anyone.</div>
+      <NavList title="Friended by" no-items="You are not friended by anyone." :items="friendedBy">
+        <template slot="item" slot-scope="props">
+          <NavItem :label="props.item.name">
+            <template v-slot:after>
+              <NavButton
+                v-if="!props.item.isFriend"
+                type="button"
+                variation="add"
+                :label="`Add ${props.item.name}`"
+                :disabled="isSaving"
+                @click="addFriend(props.item)"
+              />
+            </template>
+          </NavItem>
+        </template>
+      </NavList>
     </div>
   </div>
 </template>
@@ -28,13 +43,19 @@
 <script>
 import api from '../lib/api'
 import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/Menu'
+import TopMenu from '../components/TopMenu'
+import NavList from '../components/NavList'
+import NavItem from '../components/NavItem'
+import NavButton from '../components/NavButton'
 
 export default {
   name: 'PageFriends',
   mixins: [authenticatedPage],
   components: {
-    TopMenu
+    TopMenu,
+    NavList,
+    NavItem,
+    NavButton
   },
   data () {
     return {
