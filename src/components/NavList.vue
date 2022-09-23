@@ -58,7 +58,6 @@ export default {
   &__no-items {
     color: $foreground;
     padding: 12px 0;
-    padding-left: 8px;
   }
 }
 </style>

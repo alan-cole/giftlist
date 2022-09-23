@@ -3,6 +3,7 @@
     <div class="gift-list__details">
       <NavItem
         type="link"
+        :newWindow="true"
         :to="gift.link"
         :label="gift.name"
         :sub-item="gift.price && `$${gift.price}`"
@@ -22,7 +23,7 @@
       <ul v-if="gift.buyers" class="gift-list__buyers">
         <li
           v-for="(buyer, buyerIndex) in gift.buyers"
-          :key="`friend-${friendIndex}-gift-${giftIndex}-buyer-${buyerIndex}`"
+          :key="`${giftId}-buyer-${buyerIndex}`"
           class="gift-list__buyer"
           :class="{
             'gift-list__buyer--self': buyer.self,
@@ -42,6 +43,7 @@ import NavItem from './NavItem.vue'
 export default {
   name: 'GiftList',
   props: {
+    giftId: String,
     gift: Object,
     disabled: Boolean
   },
@@ -88,6 +90,7 @@ export default {
 @import '../scss/_variables.scss';
 
 .gift-list {
+  $root: &;
   padding: 12px 8px;
   box-sizing: border-box;
   border: 0;
@@ -120,7 +123,7 @@ export default {
       border-width: 2px;
       border-color: $green;
 
-      &.buyer-list__item--solid {
+      &#{$root}__buyer--solid {
         background-color: $green;
         color: $black;
         border-color: transparent;

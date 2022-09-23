@@ -8,7 +8,7 @@
             :to="props.item.link"
             :new-window="true"
             :label="props.item.name"
-            :sub-item="props.item.price"
+            :sub-item="props.item.price && `$${props.item.price}`"
           >
             <template slot="after">
               <NavButton

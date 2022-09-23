@@ -7,7 +7,12 @@
           <Accordion :label="`${friend.name} (${friend.boughtGifts} / ${friend.unboughtGifts})`">
             <ul v-if="friend.gifts.length > 0" class="friend-list__accordion-list">
               <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
-                <GiftList :gift="gift" :disabled="isSaving" @buy="toggleBuyState" />
+                <GiftList
+                  :gift-id="`friend-${friendIndex}-gift-${giftIndex}`"
+                  :gift="gift"
+                  :disabled="isSaving"
+                  @buy="toggleBuyState"
+                />
               </li>
             </ul>
             <div v-else class="friend-list__no-items">No gifts on their list.</div>
