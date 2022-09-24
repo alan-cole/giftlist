@@ -64,6 +64,7 @@ export default {
   &__link {
     background-color: transparent;
     margin: 0;
+    padding: 0;
     margin-top: 6px;
     border: 0;
     display: inline-block;
