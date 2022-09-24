@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import sessions from '../lib/sessions'
-import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/TopMenu'
-import NavList from '../components/NavList'
-import NavItem from '../components/NavItem'
+import api from '../lib/api.js'
+import sessions from '../lib/sessions.js'
+import authenticatedPage from '../mixins/authentication.js'
+import TopMenu from '../components/TopMenu.vue'
+import NavList from '../components/NavList.vue'
+import NavItem from '../components/NavItem.vue'
 
 export default {
   name: 'PageMenu',

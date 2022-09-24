@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import TopMenu from '../components/TopMenu'
+import api from '../lib/api.js'
+import TopMenu from '../components/TopMenu.vue'
 
 export default {
   name: 'PageForgotPassword',

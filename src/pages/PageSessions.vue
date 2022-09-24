@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import sessions from '../lib/sessions'
-import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/TopMenu'
-import NavList from '../components/NavList'
-import NavItem from '../components/NavItem'
-import NavButton from '../components/NavButton'
-import CheckButton from '../components/CheckButton'
+import sessions from '../lib/sessions.js'
+import authenticatedPage from '../mixins/authentication.js'
+import TopMenu from '../components/TopMenu.vue'
+import NavList from '../components/NavList.vue'
+import NavItem from '../components/NavItem.vue'
+import NavButton from '../components/NavButton.vue'
+import CheckButton from '../components/CheckButton.vue'
 
 export default {
   name: 'PageSessions',

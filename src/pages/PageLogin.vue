@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import sessions from '../lib/sessions'
-import GiftlistLogo from '../components/GiftlistLogo'
+import api from '../lib/api.js'
+import sessions from '../lib/sessions.js'
+import GiftlistLogo from '../components/GiftlistLogo.vue'
 
 export default {
   name: 'PageLogin',

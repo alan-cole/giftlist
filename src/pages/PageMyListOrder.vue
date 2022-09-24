@@ -32,11 +32,11 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/TopMenu'
-import NavList from '../components/NavList'
-import NavItem from '../components/NavItem'
+import api from '../lib/api.js'
+import authenticatedPage from '../mixins/authentication.js'
+import TopMenu from '../components/TopMenu.vue'
+import NavList from '../components/NavList.vue'
+import NavItem from '../components/NavItem.vue'
 
 export default {
   name: 'PageMyListOrder',

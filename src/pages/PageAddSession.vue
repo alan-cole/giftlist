@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import sessions from '../lib/sessions'
-import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/TopMenu'
+import api from '../lib/api.js'
+import sessions from '../lib/sessions.js'
+import authenticatedPage from '../mixins/authentication.js'
+import TopMenu from '../components/TopMenu.vue'
 
 export default {
   name: 'PageAddSession',

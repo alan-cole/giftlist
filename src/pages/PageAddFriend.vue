@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import api from '../lib/api'
-import authenticatedPage from '../mixins/authentication'
-import TopMenu from '../components/TopMenu'
+import api from '../lib/api.js'
+import authenticatedPage from '../mixins/authentication.js'
+import TopMenu from '../components/TopMenu.vue'
 
 export default {
   name: 'PageAddFriend',
