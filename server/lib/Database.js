@@ -9,6 +9,10 @@ module.exports = class Database {
     this.config = config
   }
 
+  getId (id) {
+    return ObjectId(id)
+  }
+
   /**
    * Start the database.
    */
@@ -83,7 +87,7 @@ module.exports = class Database {
    */
   async delete (collection, id) {
     try {
-      await this.db.collection(collection).deleteOne({ _id: { $eq: ObjectId(id) } })
+      await this.db.collection(collection).deleteOne({ _id: { $eq: this.getId(id) } })
       return Message.success(`Deleted ${collection}`)
     } catch (err) {
       return Message.error(`Could not delete ${collection}`, err.message)
@@ -97,7 +101,7 @@ module.exports = class Database {
    */
   async get (collection, id) {
     try {
-      const results = await this.db.collection(collection).find({ _id: { $eq: ObjectId(id) } }).toArray()
+      const results = await this.db.collection(collection).find({ _id: { $eq: this.getId(id) } }).toArray()
       return Message.success(`Got ${collection}`, results)
     } catch (err) {
       return Message.error(`Could not get ${collection}`, err.message)
@@ -111,7 +115,7 @@ module.exports = class Database {
    */
   async getAll (collection, ids) {
     try {
-      const results = await this.db.collection(collection).find({ _id: { $in: ids.map(id => ObjectId(id)) }}).toArray()
+      const results = await this.db.collection(collection).find({ _id: { $in: ids.map(id => this.getId(id)) }}).toArray()
       return Message.success(`Found ${collection}`, results)
     } catch (err) {
       return Message.error(`Could not find ${collection}`, err.message)
@@ -140,7 +144,7 @@ module.exports = class Database {
    */
   async update (collection, id, fields) {
     try {
-      await this.db.collection(collection).updateOne({ _id: { $eq: ObjectId(id) } }, { $set: fields })
+      await this.db.collection(collection).updateOne({ _id: { $eq: this.getId(id) } }, { $set: fields })
       return Message.success(`Updated ${collection}`)
     } catch (err) {
       return Message.error(`Could not update ${collection}`, err.message)

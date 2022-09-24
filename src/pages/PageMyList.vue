@@ -3,19 +3,19 @@
     <top-menu previousPage="/menu" title="My Gift List" />
     <div v-if="loaded" class="container">
       <NavList :items="gifts" no-items="You haven't added any gifts.">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem
             :to="props.item.link"
             :new-window="true"
             :label="props.item.name"
             :sub-item="props.item.price && `$${props.item.price}`"
           >
-            <template slot="after">
+            <template #after>
               <NavButton
                 type="link"
                 variation="edit"
                 :label="`Edit ${props.item.name}`"
-                :to="{ name: 'PageAddGift', params: { gift: props.item } }"
+                :to="{ name: 'PageEditGift', params: { giftid: props.item._id } }"
               />
             </template>
           </NavItem>

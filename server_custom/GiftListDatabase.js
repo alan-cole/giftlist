@@ -1,6 +1,5 @@
-const Database = require('../server/lib/Database')
-const ObjectId = require('mongodb').ObjectID
-const Message = require('../server/lib/msg')
+const Database = require('apiserver/lib/Database')
+const Message = require('apiserver/lib/msg')
 
 module.exports = class GiftListDatabase extends Database {
 
@@ -33,7 +32,7 @@ module.exports = class GiftListDatabase extends Database {
    */
   async deleteForUser (collection, id, userId) {
     try {
-      await this.db.collection(collection).deleteOne({ _id: { $eq: ObjectId(id) }, user: userId })
+      await this.db.collection(collection).deleteOne({ _id: { $eq: this.getId(id) }, user: userId })
       return Message.success(`Deleted ${collection}`)
     } catch (err) {
       return Message.error(`Could not delete ${collection}`, err.message)
@@ -80,7 +79,7 @@ module.exports = class GiftListDatabase extends Database {
    */
   async updateForUser (collection, id, userId, fields) {
     try {
-      await this.db.collection(collection).updateOne({ _id: { $eq: ObjectId(id) }, user: userId }, { $set: fields })
+      await this.db.collection(collection).updateOne({ _id: { $eq: this.getId(id) }, user: userId }, { $set: fields })
       return Message.success(`Updated ${collection}`)
     } catch (err) {
       return Message.error(`Could not update ${collection}`, err.message)

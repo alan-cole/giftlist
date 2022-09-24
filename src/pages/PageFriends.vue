@@ -3,9 +3,9 @@
     <top-menu previousPage="/menu" title="Friends" />
     <div v-if="loaded" class="container">
       <NavList title="My friends" no-items="You haven't added any friends." :items="friends">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem :label="props.item.name">
-            <template v-slot:after>
+            <template #after>
               <NavButton
                 type="button"
                 variation="delete"
@@ -21,9 +21,9 @@
         <router-link class="button" to="/addfriend">Add Friend</router-link>
       </div>
       <NavList title="Friended by" no-items="You are not friended by anyone." :items="friendedBy">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem :label="props.item.name">
-            <template v-slot:after>
+            <template #after>
               <NavButton
                 v-if="!props.item.isFriend"
                 type="button"

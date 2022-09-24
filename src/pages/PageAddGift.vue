@@ -15,7 +15,7 @@
         <input v-model="editPrice" type="text" class="form-input__text" />
       </label>
       <div class="form-input__actions">
-        <input v-if="gift" class="button button--delete button--left" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
+        <input v-if="giftid" class="button button--delete button--left" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
         <input class="button" type="submit" value="Save" :disabled="isSaving" />
       </div>
     </form>
@@ -34,13 +34,14 @@ export default {
     TopMenu
   },
   props: {
-    gift: Object
+    giftid: String
   },
   data () {
     return {
-      editName: this.gift ? this.gift.name : '',
-      editLink: this.gift ? this.gift.link : '',
-      editPrice: this.gift ? this.gift.price : '',
+      order: -1,
+      editName: '',
+      editLink: '',
+      editPrice: '',
       isSaving: false
     }
   },
@@ -50,7 +51,7 @@ export default {
         this.isSaving = true
         const userInput = confirm('Are you sure you want to delete?')
         if (userInput) {
-          const result = await api.deleteGift(this.gift._id)
+          const result = await api.deleteGift(this.giftid)
           if (!result.error) {
             this.$router.push('/mylist')
           } else {
@@ -64,12 +65,12 @@ export default {
       if (this.isSaving === false) {
         this.isSaving = true
         let result = null
-        if (this.gift) {
-          result = await api.updateGift(this.gift._id, {
+        if (this.giftid) {
+          result = await api.updateGift(this.giftid, {
             name: this.editName,
             link: this.editLink,
             price: this.editPrice,
-            order: this.gift.order
+            order: this.order
           })
         } else {
           result = await api.addGift({
@@ -87,6 +88,16 @@ export default {
         this.isSaving = false
       }
     }
-  }
+  },
+  async created () {
+    if (this.giftid) {
+      const result = await api.getGift(this.giftid)
+      const gift = result.result[0]
+      this.editName = gift.name
+      this.editLink = gift.link
+      this.editPrice = gift.price
+      this.order = gift.order
+    }
+  },
 }
 </script>

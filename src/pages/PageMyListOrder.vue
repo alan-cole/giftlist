@@ -3,9 +3,9 @@
     <top-menu previousPage="/mylist" title="Order My Gifts" />
     <div v-if="loaded" class="container">
       <NavList no-items="You have no gifts to order." :items="gifts">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem :label="props.item.name">
-            <template v-slot:before>
+            <template #before>
               <button
                 @click="up(props.index)"
                 class="arrow-button arrow-button--up"

@@ -8,7 +8,7 @@
         :label="gift.name"
         :sub-item="gift.price && `$${gift.price}`"
       >
-        <template slot="after">
+        <template #after>
           <button
             class="small-button"
             :class="{

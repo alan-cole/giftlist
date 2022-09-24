@@ -1,10 +1,10 @@
 const crypto = require('crypto')
 const GiftListDatabase = require('./GiftListDatabase')
-const RequestHandler = require('../server/lib/RequestHandler')
-const Authentication = require('../server/lib/Authentication')
-const Message = require('../server/lib/msg')
-const Mail = require('../server/lib/Mail')
-const log = require('../server/lib/log')
+const RequestHandler = require('apiserver/lib/RequestHandler')
+const Authentication = require('apiserver/lib/Authentication')
+const Message = require('apiserver/lib/msg')
+const Mail = require('apiserver/lib/Mail')
+const log = require('apiserver/lib/log')
 
 module.exports = class GiftListRequestHandler extends RequestHandler {
 
@@ -88,6 +88,9 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
         break
       case 'delete_gift':
         result = await this.requestDeleteGift(requestBody, token)
+        break
+      case 'get_gift':
+        result = await this.requestGetGift(requestBody, token)
         break
       case 'get_gifts':
         result = await this.requestGetGifts(requestBody, token)
@@ -323,6 +326,11 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     const giftResp = await this.db.deleteForUser('gifts', requestBody.giftId, token.id)
     const buyerResp = await this.db.deleteAllByQuery('buyers', { gift: requestBody.giftId })
     return giftResp
+  }
+
+  async requestGetGift (requestBody, token) {
+    const resp = await this.db.findForUser('gifts', token.id, { _id: { $eq: this.db.getId(requestBody.giftId) } })
+    return resp
   }
 
   async requestGetGifts (requestBody, token) {

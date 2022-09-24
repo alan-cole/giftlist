@@ -3,7 +3,7 @@
     <top-menu title="Menu" />
     <nav class="container">
       <NavList :items="menu">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem v-bind="props.item" decal="arrow" />
         </template>
       </NavList>

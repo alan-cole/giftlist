@@ -1,8 +1,6 @@
-import Connector from '../../lib/connector'
+import { Connector } from './connector.js'
 
-const host = process.env.GL_API || window.location.origin
+const host = import.meta.env.VITE_GL_API || window.location.origin
 const token = localStorage.getItem('token') || ''
 
-const apiInstance = new Connector(host, token)
-
-export default apiInstance
+export default new Connector(host, token)

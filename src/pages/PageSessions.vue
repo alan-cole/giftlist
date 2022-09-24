@@ -3,16 +3,16 @@
     <top-menu previousPage="/menu" title="Sessions" />
     <div class="container">
       <NavList no-items="You haven't any sessions." :items="list">
-        <template slot="item" slot-scope="props">
+        <template #item="props">
           <NavItem :label="props.item.name">
-            <template v-slot:before>
+            <template #before>
               <CheckButton
                 :checked="props.item.checked"
                 @click="setSession(props.index)"
                 label="Toggle Session"
               />
             </template>
-            <template v-slot:after>
+            <template #after>
               <NavButton
                 type="button"
                 variation="delete"
