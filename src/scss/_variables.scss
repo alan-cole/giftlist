@@ -9,9 +9,9 @@ $background: var(--background);
 $foreground: var(--foreground);
 $highlight: var(--highlight);
 
-$button-font: Noto Sans;
-$default-font: Serif;
+$button-font: 'OpenSans-Regular';
+$default-font: 'OpenSans-Regular';
 
 $foreground-arrow-next: var(--foreground-arrow-next);
-$black-arrow-next: url('assets/icons/icon_next_black.svg');
-$white-arrow-next: url('assets/icons/icon_next_white.svg');
+$black-arrow-next: url('./assets/icons/icon_next_black.svg');
+$white-arrow-next: url('./assets/icons/icon_next_white.svg');

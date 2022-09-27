@@ -115,7 +115,7 @@ export default {
   list-style: none;
 
   & > li {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
 
   &__accordion-list {

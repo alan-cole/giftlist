@@ -11,13 +11,13 @@
         @click="click"
       >{{ label }}</button>
       <a
-        v-else-if="newWindow && type === `link`"
+        v-else-if="newWindow && to && type === `link`"
         :href="to"
         target="_blank"
         class="nav-item__link nav-item__link--clickable"
       >{{ label }}</a>
       <router-link
-        v-else-if="!newWindow && type === `link`"
+        v-else-if="!newWindow && to && type === `link`"
         :to="to"
         class="nav-item__link nav-item__link--clickable"
       >{{ label }}</router-link>
@@ -66,10 +66,11 @@ export default {
     margin: 0;
     padding: 0;
     margin-top: 6px;
+    margin-bottom: 6px;
     border: 0;
     display: inline-block;
     font-family: $default-font;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     color: $foreground;
 
@@ -99,8 +100,8 @@ export default {
 
   &__sub {
     color: $foreground;
-    margin-top: 12px;
     font-size: 14px;
+    font-family: $default-font;
   }
 }
 </style>

@@ -39,6 +39,7 @@
 
 .small-button {
   cursor: pointer;
+  font-family: $button-font;
   background-color: $background;
   background-image: $foreground-arrow-next;
   background-size: 20%;
@@ -53,20 +54,6 @@
 
   &:disabled {
     opacity: 0.5;
-  }
-
-  &::before {
-    content: '';
-    width: 32px;
-    height: 32px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
   }
 
   &--solid {

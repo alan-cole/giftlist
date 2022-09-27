@@ -1,5 +1,6 @@
 @import 'palette';
 @import 'variables';
+@import 'font';
 @import 'form';
 @import 'button';
 @import 'link';
@@ -18,6 +19,7 @@ body {
 
 p {
   color: $foreground;
+  font-family: $default-font;
 }
 
 .visually-hidden {

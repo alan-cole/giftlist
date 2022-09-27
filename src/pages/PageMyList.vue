@@ -5,6 +5,7 @@
       <NavList :items="gifts" no-items="You haven't added any gifts.">
         <template #item="props">
           <NavItem
+            type="link"
             :to="props.item.link"
             :new-window="true"
             :label="props.item.name"
