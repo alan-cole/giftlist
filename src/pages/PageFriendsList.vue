@@ -132,6 +132,7 @@ export default {
 
   &__no-items {
     color: $foreground;
+    font-family: $default-font;
     padding: 12px 0;
     padding-left: 8px;
   }

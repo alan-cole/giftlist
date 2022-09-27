@@ -112,6 +112,7 @@ export default {
     border-radius: 4px;
     margin-right: 8px;
     font-size: 12px;
+    font-family: $default-font;
     display: inline-block;
 
     &--solid {
