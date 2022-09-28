@@ -31,7 +31,7 @@
           }"
         >
           <span>{{ buyer.name }}</span>
-          <span>- {{ getBuyStateLabel(buyer.state) }}</span>
+          <span> - {{ getBuyStateLabel(buyer.state) }}</span>
         </li>
       </ul>
     </div>

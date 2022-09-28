@@ -52,6 +52,8 @@ export default {
 @import '../scss/_variables.scss';
 
 .nav-item {
+  $root: &;
+
   display: block;
   width: 100%;
   display: flex;
@@ -62,6 +64,7 @@ export default {
   }
 
   &__link {
+    appearance: none;
     background-color: transparent;
     margin: 0;
     padding: 0;
@@ -72,6 +75,7 @@ export default {
     font-family: $default-font;
     font-size: 16px;
     text-decoration: none;
+    text-align: left;
     color: $foreground;
 
     &--clickable {
@@ -95,6 +99,10 @@ export default {
       background-position: center;
       margin-left: auto;
       background-image: url('../assets/icons/icon_next_blue.svg');
+    }
+
+    #{$root}__link--clickable {
+      width: 100%;
     }
   }
 
