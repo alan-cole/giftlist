@@ -6,7 +6,7 @@
         :newWindow="true"
         :to="gift.link"
         :label="gift.name"
-        :sub-item="gift.price && `$${gift.price}`"
+        :price="gift.price"
       >
         <template #after>
           <button

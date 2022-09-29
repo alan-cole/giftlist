@@ -9,7 +9,7 @@
             :to="props.item.link"
             :new-window="true"
             :label="props.item.name"
-            :sub-item="price(props.item.price)"
+            :price="props.item.price"
           >
             <template #after>
               <NavButton
@@ -51,11 +51,6 @@ export default {
     return {
       gifts: [],
       loaded: false
-    }
-  },
-  methods: {
-    price (price) {
-      return price && !isNaN(price) ? `$${price}` : price
     }
   },
   async created () {

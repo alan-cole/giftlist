@@ -25,8 +25,8 @@
         v-else
         class="nav-item__link"
       >{{ label }}</span>
-      <div v-if="subItem" class="nav-item__sub">
-        <span>{{ subItem }}</span>
+      <div v-if="displayPrice" class="nav-item__price">
+        <span>{{ displayPrice }}</span>
       </div>
     </div>
     <slot name="after"></slot>
@@ -41,9 +41,15 @@ export default {
     to: String,
     label: String,
     newWindow: Boolean,
-    subItem: String,
+    price: String,
     click: Function,
     decal: String
+  },
+  computed: {
+    displayPrice () {
+      const p = this.price
+      return (p && !isNaN(p)) ? `$${p}` : p
+    }
   }
 }
 </script>
@@ -106,7 +112,7 @@ export default {
     }
   }
 
-  &__sub {
+  &__price {
     color: $foreground;
     font-size: 14px;
     font-family: $default-font;

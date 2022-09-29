@@ -3,9 +3,7 @@
     <h2 v-if="title" class="nav-list__title">{{ title }}</h2>
     <ul v-if="items.length > 0" class="nav-list__list">
       <li v-for="(item, index) in items" :key="index">
-        <slot name="item" :item="item" :index="index">
-          dwdwdw
-        </slot>
+        <slot name="item" :item="item" :index="index"></slot>
       </li>
     </ul>
     <div v-else class="nav-list__no-items">{{ noItems }}</div>
