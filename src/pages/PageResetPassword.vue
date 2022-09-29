@@ -6,7 +6,9 @@
         <span>New Password (required)</span>
         <input v-model="editPassword" type="password" class="form-input__text" required />
       </label>
-      <input class="button" type="submit" value="Reset password" :disabled="isSaving" />
+      <div class="form-input__actions">
+        <input class="button" type="submit" value="Reset password" :disabled="isSaving" />
+      </div>
     </form>
   </div>
 </template>

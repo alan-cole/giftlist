@@ -6,7 +6,9 @@
         <span>Username (required)</span>
         <input v-model="editUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
-      <input class="button" type="submit" value="Get reset email" :disabled="isSaving" />
+      <div class="form-input__actions">
+        <input class="button" type="submit" value="Get reset email" :disabled="isSaving" />
+      </div>
     </form>
   </div>
 </template>

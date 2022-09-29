@@ -22,7 +22,9 @@
         <span>Signup Code (required)</span>
         <input v-model="editCode" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
       </label>
-      <input class="button" type="submit" value="Register" :disabled="isSaving" />
+      <div class="form-input__actions">
+        <input class="button" type="submit" value="Register" :disabled="isSaving" />
+      </div>
     </form>
   </div>
 </template>
