@@ -3,7 +3,6 @@
     v-if="type === 'button'"
     class="nav-button"
     :class="classes"
-    @click="onClick"
     :disabled="disabled"
   >{{ label }}</button>
   <router-link

@@ -1,48 +1,43 @@
 <template>
-  <div :class="{ 'loading': !loaded }">
-    <top-menu previousPage="/mylist" title="Order My Gifts" />
-    <div v-if="loaded" class="container">
-      <NavList no-items="You have no gifts to order." :items="gifts">
-        <template #item="props">
-          <NavItem :label="props.item.name">
-            <template #before>
-              <button
-                @click="up(props.index)"
-                class="arrow-button arrow-button--up"
-                :disabled="isSaving || props.index === 0"
-              >
-              <span>Up</span>
-            </button>
+  <Layout :loaded="loaded" previous-page="/mylist" title="Order My Gifts">
+    <NavList no-items="You have no gifts to order." :items="gifts">
+      <template #item="props">
+        <NavItem :label="props.item.name">
+          <template #before>
             <button
-              @click="down(props.index)"
-              class="arrow-button arrow-button--down"
-              :disabled="isSaving || props.index === gifts.length - 1"
+              @click="up(props.index)"
+              class="arrow-button arrow-button--up"
+              :disabled="isSaving || props.index === 0"
             >
-              <span>Down</span>
-            </button>
-            </template>
-          </NavItem>
-        </template>
-      </NavList>
-      <div class="form-input__actions">
-        <button v-if="gifts.length > 0" class="button" :disabled="isSaving" @click="saveOrder()">Save</button>
-      </div>
-    </div>
-  </div>
+            <span>Up</span>
+          </button>
+          <button
+            @click="down(props.index)"
+            class="arrow-button arrow-button--down"
+            :disabled="isSaving || props.index === gifts.length - 1"
+          >
+            <span>Down</span>
+          </button>
+          </template>
+        </NavItem>
+      </template>
+    </NavList>
+    <template #actions>
+      <button v-if="gifts.length > 0" class="button" :disabled="isSaving" @click="saveOrder()">Save</button>
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import NavList from '../components/NavList.vue'
 import NavItem from '../components/NavItem.vue'
 
 export default {
   name: 'PageMyListOrder',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     NavList,
     NavItem
   },

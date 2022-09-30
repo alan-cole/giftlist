@@ -1,26 +1,23 @@
 <template>
-  <div>
-    <top-menu previousPage="/" title="Reset Password" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>New Password (required)</span>
-        <input v-model="editPassword" type="password" class="form-input__text" required />
-      </label>
-      <div class="form-input__actions">
-        <input class="button" type="submit" value="Reset password" :disabled="isSaving" />
-      </div>
-    </form>
-  </div>
+  <Layout previous-page="/" title="Reset Password" :form="true" :form-submit="submitForm" :is-authenticated="false">
+    <label class="form-input__label">
+      <span>New Password (required)</span>
+      <input v-model="editPassword" type="password" class="form-input__text" required />
+    </label>
+    <template #actions>
+      <input class="button" type="submit" value="Reset password" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageResetPassword',
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

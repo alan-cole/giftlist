@@ -1,26 +1,23 @@
 <template>
-  <div>
-    <top-menu previousPage="/friends" title="New Friend" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>Friend's Username (required)</span>
-        <input v-model="editFriendUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
-      </label>
+  <Layout previous-page="/friends" title="New Friend" :form="true" :form-submit="submitForm">
+    <label class="form-input__label">
+      <span>Friend's Username (required)</span>
+      <input v-model="editFriendUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
+    </label>
+    <template #actions>
       <input class="button" type="submit" value="Save" :disabled="isSaving" />
-    </form>
-  </div>
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageAddFriend',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

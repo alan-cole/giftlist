@@ -1,31 +1,28 @@
 <template>
-  <div>
-    <top-menu previousPage="/sessions" title="New Session" />
-    <form @submit.prevent="requestLogin()" class="container">
-      <label class="form-input__label">
-        <span>Username</span>
-        <input class="form-input__text" v-model="username" type="text" autocorrect="off" autocapitalize="none" />
-      </label>
-      <label class="form-input__label">
-        <span>Password</span>
-        <input class="form-input__text" v-model="password" type="password" />
-      </label>
-      <input class="button button--wide" type="submit" value="Log in" :disabled="isSaving" />
-    </form>
-  </div>
+  <Layout previous-page="/sessions" title="New Session" :form="true" :form-submit="requestLogin">
+    <label class="form-input__label">
+      <span>Username</span>
+      <input class="form-input__text" v-model="username" type="text" autocorrect="off" autocapitalize="none" />
+    </label>
+    <label class="form-input__label">
+      <span>Password</span>
+      <input class="form-input__text" v-model="password" type="password" />
+    </label>
+    <template #actions>
+      <input class="button" type="submit" value="Log in" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
 import sessions from '../lib/sessions.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageAddSession',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

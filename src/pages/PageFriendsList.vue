@@ -1,41 +1,36 @@
 <template>
-  <div :class="{ 'loading': !loaded }">
-    <top-menu previousPage="/menu" title="Friend's Gift List" />
-    <div v-if="loaded" class="container">
-      <ul v-if="friends.length > 0" class="friend-list">
-        <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`">
-          <Accordion :label="`${friend.name} (${friend.boughtGifts} / ${friend.unboughtGifts})`">
-            <ul v-if="friend.gifts.length > 0" class="friend-list__accordion-list">
-              <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
-                <GiftList
-                  :gift-id="`friend-${friendIndex}-gift-${giftIndex}`"
-                  :gift="gift"
-                  :disabled="isSaving"
-                  @buy="toggleBuyState"
-                />
-              </li>
-            </ul>
-            <div v-else class="friend-list__no-items">No gifts on their list.</div>
-          </Accordion>
-        </li>
-      </ul>
-      <div v-else>You haven't added any friends.</div>
-    </div>
-  </div>
+  <Layout :loaded="loaded" previous-page="/menu" title="Friend's Gift List">
+    <ul v-if="friends.length > 0" class="friend-list">
+      <li v-for="(friend, friendIndex) in friends" :key="`friend-${friendIndex}`">
+        <Accordion :label="`${friend.name} (${friend.boughtGifts} / ${friend.unboughtGifts})`">
+          <ul v-if="friend.gifts.length > 0" class="friend-list__accordion-list">
+            <li v-for="(gift, giftIndex) in friend.gifts" :key="`friend-${friendIndex}-gift-${giftIndex}`">
+              <GiftList
+                :gift-id="`friend-${friendIndex}-gift-${giftIndex}`"
+                :gift="gift"
+                :disabled="isSaving"
+                @buy="toggleBuyState"
+              />
+            </li>
+          </ul>
+          <div v-else class="friend-list__no-items">No gifts on their list.</div>
+        </Accordion>
+      </li>
+    </ul>
+    <div v-else>You haven't added any friends.</div>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import Accordion from '../components/Accordion.vue'
 import GiftList from '../components/GiftList.vue'
 
 export default {
   name: 'PageFriendsList',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     Accordion,
     GiftList
   },

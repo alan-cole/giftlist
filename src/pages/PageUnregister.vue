@@ -1,27 +1,22 @@
 <template>
-  <div>
-    <top-menu previousPage="/myaccount" title="Delete Account" />
-    <div class="container">
-      <p>Deleting your account will remove all your data from Gift List.</p>
-      <p>If you want to use Gift List again, you will need to create a new account.</p>
-      <div class="form-input__actions">
-        <input class="button button--delete button--left" type="button" @click="deleteAccount()" value="Delete" :disabled="isSaving" />
-      </div>
-    </div>
-  </div>
+  <Layout previous-page="/myaccount" title="Delete Account">
+    <p>Deleting your account will remove all your data from Gift List.</p>
+    <p>If you want to use Gift List again, you will need to create a new account.</p>
+    <template #actions>
+      <input class="button button--delete button--left" type="button" @click="deleteAccount()" value="Delete" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
 import sessions from '../lib/sessions.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageUnregister',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

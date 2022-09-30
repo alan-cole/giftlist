@@ -1,36 +1,31 @@
 <template>
-  <div>
-    <top-menu previousPage="/myaccount" title="My Details" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>Username (required)</span>
-        <input v-model="editUsername" type="text" class="form-input__text" required />
-      </label>
-      <label class="form-input__label">
-        <span>Name (required)</span>
-        <input v-model="editName" type="text" class="form-input__text" required />
-      </label>
-      <label class="form-input__label">
-        <span>Email</span>
-        <input v-model="editEmail" type="email" class="form-input__text" />
-      </label>
-      <div class="form-input__actions">
-        <input class="button" type="submit" value="Save" :disabled="isSaving" />
-      </div>
-    </form>
-  </div>
+  <Layout previous-page="/myaccount" title="My Details" :form="true" :form-submit="submitForm">
+    <label class="form-input__label">
+      <span>Username (required)</span>
+      <input v-model="editUsername" type="text" class="form-input__text" required />
+    </label>
+    <label class="form-input__label">
+      <span>Name (required)</span>
+      <input v-model="editName" type="text" class="form-input__text" required />
+    </label>
+    <label class="form-input__label">
+      <span>Email</span>
+      <input v-model="editEmail" type="email" class="form-input__text" />
+    </label>
+    <template #actions>
+      <input class="button" type="submit" value="Save" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageMyAccount',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

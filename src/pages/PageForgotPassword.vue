@@ -1,26 +1,23 @@
 <template>
-  <div>
-    <top-menu previousPage="/" title="Forgot Password" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>Username (required)</span>
-        <input v-model="editUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
-      </label>
-      <div class="form-input__actions">
-        <input class="button" type="submit" value="Get reset email" :disabled="isSaving" />
-      </div>
-    </form>
-  </div>
+  <Layout previous-page="/" title="Forgot Password" :form="true" :form-submit="submitForm" :is-authenticated="false">
+    <label class="form-input__label">
+      <span>Username (required)</span>
+      <input v-model="editUsername" type="text" class="form-input__text" required autocorrect="off" autocapitalize="none" />
+    </label>
+    <template #actions>
+      <input class="button" type="submit" value="Get reset email" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageForgotPassword',
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

@@ -1,37 +1,32 @@
 <template>
-  <div>
-    <top-menu previousPage="/mylist" title="New Gift" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>Gift Name (required)</span>
-        <input v-model="editName" type="text" class="form-input__text" required />
-      </label>
-      <label class="form-input__label">
-        <span>Link</span>
-        <input v-model="editLink" type="text" class="form-input__text" />
-      </label>
-      <label class="form-input__label">
-        <span>Price</span>
-        <input v-model="editPrice" type="text" class="form-input__text" />
-      </label>
-      <div class="form-input__actions">
-        <input v-if="giftid" class="button button--delete button--left" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
-        <input class="button" type="submit" value="Save" :disabled="isSaving" />
-      </div>
-    </form>
-  </div>
+  <Layout previous-page="/mylist" title="New Gift" :form="true" :form-submit="submitForm">
+    <label class="form-input__label">
+      <span>Gift Name (required)</span>
+      <input v-model="editName" type="text" class="form-input__text" required />
+    </label>
+    <label class="form-input__label">
+      <span>Link</span>
+      <input v-model="editLink" type="text" class="form-input__text" />
+    </label>
+    <label class="form-input__label">
+      <span>Price</span>
+      <input v-model="editPrice" type="text" class="form-input__text" />
+    </label>
+    <template #actions>
+      <input v-if="giftid" class="button button--delete button--left" type="button" @click="deleteGift()" value="Delete" :disabled="isSaving" />
+      <input class="button" type="submit" value="Save" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageAddGift',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   props: {
     giftid: String

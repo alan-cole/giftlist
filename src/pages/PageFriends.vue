@@ -1,58 +1,53 @@
 <template>
-  <div :class="{ 'loading': !loaded }">
-    <top-menu previousPage="/menu" title="Friends" />
-    <div v-if="loaded" class="container">
-      <NavList title="My friends" no-items="You haven't added any friends." :items="friends">
-        <template #item="props">
-          <NavItem :label="props.item.name">
-            <template #after>
-              <NavButton
-                type="button"
-                variation="delete"
-                :label="`Delete ${props.item.name}`"
-                :disabled="isSaving"
-                @click="deleteFriend(props.item)"
-              />
-            </template>
-          </NavItem>
-        </template>
-      </NavList>
-      <div class="form-input__actions">
-        <router-link class="button" to="/addfriend">Add Friend</router-link>
-      </div>
-      <NavList title="Friended by" no-items="You are not friended by anyone." :items="friendedBy">
-        <template #item="props">
-          <NavItem :label="props.item.name">
-            <template #after>
-              <NavButton
-                v-if="!props.item.isFriend"
-                type="button"
-                variation="add"
-                :label="`Add ${props.item.name}`"
-                :disabled="isSaving"
-                @click="addFriend(props.item)"
-              />
-            </template>
-          </NavItem>
-        </template>
-      </NavList>
+  <Layout :loaded="loaded" previous-page="/menu" title="Friends">
+    <NavList title="My friends" no-items="You haven't added any friends." :items="friends">
+      <template #item="props">
+        <NavItem :label="props.item.name">
+          <template #after>
+            <NavButton
+              type="button"
+              variation="delete"
+              :label="`Delete ${props.item.name}`"
+              :disabled="isSaving"
+              @click="deleteFriend(props.item)"
+            />
+          </template>
+        </NavItem>
+      </template>
+    </NavList>
+    <div class="form-input__actions">
+      <router-link class="button" to="/addfriend">Add Friend</router-link>
     </div>
-  </div>
+    <NavList title="Friended by" no-items="You are not friended by anyone." :items="friendedBy">
+      <template #item="props">
+        <NavItem :label="props.item.name">
+          <template #after>
+            <NavButton
+              v-if="!props.item.isFriend"
+              type="button"
+              variation="add"
+              :label="`Add ${props.item.name}`"
+              :disabled="isSaving"
+              @click="addFriend(props.item)"
+            />
+          </template>
+        </NavItem>
+      </template>
+    </NavList>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import NavList from '../components/NavList.vue'
 import NavItem from '../components/NavItem.vue'
 import NavButton from '../components/NavButton.vue'
 
 export default {
   name: 'PageFriends',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     NavList,
     NavItem,
     NavButton

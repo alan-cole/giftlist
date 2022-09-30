@@ -1,27 +1,22 @@
 <template>
-  <div>
-    <top-menu previousPage="/menu" title="My Account" />
-    <div class="container">
-      <NavList :items="menu">
-        <template #item="props">
-          <NavItem v-bind="props.item" decal="arrow" />
-        </template>
-      </NavList>
-    </div>
-  </div>
+  <Layout previous-page="/menu" title="My Account">
+    <NavList :items="menu">
+      <template #item="props">
+        <NavItem v-bind="props.item" decal="arrow" />
+      </template>
+    </NavList>
+  </Layout>
 </template>
 
 <script>
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import NavList from '../components/NavList.vue'
 import NavItem from '../components/NavItem.vue'
 
 export default {
   name: 'PageMyAccount',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     NavList,
     NavItem
   },

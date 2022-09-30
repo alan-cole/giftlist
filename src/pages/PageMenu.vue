@@ -1,29 +1,26 @@
 <template>
-  <div>
-    <top-menu title="Menu" />
-    <nav class="container">
+  <Layout title="Menu">
+    <nav>
       <NavList :items="menu">
         <template #item="props">
           <NavItem v-bind="props.item" decal="arrow" />
         </template>
       </NavList>
     </nav>
-  </div>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
 import sessions from '../lib/sessions.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import NavList from '../components/NavList.vue'
 import NavItem from '../components/NavItem.vue'
 
 export default {
   name: 'PageMenu',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     NavList,
     NavItem
   },

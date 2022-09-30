@@ -1,36 +1,31 @@
 <template>
-  <div>
-    <top-menu previousPage="/myaccount" title="My Password" />
-    <form @submit.prevent="submitForm()" class="container">
-      <label class="form-input__label">
-        <span>Password (required)</span>
-        <input v-model="editPassword" type="password" class="form-input__text" required />
-      </label>
-      <label class="form-input__label">
-        <span>New Password (required)</span>
-        <input v-model="editNewPassword" type="password" class="form-input__text" required />
-      </label>
-      <label class="form-input__label">
-        <span>Repeat New Password (required)</span>
-        <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
-      </label>
-      <div class="form-input__actions">
-        <input class="button" type="submit" value="Save" :disabled="isSaving" />
-      </div>
-    </form>
-  </div>
+  <Layout previous-page="/myaccount" title="My Password" :form="true" :form-submit="submitForm">
+    <label class="form-input__label">
+      <span>Password (required)</span>
+      <input v-model="editPassword" type="password" class="form-input__text" required />
+    </label>
+    <label class="form-input__label">
+      <span>New Password (required)</span>
+      <input v-model="editNewPassword" type="password" class="form-input__text" required />
+    </label>
+    <label class="form-input__label">
+      <span>Repeat New Password (required)</span>
+      <input v-model="editNewPasswordRepeat" type="password" class="form-input__text" />
+    </label>
+    <template #actions>
+      <input class="button" type="submit" value="Save" :disabled="isSaving" />
+    </template>
+  </Layout>
 </template>
 
 <script>
 import api from '../lib/api.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 
 export default {
   name: 'PageMyPassword',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu
+    Layout
   },
   data () {
     return {

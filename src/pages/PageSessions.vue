@@ -1,39 +1,35 @@
 <template>
-  <div>
-    <top-menu previousPage="/menu" title="Sessions" />
-    <div class="container">
-      <NavList no-items="You haven't any sessions." :items="list">
-        <template #item="props">
-          <NavItem :label="props.item.name">
-            <template #before>
-              <CheckButton
-                :checked="props.item.checked"
-                @click="setSession(props.index)"
-                label="Toggle Session"
-              />
-            </template>
-            <template #after>
-              <NavButton
-                type="button"
-                variation="delete"
-                label="Delete"
-                @click="deleteSession(props.index)"
-              />
-            </template>
-          </NavItem>
-        </template>
-      </NavList>
-      <div class="form-input__actions">
-        <router-link class="button" to="/addsession">Add Session</router-link>
-      </div>
-    </div>
-  </div>
+  <Layout previous-page="/menu" title="Sessions">
+    <NavList no-items="You haven't any sessions." :items="list">
+      <template #item="props">
+        <NavItem :label="props.item.name">
+          <template #before>
+            <CheckButton
+              :checked="props.item.checked"
+              @click="setSession(props.index)"
+              label="Toggle Session"
+            />
+          </template>
+          <template #after>
+            <NavButton
+              type="button"
+              variation="delete"
+              label="Delete"
+              @click="deleteSession(props.index)"
+            />
+          </template>
+        </NavItem>
+      </template>
+    </NavList>
+    <template #actions>
+      <router-link class="button" to="/addsession">Add Session</router-link>
+    </template>
+  </Layout>
 </template>
 
 <script>
 import sessions from '../lib/sessions.js'
-import authenticatedPage from '../mixins/authentication.js'
-import TopMenu from '../components/TopMenu.vue'
+import Layout from '../components/Layout.vue'
 import NavList from '../components/NavList.vue'
 import NavItem from '../components/NavItem.vue'
 import NavButton from '../components/NavButton.vue'
@@ -41,9 +37,8 @@ import CheckButton from '../components/CheckButton.vue'
 
 export default {
   name: 'PageSessions',
-  mixins: [authenticatedPage],
   components: {
-    TopMenu,
+    Layout,
     NavList,
     NavItem,
     NavButton,
