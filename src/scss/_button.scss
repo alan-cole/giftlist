@@ -37,40 +37,6 @@
   }
 }
 
-.small-button {
-  cursor: pointer;
-  font-family: $button-font;
-  background-color: $background;
-  background-image: $foreground-arrow-next;
-  background-size: 20%;
-  background-repeat: no-repeat;
-  background-position: 2px center;
-  color: $foreground;
-  border: 2px solid $green;
-  width: 95px;
-  padding: 4px 4px 4px 16px;
-  border-radius: 4px;
-  flex-shrink: 0;
-
-  &:disabled {
-    opacity: 0.5;
-  }
-
-  &--solid {
-    background-color: $green;
-    color: $black;
-    background-image: $black-arrow-next;
-    border-color: transparent;
-  }
-
-  &--warn {
-    background-color: $red;
-    color: $white;
-    background-image: $white-arrow-next;
-    border-color: transparent;
-  }
-}
-
 .arrow-button {
   cursor: pointer;
   position: relative;

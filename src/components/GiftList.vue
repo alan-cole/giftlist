@@ -9,15 +9,7 @@
         :price="gift.price"
       >
         <template #after>
-          <button
-            class="small-button"
-            :class="{
-              'small-button--solid': buyState(gift.buyers) === 'bought',
-              'small-button--warn': buyState(gift.buyers) === 'unbuy'
-            }"
-            @click="toggleBuyState(gift)"
-            :disabled="disabled"
-          >{{ buyState(gift.buyers) }}</button>
+          <BuyButton :state="buyState(gift.buyers)" :label="buyState(gift.buyers)" :disabled="disabled" @toggle="toggleBuyState(gift)" />
         </template>
       </NavItem>
       <ul v-if="gift.buyers" class="gift-list__buyers">
@@ -40,6 +32,7 @@
 
 <script>
 import NavItem from './NavItem.vue'
+import BuyButton from './BuyButton.vue'
 export default {
   name: 'GiftList',
   props: {
@@ -48,7 +41,8 @@ export default {
     disabled: Boolean
   },
   components: {
-    NavItem
+    NavItem,
+    BuyButton
   },
   methods: {
     getSelfBuyer (buyers) {
