@@ -1,17 +1,7 @@
 <template>
   <div class="gift-list">
     <div class="gift-list__details">
-      <NavItem
-        type="link"
-        :newWindow="true"
-        :to="gift.link"
-        :label="gift.name"
-        :price="gift.price"
-      >
-        <template #after>
-          <BuyButton :state="buyState(gift.buyers)" :label="buyState(gift.buyers)" :disabled="disabled" @toggle="toggleBuyState(gift)" />
-        </template>
-      </NavItem>
+      <NavItem type="link" :newWindow="true" :to="gift.link" :label="gift.name" :price="gift.price" />
       <ul v-if="gift.buyers" class="gift-list__buyers">
         <li
           v-for="(buyer, buyerIndex) in gift.buyers"
@@ -26,6 +16,10 @@
           <span> - {{ getBuyStateLabel(buyer.state) }}</span>
         </li>
       </ul>
+      <div class="gift-list__buy-state">
+        <span class="gift-list__buy-state-label">{{ getCurrentBuyStateLabel(gift.buyers) }}</span>
+        <BuyButton :state="getNextBuyState(gift.buyers)" :disabled="disabled" @toggle="toggleBuyState(gift)" />
+      </div>
     </div>
   </div>
 </template>
@@ -67,9 +61,32 @@ export default {
       }
       return rtn
     },
-    buyState (buyers) {
+    getBuyState (state) {
+      // 0 = Not buying, 1 = Planning, 2 = Bought
+      return (state === undefined || state === 0) ? 0 : state
+    },
+    getNextBuyState (buyers) {
       const buyer = this.getSelfBuyer(buyers)
       return this.getBuyStateLabel(buyer ? buyer.state + 1 : 0)
+    },
+    getCurrentBuyState (buyers) {
+      const buyer = this.getSelfBuyer(buyers)
+      return this.getBuyStateLabel(buyer ? buyer.state : 0)
+    },
+    getCurrentBuyStateLabel (buyers) {
+      const buyer = this.getSelfBuyer(buyers)
+      let response = 'You have not bought this.'
+      if (buyer) {
+        switch (this.getBuyState(buyer.state)) {
+          case 1:
+            response = 'You are planning to buy this.'
+            break
+          case 2:
+            response = 'You have bought this.'
+            break
+        }
+      }
+      return response
     },
     async toggleBuyState (gift) {
       const buyer = this.getSelfBuyer(gift.buyers)
@@ -124,6 +141,20 @@ export default {
         border-color: transparent;
       }
     }
+  }
+
+  &__buy-state {
+    padding-top: 4px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__buy-state-label {
+    font-size: 12px;
+    font-family: $default-font;
+    color: $foreground;
   }
 }
 </style>
