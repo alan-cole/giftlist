@@ -67,6 +67,7 @@ export default {
 
   &__body {
     flex-grow: 1;
+    padding-right: 8px;
   }
 
   &__link {

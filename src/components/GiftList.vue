@@ -9,7 +9,12 @@
         :price="gift.price"
       >
         <template #after>
-          <BuyButton :state="buyState(gift.buyers)" :label="buyState(gift.buyers)" :disabled="disabled" @toggle="toggleBuyState(gift)" />
+          <BuyButton
+            :label="buttonLabel(gift.buyers)"
+            :theme="buttonTheme(gift.buyers)"
+            :disabled="disabled"
+            @toggle="toggleBuyState(gift)"
+          />
         </template>
       </NavItem>
       <ul v-if="gift.buyers" class="gift-list__buyers">
@@ -19,7 +24,7 @@
           class="gift-list__buyer"
           :class="{
             'gift-list__buyer--self': buyer.self,
-            'gift-list__buyer--solid': getBuyStateLabel(buyer.state) === 'bought'
+            'gift-list__buyer--solid': (buyer.state === 2)
           }"
         >
           <span>{{ buyer.name }}</span>
@@ -54,13 +59,10 @@ export default {
         case undefined:
         case 0:
         case 1:
-          rtn = 'planning'
+          rtn = 'Planning'
           break
         case 2:
-          rtn = 'bought'
-          break
-        case 3:
-          rtn = 'unbuy'
+          rtn = 'Bought'
           break
         default:
           break
@@ -70,6 +72,24 @@ export default {
     buyState (buyers) {
       const buyer = this.getSelfBuyer(buyers)
       return this.getBuyStateLabel(buyer ? buyer.state + 1 : 0)
+    },
+    buttonLabel (buyers) {
+      const buyer = this.getSelfBuyer(buyers)
+      switch (buyer?.state) {
+        case undefined:
+        case 0:
+          return 'Plan'
+        case 1:
+          return 'Buy'
+        case 2:
+          return 'Clear'
+        default:
+          break
+      }
+    },
+    buttonTheme (buyers) {
+      const buyer = this.getSelfBuyer(buyers)
+      return buyer?.state === 2 ? 'red' : 'default'
     },
     async toggleBuyState (gift) {
       const buyer = this.getSelfBuyer(gift.buyers)
