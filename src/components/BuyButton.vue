@@ -34,11 +34,11 @@ export default {
   cursor: pointer;
   font-family: $button-font;
   background-color: $blue;
-  background-image: $foreground-arrow-next;
+  background-image: url('../assets/icons/icon_next_white.svg');
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 2px center;
-  color: $foreground;
+  color: $white;
   border: 2px solid $blue;
   padding: 4px 4px 4px 24px;
   border-radius: 4px;
@@ -51,8 +51,6 @@ export default {
 
   &--red {
     background-color: $red;
-    color: $white;
-    background-image: url('../assets/icons/icon_next_white.svg');
     border-color: transparent;
   }
 }
