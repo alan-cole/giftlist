@@ -7,29 +7,28 @@
   }">{{ label }}</button>
 </template>
 
-<script>
-export default {
-  name: 'CheckButton',
-  props: {
+<script setup>
+  import { ref, watch } from 'vue'
+
+  const props = defineProps({
     checked: Boolean,
     label: String
-  },
-  data () {
-    return {
-      isChecked: this.checked
+  })
+
+  const emit = defineEmits(['click'])
+
+  const isChecked = ref(props.checked)
+
+  watch(
+    () => props.checked,
+    (val) => {
+      isChecked.value = val
     }
-  },
-  watch: {
-    checked (val) {
-      this.isChecked = val
-    }
-  },
-  methods: {
-    onClick () {
-      this.$emit('click')
-    }
+  )
+
+  function onClick () {
+    emit('click')
   }
-}
 </script>
 
 <style lang="scss">

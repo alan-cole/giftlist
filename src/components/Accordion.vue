@@ -13,18 +13,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Accordion',
-  props: {
+<script setup>
+  import { ref } from 'vue'
+
+  const props = defineProps({
     label: String
-  },
-  data: () => {
-    return {
-      expanded: false
-    }
-  }
-}
+  })
+
+  const expanded = ref(false)
 </script>
 
 <style lang="scss">

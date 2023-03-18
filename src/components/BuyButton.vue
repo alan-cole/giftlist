@@ -4,27 +4,24 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'BuyButton',
-  props: {
+<script setup>
+  import { computed } from 'vue'
+
+  const props = defineProps({
     label: String,
     theme: { type: String, default: 'default' },
     disabled: Boolean
-  },
-  computed: {
-    btnClass () {
-      return {
-        'small-button--red': (this.theme === 'red')
-      }
-    }
-  },
-  methods: {
-    click () {
-      this.$emit('toggle')
-    }
+  })
+
+  const emit = defineEmits(['toggle'])
+
+  const btnClass = computed(() => ({
+    'small-button--red': (props.theme === 'red')
+  }))
+
+  function click () {
+    emit('toggle')
   }
-}
 </script>
 
 <style lang="scss">
