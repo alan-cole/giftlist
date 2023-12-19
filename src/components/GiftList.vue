@@ -35,69 +35,69 @@
   </div>
 </template>
 
-<script>
-import NavItem from './NavItem.vue'
-import BuyButton from './BuyButton.vue'
-export default {
-  name: 'GiftList',
-  props: {
+<script setup>
+  import NavItem from './NavItem.vue'
+  import BuyButton from './BuyButton.vue'
+
+  const props = defineProps({
     giftId: String,
     gift: Object,
     disabled: Boolean
-  },
-  components: {
-    NavItem,
-    BuyButton
-  },
-  methods: {
-    getSelfBuyer (buyers) {
-      return buyers ? buyers.filter(buyer => buyer.self)[0] : null
-    },
-    getBuyStateLabel (state) {
-      let rtn = ''
-      switch (state) {
-        case undefined:
-        case 0:
-        case 1:
-          rtn = 'Planning'
-          break
-        case 2:
-          rtn = 'Bought'
-          break
-        default:
-          break
-      }
-      return rtn
-    },
-    buyState (buyers) {
-      const buyer = this.getSelfBuyer(buyers)
-      return this.getBuyStateLabel(buyer ? buyer.state + 1 : 0)
-    },
-    buttonLabel (buyers) {
-      const buyer = this.getSelfBuyer(buyers)
-      switch (buyer?.state) {
-        case undefined:
-        case 0:
-          return 'Plan'
-        case 1:
-          return 'Buy'
-        case 2:
-          return 'Clear'
-        default:
-          break
-      }
-    },
-    buttonTheme (buyers) {
-      const buyer = this.getSelfBuyer(buyers)
-      return buyer?.state === 2 ? 'red' : 'default'
-    },
-    async toggleBuyState (gift) {
-      const buyer = this.getSelfBuyer(gift.buyers)
-      const state = buyer ? (buyer.state || 0) : 0
-      this.$emit('buy', gift, buyer, state)
+  })
+
+  const emit = defineEmits(['buy'])
+
+  function getSelfBuyer (buyers) {
+    return buyers ? buyers.filter(buyer => buyer.self)[0] : null
+  }
+
+  function getBuyStateLabel (state) {
+    let rtn = ''
+    switch (state) {
+      case undefined:
+      case 0:
+      case 1:
+        rtn = 'Planning'
+        break
+      case 2:
+        rtn = 'Bought'
+        break
+      default:
+        break
+    }
+    return rtn
+  }
+
+  function buyState (buyers) {
+    const buyer = getSelfBuyer(buyers)
+    return getBuyStateLabel(buyer ? buyer.state + 1 : 0)
+  }
+
+  function buttonLabel (buyers) {
+    const buyer = getSelfBuyer(buyers)
+    switch (buyer?.state) {
+      case undefined:
+      case 0:
+        return 'Plan'
+      case 1:
+        return 'Buy'
+      case 2:
+        return 'Clear'
+      default:
+        break
     }
   }
-}
+
+  function buttonTheme (buyers) {
+    const buyer = getSelfBuyer(buyers)
+    return buyer?.state === 2 ? 'red' : 'default'
+  }
+
+  async function toggleBuyState (gift) {
+    const buyer = getSelfBuyer(gift.buyers)
+    const state = buyer ? (buyer.state || 0) : 0
+    emit('buy', gift, buyer, state)
+  }
 </script>
 
 <style lang="scss">
