@@ -5,12 +5,12 @@
   "description": "Server based on Express JS.",
   "main": "index.js",
   "dependencies": {
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.15.2",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^9.0.0",
-    "mongodb": "^4.13.0",
-    "nodemailer": "^6.7.2"
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.3.0",
+    "nodemailer": "^6.9.7"
   },
   "author": {
     "name": "alan",

@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
-const ObjectId = require('mongodb').ObjectID
+const { ObjectId } = require('mongodb')
 const Message = require('./msg')
 
 module.exports = class Database {
@@ -10,7 +10,7 @@ module.exports = class Database {
   }
 
   getId (id) {
-    return ObjectId(id)
+    return new ObjectId(id)
   }
 
   /**
@@ -21,7 +21,7 @@ module.exports = class Database {
       const { connection, database } = this.config.database
       const url = connection
       try {
-        const client = new MongoClient(url, { useUnifiedTopology: true, useNewUrlParser: true })
+        const client = new MongoClient(url)
         await client.connect()
         this.db = client.db(database)
         // Check for existing content.
