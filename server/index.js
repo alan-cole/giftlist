@@ -1,3 +1,5 @@
+const https = require('https')
+const fs = require('fs')
 const express = require('express')
 const bodyParser = require('body-parser')
 
@@ -21,7 +23,7 @@ module.exports = class Server {
     this.app = express()
     this.app.use(bodyParser.urlencoded({ extended: false }))
     this.app.use(bodyParser.json({limit: '5mb'}))
-    this.app.set('port', (process.env.PORT || 3000))
+    this.app.set('port', config.port)
     if (config.environment === 'dev') {
       log('CORS enabled')
       this.app.use((req, res, next) => {
@@ -36,10 +38,25 @@ module.exports = class Server {
    * Open up the port for incoming requests.
    */
   listen () {
-    this.app.listen(this.app.get('port'), () => {
-      const port = this.app.get('port')
-      log(`> Listening at http://localhost:${port}`)
-    })
+    const port = this.app.get('port')
+
+    // Use HTTPS
+    if (config.https) {
+      log('Using HTTPS')
+      const options = {
+        key: fs.readFileSync('sslcert/server.key').toString(),
+        cert: fs.readFileSync('sslcert/server.crt').toString()
+      }
+      // HTTPS
+      https.createServer(options, this.app).listen(port, () => {
+        log(`> Listening at https://localhost:${port}`)
+      })
+    } else {
+      this.app.listen(this.app.get('port'), () => {
+        const port = this.app.get('port')
+        log(`> Listening at http://localhost:${port}`)
+      })
+    }
   }
 
   /**
@@ -70,7 +87,7 @@ module.exports = class Server {
   async start () {
     this.initRouting()
     if (await this.database.start()) {
-      this.listen(this.app)
+      this.listen()
     } else {
       log('Could not start DB.')
     }

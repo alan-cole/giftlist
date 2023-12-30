@@ -22,6 +22,8 @@ if (process.env.GL_PROD == 1) {
   config.mail.auth.user = process.env.GL_MAIL_AUTH_USER
   config.mail.auth.pass = process.env.GL_MAIL_AUTH_PASS
   config.mail.from = process.env.GL_MAIL_FROM
+  config.port = process.env.GL_PORT || 3000
+  config.https = (process.env.GL_HTTPS === '1')
   config.environment = 'prod'
 }
 

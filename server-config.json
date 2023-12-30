@@ -2,6 +2,8 @@
   "environment": "dev",
   "sitename": "Gift List",
   "origin": "https://giftlist-example-site.com",
+  "port": 3000,
+  "https": false,
   "database": {
     "connection": "mongodb://glserver:password@localhost:27017/giftlist",
     "database": "giftlist"
