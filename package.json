@@ -10,14 +10,14 @@
     "dev:dbcreate": "node ./lib/dev.js"
   },
   "dependencies": {
-    "sass": "^1.55.0",
-    "vue": "^3.2.37",
-    "vue-router": "^4.1.5",
-    "apiserver": "file:server"
+    "apiserver": "file:server",
+    "sass": "^1.79.4",
+    "vue": "^3.5.10",
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.1.0",
-    "vite": "^3.1.0"
+    "@vitejs/plugin-vue": "^3.2.0",
+    "vite": "^3.2.11"
   },
   "author": {
     "name": "alan",
