@@ -15,6 +15,7 @@ if (process.env.GL_PROD == 1) {
   config.database.connection = process.env.GL_DB_CONNECTION
   config.database.database = process.env.GL_DB_DATABASE
   config.authentication.secret = process.env.GL_AUTH_SECRET
+  config.authentication.reset_timeout = process.env.GL_AUTH_RESET_TIMEOUT
   config.register.code = process.env.GL_REGISTER_CODE
   config.mail.host = process.env.GL_MAIL_HOST
   config.mail.port = process.env.GL_MAIL_PORT

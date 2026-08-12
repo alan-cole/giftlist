@@ -249,7 +249,7 @@ module.exports = class GiftListRequestHandler extends RequestHandler {
     for (const key in this.resetPasswordRegistry) {
       const secondsLapsed = (now - this.resetPasswordRegistry[key].created) / 1000
       // If under 2 mins since request was made.
-      if (secondsLapsed > 120) {
+      if (secondsLapsed > config.authentication.reset_timeout) {
         delete this.resetPasswordRegistry[key]
       }
     }
