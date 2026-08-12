@@ -101,7 +101,7 @@
 </script>
 
 <style lang="scss">
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .gift-list {
   $root: &;
@@ -118,29 +118,29 @@
   }
 
   &__buyer {
-    background-color: $background;
-    color: $foreground;
-    border: 2px solid $blue;
+    background-color: variables.$background;
+    color: variables.$foreground;
+    border: 2px solid variables.$blue;
     padding: 4px 8px;
     margin: 4px 0;
     border-radius: 4px;
     margin-right: 8px;
     font-size: 12px;
-    font-family: $default-font;
+    font-family: variables.$default-font;
     display: inline-block;
 
     &--solid {
-      background-color: $blue;
-      color: $white;
+      background-color: variables.$blue;
+      color: variables.$white;
     }
 
     &--self {
       border-width: 2px;
-      border-color: $green;
+      border-color: variables.$green;
 
       &#{$root}__buyer--solid {
-        background-color: $green;
-        color: $black;
+        background-color: variables.$green;
+        color: variables.$black;
         border-color: transparent;
       }
     }

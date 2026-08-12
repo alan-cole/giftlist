@@ -71,7 +71,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variables';
+@use '../scss/variables';
 
 .page-login {
   margin: auto;
@@ -84,7 +84,7 @@ export default {
     margin: 133px auto 22px;
 
     svg {
-      fill: $foreground;
+      fill: variables.$foreground;
     }
   }
 

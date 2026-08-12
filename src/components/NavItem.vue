@@ -55,7 +55,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .nav-item {
   $root: &;
@@ -79,18 +79,18 @@ export default {
     margin-bottom: 6px;
     border: 0;
     display: inline-block;
-    font-family: $default-font;
+    font-family: variables.$default-font;
     font-size: 16px;
     text-decoration: none;
     text-align: left;
-    color: $foreground;
+    color: variables.$foreground;
 
     &--clickable {
       cursor: pointer;
       text-decoration: underline;
 
       &:hover, &:focus {
-        color: $blue;
+        color: variables.$blue;
       }
     }
   }
@@ -114,9 +114,9 @@ export default {
   }
 
   &__price {
-    color: $foreground;
+    color: variables.$foreground;
     font-size: 14px;
-    font-family: $default-font;
+    font-family: variables.$default-font;
   }
 }
 </style>

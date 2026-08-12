@@ -1,12 +1,14 @@
+@use 'variables';
+
 .button {
   appearance: none;
-  background-color: $blue;
+  background-color: variables.$blue;
   border-radius: 4px;
   border: 0;
-  color: $white;
+  color: variables.$white;
   cursor: pointer;
   display: block;
-  font-family: $button-font;
+  font-family: variables.$button-font;
   font-size: 16px;
   font-weight: 400;
   min-height: 40px;
@@ -33,7 +35,7 @@
   }
 
   &--delete {
-    background-color: $red;
+    background-color: variables.$red;
   }
 }
 
@@ -42,7 +44,7 @@
   position: relative;
   width: 32px;
   height: 32px;
-  background: $blue;
+  background: variables.$blue;
   border: 0;
   border-radius: 4px;
   padding: 0;

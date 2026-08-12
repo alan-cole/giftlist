@@ -1,8 +1,10 @@
+@use 'variables';
+
 .form-input {
   &__text {
-    background: $background-alt;
-    color: $foreground;
-    border: 2px solid $blue;
+    background: variables.$background-alt;
+    color: variables.$foreground;
+    border: 2px solid variables.$blue;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
@@ -10,7 +12,7 @@
     margin-bottom: 22px;
     font-size: 16px;
     padding-left: 10px;
-    font-family: $default-font;
+    font-family: variables.$default-font;
   }
 
   &__label {
@@ -18,12 +20,12 @@
     font-weight: normal;
     font-size: 18px;
     line-height: normal;
-    color: $foreground;
+    color: variables.$foreground;
 
     span {
       display: block;
       text-align: left;
-      font-family: $default-font;
+      font-family: variables.$default-font;
       margin-bottom: 4px;
     }
   }

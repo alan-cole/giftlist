@@ -102,7 +102,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .friend-list {
   padding: 0;
@@ -120,14 +120,14 @@ export default {
 
     & > li {
       &:nth-child(even) {
-        background-color: $background-alt;
+        background-color: variables.$background-alt;
       }
     }
   }
 
   &__no-items {
-    color: $foreground;
-    font-family: $default-font;
+    color: variables.$foreground;
+    font-family: variables.$default-font;
     padding: 12px 0;
     padding-left: 8px;
   }

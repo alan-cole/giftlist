@@ -1,3 +1,5 @@
+@use 'variables';
+
 @keyframes loading {
   from {
     transform: rotate(0deg)
@@ -25,7 +27,7 @@
     width: 75px;
     height: 75px;
     border-radius: 100%;
-    background-image: conic-gradient($background, $blue);
+    background-image: conic-gradient(variables.$background, variables.$blue);
     position: fixed;
     top: 0;
     bottom: 0;
@@ -48,7 +50,7 @@
     left: 0;
     right: 0;
     margin: auto;
-    background-color: $background;
+    background-color: variables.$background;
     border-radius: 100%;
     animation-name: loading-cover;
     animation-duration: 0.5s;

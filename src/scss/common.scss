@@ -1,13 +1,13 @@
-@import 'palette';
-@import 'variables';
-@import 'font';
-@import 'form';
-@import 'button';
-@import 'link';
-@import 'loading';
+@use 'palette';
+@use 'variables';
+@use 'font';
+@use 'form';
+@use 'button';
+@use 'link';
+@use 'loading';
 
 body {
-  background-color: $background;
+  background-color: variables.$background;
   margin: 0;
 }
 
@@ -18,8 +18,8 @@ body {
 }
 
 p {
-  color: $foreground;
-  font-family: $default-font;
+  color: variables.$foreground;
+  font-family: variables.$default-font;
 }
 
 .visually-hidden {

@@ -1,4 +1,6 @@
+@use 'variables';
+
 .link {
-  color: $blue;
+  color: variables.$blue;
   text-decoration: underline;
 }

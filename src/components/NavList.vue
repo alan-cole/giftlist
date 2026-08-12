@@ -22,12 +22,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .nav-list {
   &__title {
-    color: $foreground;
-    font-family: $default-font;
+    color: variables.$foreground;
+    font-family: variables.$default-font;
     font-weight: normal;
     font-size: 22px;
     margin: 0;
@@ -41,7 +41,7 @@ export default {
 
     & > li {
       padding: 8px 0;
-      border-bottom: 1px solid $nav-border;
+      border-bottom: 1px solid variables.$nav-border;
     }
   }
 
@@ -56,8 +56,8 @@ export default {
   }
 
   &__no-items {
-    color: $foreground;
-    font-family: $default-font;
+    color: variables.$foreground;
+    font-family: variables.$default-font;
     padding: 12px 0;
   }
 }

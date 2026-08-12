@@ -25,18 +25,18 @@
 </script>
 
 <style lang="scss">
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .small-button {
   cursor: pointer;
-  font-family: $button-font;
-  background-color: $blue;
+  font-family: variables.$button-font;
+  background-color: variables.$blue;
   background-image: url('../assets/icons/icon_next_white.svg');
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 2px center;
-  color: $white;
-  border: 2px solid $blue;
+  color: variables.$white;
+  border: 2px solid variables.$blue;
   padding: 4px 4px 4px 24px;
   border-radius: 4px;
   box-size: border-box;
@@ -47,7 +47,7 @@
   }
 
   &--red {
-    background-color: $red;
+    background-color: variables.$red;
     border-color: transparent;
   }
 }

@@ -18,10 +18,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/variables';
+@use '../scss/variables';
 
 .top-menu {
-  background-color: $blue;
+  background-color: variables.$blue;
   display: flex;
   align-items: center;
   height: 66px;
@@ -40,13 +40,13 @@ export default {
 
   &__title {
     margin: auto;
-    font-family: $default-font;
+    font-family: variables.$default-font;
     font-style: normal;
     font-weight: normal;
     font-size: 22px;
     line-height: normal;
     text-align: center;
-    color: $white;
+    color: variables.$white;
   }
 }
 </style>

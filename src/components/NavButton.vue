@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/_variables.scss';
+@use '../scss/_variables.scss';
 
 .nav-button {
   border: 0;
@@ -82,8 +82,8 @@ export default {
 
   &--unchecked,
   &--checked {
-    background-color: $background-alt;
-    border: 2px solid $blue;
+    background-color: variables.$background-alt;
+    border: 2px solid variables.$blue;
     border-radius: 4px;
     margin-top: 6px;
     width: 22px;

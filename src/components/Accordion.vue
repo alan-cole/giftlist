@@ -24,10 +24,10 @@
 </script>
 
 <style lang="scss">
-@import '../scss/variables';
+@use '../scss/variables';
 
 .accordion {
-  border: 1px solid $blue;
+  border: 1px solid variables.$blue;
   border-radius: 4px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.10);
   padding: 0;
@@ -35,9 +35,9 @@
 
   &__toggle {
     width: 100%;
-    background-color: $blue;
+    background-color: variables.$blue;
     color: white;
-    font-family: $default-font;
+    font-family: variables.$default-font;
     font-weight: normal;
     font-size: 18px;
     text-align: left;
