@@ -101,9 +101,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@use '../scss/_variables.scss';
-
+<style>
 .friend-list {
   padding: 0;
   margin: 0;
@@ -113,21 +111,21 @@ export default {
     margin-bottom: 24px;
   }
 
-  &__accordion-list {
+  .friend-list__accordion-list {
     padding: 0;
     margin: 0;
     list-style: none;
 
     & > li {
       &:nth-child(even) {
-        background-color: variables.$background-alt;
+        background-color: var(--background-alt);
       }
     }
   }
 
-  &__no-items {
-    color: variables.$foreground;
-    font-family: variables.$default-font;
+  .friend-list__no-items {
+    color: var(--foreground);
+    font-family: var(--default-font);
     padding: 12px 0;
     padding-left: 8px;
   }

@@ -1,14 +1,12 @@
-@use 'variables';
-
 .button {
   appearance: none;
-  background-color: variables.$blue;
+  background-color: var(--blue);
   border-radius: 4px;
   border: 0;
-  color: variables.$white;
+  color: var(--white);
   cursor: pointer;
   display: block;
-  font-family: variables.$button-font;
+  font-family: var(--button-font);
   font-size: 16px;
   font-weight: 400;
   min-height: 40px;
@@ -29,13 +27,13 @@
     opacity: 0.5;
   }
 
-  &--wide {
+  &.button--wide {
     display: block;
     width: 100%;
   }
 
-  &--delete {
-    background-color: variables.$red;
+  &.button--delete {
+    background-color: var(--red);
   }
 }
 
@@ -44,7 +42,7 @@
   position: relative;
   width: 32px;
   height: 32px;
-  background: variables.$blue;
+  background: var(--blue);
   border: 0;
   border-radius: 4px;
   padding: 0;
@@ -69,15 +67,15 @@
     opacity: 0.5;
   }
 
-  &--up {
+  &.arrow-button--up {
     &::before {
-      background-image: url('./assets/icons/icon_up_white.svg');
+      background-image: url('../assets/icons/icon_up_white.svg');
     }
   }
 
-  &--down {
+  &.arrow-button--down {
     &::before {
-      background-image: url('./assets/icons/icon_down_white.svg');
+      background-image: url('../assets/icons/icon_down_white.svg');
     }
   }
 

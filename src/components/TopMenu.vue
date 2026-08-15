@@ -17,20 +17,18 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@use '../scss/variables';
-
+<style>
 .top-menu {
-  background-color: variables.$blue;
+  background-color: var(--blue);
   display: flex;
   align-items: center;
   height: 66px;
 
-  &--has-back {
+  &.top-menu--has-back {
     padding-right: 36px;
   }
 
-  &__back {
+  .top-menu__back {
     background-image: url('../assets/icons/icon_back_white.svg');
     background-position: center;
     background-repeat: no-repeat;
@@ -38,15 +36,15 @@ export default {
     height: 36px;
   }
 
-  &__title {
+  .top-menu__title {
     margin: auto;
-    font-family: variables.$default-font;
+    font-family: var(--default-font);
     font-style: normal;
     font-weight: normal;
     font-size: 22px;
     line-height: normal;
     text-align: center;
-    color: variables.$white;
+    color: var(--white);
   }
 }
 </style>

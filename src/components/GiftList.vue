@@ -100,16 +100,13 @@
   }
 </script>
 
-<style lang="scss">
-@use '../scss/_variables.scss';
-
+<style>
 .gift-list {
-  $root: &;
   padding: 12px 8px;
   box-sizing: border-box;
   border: 0;
 
-  &__buyers {
+  .gift-list__buyers {
     padding: 0;
     margin: 0;
     margin-top: 12px;
@@ -117,30 +114,30 @@
     list-style: none;
   }
 
-  &__buyer {
-    background-color: variables.$background;
-    color: variables.$foreground;
-    border: 2px solid variables.$blue;
+  .gift-list__buyer {
+    background-color: var(--background);
+    color: var(--foreground);
+    border: 2px solid var(--blue);
     padding: 4px 8px;
     margin: 4px 0;
     border-radius: 4px;
     margin-right: 8px;
     font-size: 12px;
-    font-family: variables.$default-font;
+    font-family: var(--default-font);
     display: inline-block;
 
-    &--solid {
-      background-color: variables.$blue;
-      color: variables.$white;
+    &.gift-list__buyer--solid {
+      background-color: var(--blue);
+      color: var(--white);
     }
 
-    &--self {
+    &.gift-list__buyer--self {
       border-width: 2px;
-      border-color: variables.$green;
+      border-color: var(--green);
 
-      &#{$root}__buyer--solid {
-        background-color: variables.$green;
-        color: variables.$black;
+      &.gift-list__buyer--solid {
+        background-color: var(--green);
+        color: var(--black);
         border-color: transparent;
       }
     }

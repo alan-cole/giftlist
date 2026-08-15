@@ -24,19 +24,17 @@
   }
 </script>
 
-<style lang="scss">
-@use '../scss/_variables.scss';
-
+<style>
 .small-button {
   cursor: pointer;
-  font-family: variables.$button-font;
-  background-color: variables.$blue;
+  font-family: var(--button-font);
+  background-color: var(--blue);
   background-image: url('../assets/icons/icon_next_white.svg');
   background-size: 18px;
   background-repeat: no-repeat;
   background-position: 2px center;
-  color: variables.$white;
-  border: 2px solid variables.$blue;
+  color: var(--white);
+  border: 2px solid var(--blue);
   padding: 4px 4px 4px 24px;
   border-radius: 4px;
   box-size: border-box;
@@ -46,8 +44,8 @@
     opacity: 0.5;
   }
 
-  &--red {
-    background-color: variables.$red;
+  &.small-button--red {
+    background-color: var(--red);
     border-color: transparent;
   }
 }

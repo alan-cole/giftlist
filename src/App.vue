@@ -8,6 +8,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@use './scss/common';
-</style>
+<style src="./css/base.css"></style>

@@ -23,21 +23,19 @@
   const expanded = ref(false)
 </script>
 
-<style lang="scss">
-@use '../scss/variables';
-
+<style>
 .accordion {
-  border: 1px solid variables.$blue;
+  border: 1px solid var(--blue);
   border-radius: 4px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.10);
   padding: 0;
   overflow: hidden;
 
-  &__toggle {
+  .accordion__toggle {
     width: 100%;
-    background-color: variables.$blue;
+    background-color: var(--blue);
     color: white;
-    font-family: variables.$default-font;
+    font-family: var(--default-font);
     font-weight: normal;
     font-size: 18px;
     text-align: left;
@@ -61,17 +59,17 @@
       margin: auto;
     }
 
-    &--expanded {
+    &.accordion__toggle--expanded {
       &::after {
         background-image: url('../assets/icons/icon_up_white.svg');
       }
     }
   }
 
-  &__container {
+  .accordion__container {
     display: none;
 
-    &--expanded {
+    &.accordion__container--expanded {
       display: block;
     }
   }

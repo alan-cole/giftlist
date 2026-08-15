@@ -31,9 +31,7 @@
   }
 </script>
 
-<style lang="scss">
-@use '../scss/_variables.scss';
-
+<style>
 .check-button {
   border: 0;
   padding: 0;
@@ -53,22 +51,22 @@
     opacity: 0.5;
   }
 
-  &--left {
+  &.check-button--left {
     margin-left: 0;
     margin-right: 8px;
   }
 
-  &--unchecked,
-  &--checked {
-    background-color: variables.$background-alt;
-    border: 2px solid variables.$blue;
+  &.check-button--unchecked,
+  &.check-button--checked {
+    background-color: var(--background-alt);
+    border: 2px solid var(--blue);
     border-radius: 4px;
     margin-top: 6px;
     width: 22px;
     height: 22px;
   }
 
-  &--checked {
+  &.check-button--checked {
     background-image: url('../assets/icons/icon_check_blue.svg');
   }
 }

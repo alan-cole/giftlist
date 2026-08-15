@@ -41,9 +41,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@use '../scss/_variables.scss';
-
+<style>
 .nav-button {
   border: 0;
   padding: 0;
@@ -63,34 +61,34 @@ export default {
     opacity: 0.5;
   }
 
-  &--left {
+  &.nav-button--left {
     margin-left: 0;
     margin-right: 8px;
   }
 
-  &--edit {
+  &.nav-button--edit {
     background-image: url('../assets/icons/icon_edit_blue.svg');
   }
 
-  &--delete {
+  &.nav-button--delete {
     background-image: url('../assets/icons/icon_delete_red.svg');
   }
 
-  &--add {
+  &.nav-button--add {
     background-image: url('../assets/icons/icon_add_blue.svg');
   }
 
-  &--unchecked,
-  &--checked {
-    background-color: variables.$background-alt;
-    border: 2px solid variables.$blue;
+  &.nav-button--unchecked,
+  &.nav-button--checked {
+    background-color: var(--background-alt);
+    border: 2px solid var(--blue);
     border-radius: 4px;
     margin-top: 6px;
     width: 22px;
     height: 22px;
   }
 
-  &--checked {
+  &.nav-button--checked {
     background-image: url('../assets/icons/icon_check_blue.svg');
   }
 }

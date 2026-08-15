@@ -70,25 +70,23 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@use '../scss/variables';
-
+<style>
 .page-login {
   margin: auto;
   max-width: 330px;
 
-  &__heading {
+  .page-login__heading {
     font-size: 0%;
     width: 198px;
     height: 65px;
     margin: 133px auto 22px;
 
     svg {
-      fill: variables.$foreground;
+      fill: var(--foreground);
     }
   }
 
-  &__signup-message {
+  .page-login__signup-message {
     text-align: center;
   }
 }

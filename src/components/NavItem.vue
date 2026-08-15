@@ -54,23 +54,19 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@use '../scss/_variables.scss';
-
+<style>
 .nav-item {
-  $root: &;
-
   display: block;
   width: 100%;
   display: flex;
   align-items: flex-start;
 
-  &__body {
+  .nav-item__body {
     flex-grow: 1;
     padding-right: 8px;
   }
 
-  &__link {
+  .nav-item__link {
     appearance: none;
     background-color: transparent;
     margin: 0;
@@ -79,23 +75,23 @@ export default {
     margin-bottom: 6px;
     border: 0;
     display: inline-block;
-    font-family: variables.$default-font;
+    font-family: var(--default-font);
     font-size: 16px;
     text-decoration: none;
     text-align: left;
-    color: variables.$foreground;
+    color: var(--foreground);
 
-    &--clickable {
+    &.nav-item__link--clickable {
       cursor: pointer;
       text-decoration: underline;
 
       &:hover, &:focus {
-        color: variables.$blue;
+        color: var(--blue);
       }
     }
   }
 
-  &--forward {
+  .nav-item--forward {
     &::after {
       content: '';
       width: 32px;
@@ -108,15 +104,15 @@ export default {
       background-image: url('../assets/icons/icon_next_blue.svg');
     }
 
-    #{$root}__link--clickable {
+    .nav-item__link--clickable {
       width: 100%;
     }
   }
 
-  &__price {
-    color: variables.$foreground;
+  .nav-item__price {
+    color: var(--foreground);
     font-size: 14px;
-    font-family: variables.$default-font;
+    font-family: var(--default-font);
   }
 }
 </style>
