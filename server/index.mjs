@@ -1,13 +1,13 @@
-const https = require('https')
-const fs = require('fs')
-const express = require('express')
-const bodyParser = require('body-parser')
+import https from 'https'
+import fs from 'fs'
+import express from 'express'
+import bodyParser from 'body-parser'
 
-const log = require('./lib/log')
-const Database = require('./lib/Database')
-const RequestHandler = require('./lib/RequestHandler')
+import log from './lib/log.mjs'
+import Database from './lib/Database.mjs'
+import RequestHandler from './lib/RequestHandler.mjs'
 
-module.exports = class Server {
+export default class Server {
 
   /**
    * Create a server.
@@ -41,7 +41,7 @@ module.exports = class Server {
     const port = this.app.get('port')
 
     // Use HTTPS
-    if (config.https) {
+    if (this.config.https) {
       log('Using HTTPS')
       const options = {
         key: fs.readFileSync('sslcert/server.key').toString(),

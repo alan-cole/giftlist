@@ -1,7 +1,7 @@
-const nodemailer = require('nodemailer')
-const Message = require('./msg')
+import nodemailer from 'nodemailer'
+import Message from './msg.mjs'
 
-module.exports = class Mail {
+export default class Mail {
 
   constructor (config) {
     this.config = config

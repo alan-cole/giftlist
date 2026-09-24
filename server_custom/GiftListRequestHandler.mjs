@@ -1,12 +1,12 @@
-const crypto = require('crypto')
-const GiftListDatabase = require('./GiftListDatabase')
-const RequestHandler = require('apiserver/lib/RequestHandler')
-const Authentication = require('apiserver/lib/Authentication')
-const Message = require('apiserver/lib/msg')
-const Mail = require('apiserver/lib/Mail')
-const log = require('apiserver/lib/log')
+import crypto from 'crypto'
+import GiftListDatabase from './GiftListDatabase.mjs'
+import RequestHandler from 'apiserver/lib/RequestHandler.mjs'
+import Authentication from 'apiserver/lib/Authentication.mjs'
+import Message from 'apiserver/lib/msg.mjs'
+import Mail from 'apiserver/lib/Mail.mjs'
+import log from 'apiserver/lib/log.mjs'
 
-module.exports = class GiftListRequestHandler extends RequestHandler {
+export default class GiftListRequestHandler extends RequestHandler {
 
   /**
    * Create a new request handler.

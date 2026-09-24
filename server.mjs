@@ -1,11 +1,11 @@
-const fs = require('fs')
-const Server = require('apiserver')
-const GiftListDatabase = require('./server_custom/GiftListDatabase')
-const GiftListRequestHandler = require('./server_custom/GiftListRequestHandler')
+import fs from 'fs'
+import Server from 'apiserver'
+import GiftListDatabase from './server_custom/GiftListDatabase.mjs'
+import GiftListRequestHandler from './server_custom/GiftListRequestHandler.mjs'
 
 // Load Local Settings.
-var data = fs.readFileSync('./server-config.json', 'utf-8')
-config = JSON.parse(data)
+const data = fs.readFileSync('./server-config.json', 'utf-8')
+const config = JSON.parse(data)
 
 // Use environment variables if available.
 if (process.env.GL_PROD == 1) {

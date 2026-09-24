@@ -1,9 +1,10 @@
 {
   "name": "apiserver",
+  "type": "module",
   "private": true,
   "version": "0.1.0",
   "description": "Server based on Express JS.",
-  "main": "index.js",
+  "main": "index.mjs",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",

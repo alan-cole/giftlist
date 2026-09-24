@@ -1,8 +1,7 @@
-const MongoClient = require('mongodb').MongoClient
-const { ObjectId } = require('mongodb')
-const Message = require('./msg')
+import { MongoClient, ObjectId } from 'mongodb'
+import Message from './msg.mjs'
 
-module.exports = class Database {
+export default class Database {
 
   constructor (config) {
     this.db = null

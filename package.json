@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node server.js",
+    "start": "node server.mjs",
     "dev:dbcreate": "node ./lib/dev.js"
   },
   "dependencies": {

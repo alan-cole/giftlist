@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
-module.exports = class Authentication {
+export default class Authentication {
 
   constructor (config) {
     this.config = config

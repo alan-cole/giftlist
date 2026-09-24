@@ -1,6 +1,6 @@
-const log = require('./log')
+import log from './log.mjs'
 
-module.exports = {
+export default {
   /**
    * Return an error.
    * @param {String} message

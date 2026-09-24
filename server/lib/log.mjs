@@ -1,6 +1,6 @@
 const debug = true
 
-module.exports = function (message) {
+export default function (message) {
   if (debug) {
     console.log(message)
   }

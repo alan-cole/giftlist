@@ -1,7 +1,7 @@
-const Database = require('apiserver/lib/Database')
-const Message = require('apiserver/lib/msg')
+import Database from 'apiserver/lib/Database.mjs'
+import Message from 'apiserver/lib/msg.mjs'
 
-module.exports = class GiftListDatabase extends Database {
+export default class GiftListDatabase extends Database {
 
   constructor (config) {
     super(config)

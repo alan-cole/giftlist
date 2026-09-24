@@ -1,7 +1,7 @@
-const Message = require('./msg')
-const log = require('./log')
+import Message from './msg.mjs'
+import log from './log.mjs'
 
-module.exports = class RequestHandler {
+export default class RequestHandler {
 
   /**
    * Create a new request handler.
