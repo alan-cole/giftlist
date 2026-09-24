@@ -12,7 +12,6 @@
     "clean_modules": "rm -rf server/node_modules && rm -rf node_modules"
   },
   "dependencies": {
-    "@rolldown/binding-linux-x64-gnu": "^1.2.4",
     "apiserver": "file:server",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"
