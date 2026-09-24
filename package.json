@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server.mjs",
-    "dev:dbcreate": "node ./lib/dev.js"
+    "dev:dbcreate": "node ./lib/dev.js",
+    "clean_modules": "rm -rf server/node_modules && rm -rf node_modules"
   },
   "dependencies": {
     "@rolldown/binding-linux-x64-gnu": "^1.2.4",
