@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import { scryptHash, isScryptPassword, scryptCompare } from './scrypt.mjs'
 import jwt from 'jsonwebtoken'
 
 export default class Authentication {
@@ -12,7 +13,7 @@ export default class Authentication {
    * @param {String} password
    */
   async generateHash (password) {
-    const hash = await bcrypt.hash(password, this.config.authentication.rounds)
+    const hash = await scryptHash(password, this.config.authentication.cost)
     return hash
   }
 
@@ -22,8 +23,13 @@ export default class Authentication {
    * @param {String} hash
    */
   async verifyPassword (password, hash) {
-    const result = await bcrypt.compare(password, hash)
-    return result
+    if (isScryptPassword(hash)) {
+      const result = await scryptCompare(password, hash)
+      return result
+    } else {
+      const result = await bcrypt.compare(password, hash)
+      return result
+    }
   }
 
   /**
