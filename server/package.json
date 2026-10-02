@@ -6,7 +6,6 @@
   "description": "Server based on Express JS.",
   "main": "index.mjs",
   "dependencies": {
-    "bcrypt": "^6.0.0",
     "body-parser": "^1.20.3",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",

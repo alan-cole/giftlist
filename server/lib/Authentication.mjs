@@ -1,5 +1,4 @@
-import bcrypt from 'bcrypt'
-import { scryptHash, isScryptPassword, scryptCompare } from './scrypt.mjs'
+import { scryptHash, scryptCompare } from './scrypt.mjs'
 import jwt from 'jsonwebtoken'
 
 export default class Authentication {
@@ -23,13 +22,8 @@ export default class Authentication {
    * @param {String} hash
    */
   async verifyPassword (password, hash) {
-    if (isScryptPassword(hash)) {
-      const result = await scryptCompare(password, hash)
-      return result
-    } else {
-      const result = await bcrypt.compare(password, hash)
-      return result
-    }
+    const result = await scryptCompare(password, hash)
+    return result
   }
 
   /**

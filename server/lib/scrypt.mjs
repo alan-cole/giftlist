@@ -26,7 +26,3 @@ export async function scryptCompare(password, hash) {
     })
   })
 }
-
-export function isScryptPassword(hash) {
-  return hash.indexOf('V2:') === 0
-}
